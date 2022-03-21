@@ -3,8 +3,12 @@ import React from 'react';
 function MessageListItem({ user, message }) {
   return (
     <div>
-      {user}
-      {message}
+      <div style={{ fontWeight: 'bold' }}>
+        {user}:
+      </div>
+      <div>
+        {message}
+      </div>
     </div>
   );
 }
