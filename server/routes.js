@@ -3,12 +3,16 @@ const express = require('express');
 const router = express.Router();
 
 // routes: chat users questions
-// questions/ -- GET quiz by character and difficulty
-// questions/users -- GET check which questions a user has interacted with
-// questions/users -- POST add id pairs to join table
-// users/scores -- GET top 10, sort descending for leaderboard
-// users/scores -- PUT update user score on completion of a quiz
-// chat -- POST and GET
+// quiz/ -- GET quiz by category
+// quiz/ -- POST new quiz
+// quiz/users -- checks whether a user has taken a quiz (checkmark on any quiz already completed)
+// quiz/users -- POST add id pairs, score, and timestamp to join table
+// quiz/scores -- GET top 10, sort descending for leaderboard
+// quiz/users/date -- GET 10 latest quiz completions and scores to display on homepage
+// users/ POST -- register a new user
+// users/ GET -- compare data to login info?
+// users/ PUT -- update user info -- if time to implement
+// chat/ -- POST and GET
 
 router.use(/*middleware for this router*/);
 // we could make router templates for various endpoints
