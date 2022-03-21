@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MessageList from './MessageList.jsx';
 import MessageForm from './MessageForm.jsx';
 
@@ -26,6 +26,11 @@ function Chatroom() {
       message: 'wah gwaan'
     },
   ]
+
+  useEffect(() => {
+    setMessages(chatMessages);
+  }, []);
+
   return (
     <div>
       <MessageList messages={messages} />
