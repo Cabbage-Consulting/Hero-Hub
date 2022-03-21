@@ -32,9 +32,9 @@ function Chatroom() {
   }, []);
 
   return (
-    <div>
+    <div style={{ border: 'solid' }}>
       <MessageList messages={messages} />
-      <MessageForm />
+      <MessageForm setMessages={setMessages} chatMessages={chatMessages} />
     </div>
   );
 }
