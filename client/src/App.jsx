@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Modal from './Modal.jsx';
+import CreateQuiz from './Components/CreateQuiz.jsx';
 import Chatroom from './Chat/Chatroom.jsx';
 
 function App() {
@@ -7,6 +8,7 @@ function App() {
   return (
     <div>
       <h1>Hero Hub</h1>
+      <CreateQuiz />
       <button type="button" className="openModalBtn" onClick={() => { setOpenModal(true); }}>Open Modal</button>
       {openModal && <Modal toggleModal={setOpenModal}  />}
       <Chatroom />
