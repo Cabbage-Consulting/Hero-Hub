@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "",
-    "webpack": "webpack",
-    "start": "webpack serve"
+    "start": "webpack serve",
+    "server": "nodemon ./server/app.js"
   },
   "repository": {
     "type": "git",
