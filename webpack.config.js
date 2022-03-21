@@ -2,7 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-    entry: path.join(__dirname, "/client/src", "index.js"),
+    entry: path.join(__dirname, "/client/src", "index.jsx"),
     output: { path: path.join(__dirname, "/client/build"), filename: "index.bundle.js" },
     mode: process.env.NODE_ENV || "development",
     resolve: { modules: [path.resolve(__dirname, "/client/src"), "node_modules"] },
