@@ -1,20 +1,43 @@
 import React, { useState } from 'react';
 
-function MessageForm() {
-  const [input, setInput] = useState('');
-  const handleInput = (e) => {
+function MessageForm({ setMessages, chatMessages }) {
+  const [inputUser, setInputUser] = useState('');
+  const [inputMsg, setInputMsg] = useState('');
+  const handleInputUser = (e) => {
     e.preventDefault();
-    setInput(e.target.value);
+    setInputUser(e.target.value);
   }
+  const handleInputMsg = (e) => {
+    e.preventDefault();
+    setInputMsg(e.target.value);
+  }
+  const addUserMsg = (item) => {
+    setMessages([...chatMessages, item]);
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    addUserMsg({
+      user: inputUser,
+      message: inputMsg
+    })
+  }
+
   return (
     <div>
-      <textarea
-        value={input}
-        placeholder="Write message..."
-        className="new-message-input-field"
-        onChange={handleInput}
+      <input
+        type='text'
+        value={inputUser}
+        placeholder='username'
+        onChange={handleInputUser}
       />
-      <button className="send-message-button">
+      <input
+        type='text'
+        value={inputMsg}
+        placeholder='message'
+        onChange={handleInputMsg}
+      />
+      <button onClick={handleSubmit}>
         Send
       </button>
     </div>
@@ -22,3 +45,10 @@ function MessageForm() {
 }
 
 export default MessageForm;
+
+{/* <textarea
+value={input}
+placeholder="Write message..."
+className="new-message-input-field"
+onChange={handleInput}
+/> */}
