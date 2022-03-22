@@ -1,4 +1,5 @@
 const express = require('express');
+const db = require('../database/queries');
 
 const router = express.Router();
 
@@ -14,12 +15,67 @@ const router = express.Router();
 // users/ PUT -- update user info -- if time to implement
 // chat/ -- POST and GET
 
-router.use(/*middleware for this router*/);
+//router.use(/*middleware for this router*/);
 // we could make router templates for various endpoints
 // and this might come in handy as our app grows in complexity
 
-router.get(/*path, callback*/);
+//router.get(/*path, callback*/);
 
-router.post(/*path, callback*/);
+//router.post(/*path, callback*/);
+
+
+//--
+function respond (err, rows, req, res) {
+  err ?
+    res.status(500).send(err) :
+    res.status(200).send(rows);
+};
+
+router.get('/quiz', (req, res) => {
+  db.getQuizzes((e, r) => respond(e, r, req, res));
+});
+
+router.get('/questions', (req, res) => {
+  const { quizID } = req.query;
+  db.getQuestions((e, r) => respond(e, r, req, res), { quizID });
+});
+
+router.get('/user/password', (req, res) => {
+  const { username } = req.query;
+  db.getUserPassword((e, r) => respond(e, r, req, res), { username });
+});
+
+router.get('/user/quiz', (req, res) => {
+  const { userID } = req.query;
+  db.getUserQuiz((e, r) => respond(e, r, req, res), { userID });
+});
+
+router.get('/chat', (req, res) => {
+  const { dateJoined } = req.query;
+  dateJoined ?
+    db.getChatAfterTime((e, r) => respond(e, r, req, res), { dateJoined }):
+    db.getChat((e, r) => respond(e, r));
+});
+
+//we probably want to fold in question addition into quiz creation, but still let it be a "then" or "cb" contingency - want to error out if we can't fully add a quiz?
+router.post('/quiz', (req, res) => {
+  const { userID, quizID, score, difficulty } = req.query;
+  db.addCompletedQuiz((e, r) => respond(e, r, req, res), { userID, quizID, score, difficulty });
+});
+
+router.post('/question', (req, res) => {
+  const { quizID, body, correctAnswer, incorrectAnswers } = req.query;
+  db.addQuestion((e, r) => respond(e, r, req, res), { quizID, body, correctAnswer, incorrectAnswers });
+});
+
+router.get('/leaders', (req, res) => {
+  const { quizID } = req.query;
+  db.getLeaders((e, r) => respond(e, r, req, res), { quizID });
+})
+
+router.post('/chat', (req, res) => {
+  const { userID, body } = req.query;
+  db.addToChat((e, r) => respond(e, r, req, res), { userID, body });
+});
 
 module.exports = router;
