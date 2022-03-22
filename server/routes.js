@@ -70,6 +70,7 @@ router.post('/quiz', (req, res) => {
   const {
     userID, name, category, questions,
   } = req.query;
+<<<<<<< HEAD
   db.addQuiz((e, r) => respond(e, r, res), {
     userID, name, category,
   });
@@ -83,6 +84,12 @@ router.post('/quiz', (req, res) => {
 //     quizID, body, correctAnswer, incorrectAnswers,
 //   });
 // });
+=======
+  db.addQuiz(() => {}, {
+    userID, name, category,
+  });
+});
+>>>>>>> main
 
 router.get('/leaders', (req, res) => {
   const { quizID } = req.query;

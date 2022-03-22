@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Modal from '../Modal';
 import AddQuizQuestion from './AddQuizQuestion';
 
 let questionCounter = 0;
@@ -8,12 +7,18 @@ let questionCounter = 0;
 function CreateQuiz() {
   const [quizCategories, setQuizCategories] = useState(['Hunks', 'Dorks', 'Baseballers']);
   const [categorySelection, setCategorySelection] = useState('');
+  const [quizNameInput, setQuizNameInput] = useState('');
   const [createdQuizQuestions, setCreatedQuizQuestions] = useState([]);
   const [questions, setQuestions] = useState([]);
 
   const selectCategory = (e) => {
     e.preventDefault();
     setCategorySelection(e.target.value);
+  };
+
+  const handleQuizNameInput = (e) => {
+    e.preventDefault();
+    setQuizNameInput(e.target.value);
   };
 
   const addQuestionInputs = (e) => {
@@ -32,11 +37,26 @@ function CreateQuiz() {
 
   const createQuiz = (e) => {
     e.preventDefault();
-    console.table(questions);
-  }
+    const formattedQuizObject = {
+      userID: 1,
+      name: quizNameInput,
+      category: categorySelection,
+      questions,
+    };
+
+    axios.post('/herohub/quiz', {
+      data: formattedQuizObject,
+    });
+  };
+
+  // UseEffect to GET quiz categories
 
   return (
     <form>
+      <label>
+        Quiz Name:
+        <input id="quiz-name" onChange={handleQuizNameInput} />
+      </label>
       <label htmlFor="quiz-category">
         Category:
       </label>
