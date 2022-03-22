@@ -126,7 +126,7 @@ function QuizPhase1() {
 
       {difficulty !== null && renderPhase2 === false && difficulty !== 'Choose your difficulty'
         && <Button onClick={handleSubmit}>Go!</Button>}
-      {renderPhase2 === true && <QuizPhase2 category={category} difficulty={difficulty} />}
+      {renderPhase2 === true && <QuizPhase2 quiz={quiz} />}
     </>
   );
 }
