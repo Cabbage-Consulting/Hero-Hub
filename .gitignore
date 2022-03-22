@@ -1,2 +1,5 @@
 /node_modules
+/client/build
+package-lock.json
+.babelrc
 config.js
