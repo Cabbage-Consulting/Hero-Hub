@@ -3,11 +3,13 @@ const db = require('../database/queries');
 
 const router = express.Router();
 
-function respond (err, rows, res) {
-  err ?
-    res.status(500).send(err) :
+function respond(err, rows, res) {
+  if (err) {
+    res.status(500).send(err);
+  } else {
     res.status(200).send(rows);
-};
+  }
+}
 
 router.get('/quiz', (req, res) => {
   db.getQuizzes((e, r) => respond(e, r, res));
@@ -30,27 +32,39 @@ router.get('/user/quiz', (req, res) => {
 
 router.get('/chat', (req, res) => {
   const { dateJoined } = req.query;
-  dateJoined ?
-    db.getChatAfterTime((e, r) => respond(e, r, res), { dateJoined }):
+  if (dateJoined) {
+    db.getChatAfterTime((e, r) => respond(e, r, res), { dateJoined });
+  } else {
     db.getChat((e, r) => respond(e, r));
+  }
 });
 
-// we probably want to fold in question addition into quiz creation, but still let it be a "then" or "cb" contingency - want to error out if we can't fully add a quiz?
+// we probably want to fold in question addition into quiz creation,
+// but still let it be a "then" or "cb" contingency -
+// want to error out if we can't fully add a quiz?
 router.post('/quiz', (req, res) => {
-  const { userID, quizID, score, difficulty } = req.query;
-  db.addCompletedQuiz((e, r) => respond(e, r, res), { userID, quizID, score, difficulty });
+  const {
+    userID, quizID, score, difficulty,
+  } = req.query;
+  db.addCompletedQuiz((e, r) => respond(e, r, res), {
+    userID, quizID, score, difficulty,
+  });
 });
 
 // data validation for happy database entry?
 router.post('/question', (req, res) => {
-  const { quizID, body, correctAnswer, incorrectAnswers } = req.query;
-  db.addQuestion((e, r) => respond(e, r, res), { quizID, body, correctAnswer, incorrectAnswers });
+  const {
+    quizID, body, correctAnswer, incorrectAnswers,
+  } = req.query;
+  db.addQuestion((e, r) => respond(e, r, res), {
+    quizID, body, correctAnswer, incorrectAnswers,
+  });
 });
 
 router.get('/leaders', (req, res) => {
   const { quizID } = req.query;
   db.getLeaders((e, r) => respond(e, r, res), { quizID });
-})
+});
 
 router.post('/chat', (req, res) => {
   const { userID, body } = req.query;
@@ -71,10 +85,10 @@ module.exports = router;
 // users/ PUT -- update user info -- if time to implement
 // chat/ -- POST and GET
 
-//router.use(/*middleware for this router*/);
+// router.use(/*middleware for this router*/);
 // we could make router templates for various endpoints
 // and this might come in handy as our app grows in complexity
 
-//router.get(/*path, callback*/);
+// router.get(/*path, callback*/);
 
-//router.post(/*path, callback*/);
+// router.post(/*path, callback*/);
