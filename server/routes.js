@@ -14,12 +14,12 @@ const router = express.Router();
 // users/ PUT -- update user info -- if time to implement
 // chat/ -- POST and GET
 
-router.use(/*middleware for this router*/);
-// we could make router templates for various endpoints
-// and this might come in handy as our app grows in complexity
+// router.use(/*middleware for this router*/);
+// // we could make router templates for various endpoints
+// // and this might come in handy as our app grows in complexity
 
-router.get(/*path, callback*/);
+// router.get(/*path, callback*/);
 
-router.post(/*path, callback*/);
+// router.post(/*path, callback*/);
 
 module.exports = router;
