@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
-import MessageListItem from './MessageListItem.jsx';
+import React from 'react';
+import MessageListItem from './MessageListItem';
 
 function MessageList({ messages }) {
   return (
     <div>
-      {messages.map((item) =>
-      <MessageListItem
-        user={item.user}
-        message={item.message}
-      />)}
+      {messages.map((item) => (
+        <MessageListItem
+          user={item.user}
+          message={item.message}
+        />
+      ))}
     </div>
   );
 }

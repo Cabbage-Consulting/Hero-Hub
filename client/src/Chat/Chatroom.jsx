@@ -1,31 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import MessageList from './MessageList.jsx';
-import MessageForm from './MessageForm.jsx';
+import MessageList from './MessageList';
+import MessageForm from './MessageForm';
 
 function Chatroom() {
   const [messages, setMessages] = useState([]);
   const chatMessages = [
     {
       user: 'man',
-      message: 'what up'
+      message: 'what up',
     },
     {
       user: 'bigman',
-      message: 'what up'
+      message: 'what up',
     },
     {
       user: 'lilman',
-      message: 'what up'
+      message: 'what up',
     },
     {
       user: 'badman',
-      message: 'man'
+      message: 'man',
     },
     {
       user: 'roadman',
-      message: 'wah gwaan'
+      message: 'wah gwaan',
     },
-  ]
+  ];
 
   useEffect(() => {
     setMessages(chatMessages);
