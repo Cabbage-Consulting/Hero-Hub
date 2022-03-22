@@ -91,7 +91,7 @@ VALUES (1, 'Iron Man Quiz #1', 'Marvel');
 INSERT INTO quizzes (id_users, name, category)
 VALUES (1, 'All Might Quiz #1', 'My Hero Academia');
 
-COPY questions (id, id_quizzes, body, correctAnswer, incorrectAnswers)
-FROM '/Users/daniel/Code/Hack_Reactor/Blue-Ocean/hero-quiz/database/data/questions.csv'
-DELIMITER ','
-CSV HEADER;
+-- COPY questions (id, id_quizzes, body, correctAnswer, incorrectAnswers)
+-- FROM '/Users/daniel/Code/Hack_Reactor/Blue-Ocean/hero-quiz/database/data/questions.csv'
+-- DELIMITER ','
+-- CSV HEADER;
