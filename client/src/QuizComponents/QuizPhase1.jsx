@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import QuizPhase2 from './QuizPhase2.jsx';
-import { Button, Select } from '../../GlobalStyles.jsx';
+import Modal from '../Modal';
+import { Button, Select } from '../../GlobalStyles';
 
 function QuizPhase1() {
   const [category, setCategory] = useState(null);
@@ -10,6 +11,7 @@ function QuizPhase1() {
   const [renderPhase2, setRenderPhase2] = useState(false);
   const [quizzes, setQuizzes] = useState([]);
   const [questions, setQuestions] = useState();
+  const [openQuizCreator, setOpenQuizCreator] = useState(false);
   // let categoryOptions = [];
 
   const getPhase1 = () => {
@@ -56,30 +58,34 @@ function QuizPhase1() {
     <>
       {renderPhase2 === false
         && (
-        <form>
-          <label>
-            <Select value={category} onChange={handleCategoryChange}>
-              <option>Choose your category</option>
-              {
-                Object.keys(quizzes).map(
-                  (c, i) => (
-                    <option
-                      key={`${i}${c.id}${c.name}`}
-                      value={c}
-                    >
-                      {c}
-                    </option>
-                  ),
-                )
-              }
-              {/* <option value="dummy1">dummy1</option>
-              <option value="dummy2">dummy2</option>
-              <option value="dummy3">dummy3</option>
-              <option value="dummy4">dummy4</option> */}
-              {/* comment out dummy options after we finish DB */}
-            </Select>
-          </label>
-        </form>
+        <div>
+          <button type="button" className="openModalBtn" onClick={() => { setOpenQuizCreator(true); }}>Create a Quiz</button>
+          {openQuizCreator && <Modal createQuiz="true" toggleModal={setOpenQuizCreator} />}
+          <form>
+            <label>
+              <Select value={category} onChange={handleCategoryChange}>
+                <option>Choose your category</option>
+                {
+                  Object.keys(quizzes).map(
+                    (c, i) => (
+                      <option
+                        key={`${i}${c.id}${c.name}`}
+                        value={c}
+                      >
+                        {c}
+                      </option>
+                    ),
+                  )
+                }
+                {/* <option value="dummy1">dummy1</option>
+                <option value="dummy2">dummy2</option>
+                <option value="dummy3">dummy3</option>
+                <option value="dummy4">dummy4</option> */}
+                {/* comment out dummy options after we finish DB */}
+              </Select>
+            </label>
+          </form>
+        </div>
         )}
 
       {renderPhase2 === false && category !== null && category !== 'Choose your category'
