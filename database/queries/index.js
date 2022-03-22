@@ -4,9 +4,8 @@ function query(string, params, cb) {
   pool
     .query(string, params)
     .then((res) => cb(null, res.rows))
-    .catch((err) => { cb(err); });
+    .catch((err) => cb(err));
 }
-//need to handle if there are no rows
 
 function getQuizzes(cb) {
   const string = 'select * from quizzes';
@@ -15,7 +14,7 @@ function getQuizzes(cb) {
 }
 
 function getQuestions(cb, data) {
-  const string = 'select * from questions right join quizzes on questions.id_quizzes = quizzes.id where quizzes.id = $1';
+  const string = 'select questions.* from questions right join quizzes on questions.id_quizzes = quizzes.id where quizzes.id = $1';
   const params = [data.quizID];
   query(string, params, cb);
 }
