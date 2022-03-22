@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import QuizCreator from './QuizCreator/CreateQuiz';
+
 // import PropTypes from 'prop-types';
 
 const BackdropStyle = styled.div`
@@ -18,13 +21,17 @@ const BackdropStyle = styled.div`
     z-index: 4;
     background: white;
     border-radius: 10px;
-    width: 300px;
-    height: 300px;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    width: 60%;
+    height: 70%;
+    overflow: scroll;
   }
 `;
 
 function Modal({
-  toggleModal, login, leaderboard, question
+  toggleModal, login, leaderboard, createQuiz,
 }) {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
@@ -36,7 +43,7 @@ function Modal({
     if (login) {
       console.log('in submit, event; user: ', userName, 'pass: ', password);
     }
-    if (question) {
+    if (createQuiz) {
       // might need to and question category state
       console.log('in submit, event; question: ', userName, 'answer: ', password);
     }
@@ -105,27 +112,14 @@ function Modal({
     );
   }
 
-  if (question) {
+  if (createQuiz) {
     return (
       <BackdropStyle>
         <div className="container">
           <div className="xBtn">
             <button type="button" onClick={() => toggleModal(false)}>X</button>
           </div>
-          <div className="title">
-            <h1>Add Quiz Question</h1>
-            <form onSubmit={handleSubmit}>
-              <label>
-                Question:
-                <input type="text" value={userName} onChange={(e) => { setUserName(e.target.value); }} />
-              </label>
-              <label>
-                Answer:
-                <input type="text" value={password} onChange={(e) => { setPassword(e.target.value); }} />
-              </label>
-              <button type="submit" value="Submit">Submit</button>
-            </form>
-          </div>
+          <QuizCreator />
           <div className="footer">
             <button type="button" onClick={() => toggleModal(false)}>Cancel</button>
           </div>
@@ -152,11 +146,12 @@ function Modal({
   );
 }
 
-// Modal.propTypes = {
-//   toggleModal: PropTypes.func.isRequired,
-//   login: PropTypes.bool,
-//   leaderboard: PropTypes.array,
-// };
+Modal.propTypes = {
+  toggleModal: PropTypes.func.isRequired,
+  login: PropTypes.bool.isRequired,
+  leaderboard: PropTypes.array.isRequired,
+  createQuiz: PropTypes.bool.isRequired,
+};
 
 export default Modal;
 
