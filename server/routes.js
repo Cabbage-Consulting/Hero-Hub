@@ -12,7 +12,12 @@ function respond(err, rows, res) {
 }
 
 router.get('/quiz', (req, res) => {
-  db.getQuizzes((e, r) => respond(e, r, res));
+  const { category } = req.query;
+  if (category) {
+    db.getQuizzesByCategory((e, r) => respond(e, r, res), { category });
+  } else {
+    db.getQuizzes((e, r) => respond(e, r, res));
+  }
 });
 
 router.get('/questions', (req, res) => {
@@ -60,24 +65,24 @@ router.get('/chat', (req, res) => {
 // we probably want to fold in question addition into quiz creation,
 // but still let it be a "then" or "cb" contingency -
 // want to error out if we can't fully add a quiz?
+// if a quiz name exists, do a new one.
 router.post('/quiz', (req, res) => {
   const {
-    userID, quizID, score, difficulty,
+    userID, name, category, questions,
   } = req.query;
-  db.addCompletedQuiz((e, r) => respond(e, r, res), {
-    userID, quizID, score, difficulty,
+  db.addQuiz((e, r) => respond(e, r, res), {
+    userID, name, category,
   });
 });
 
-// data validation for happy database entry?
-router.post('/question', (req, res) => {
-  const {
-    quizID, body, correctAnswer, incorrectAnswers,
-  } = req.query;
-  db.addQuestion((e, r) => respond(e, r, res), {
-    quizID, body, correctAnswer, incorrectAnswers,
-  });
-});
+// router.post('/question', (req, res) => {
+//   const {
+//     quizID, body, correctAnswer, incorrectAnswers,
+//   } = req.query;
+//   db.addQuestion((e, r) => respond(e, r, res), {
+//     quizID, body, correctAnswer, incorrectAnswers,
+//   });
+// });
 
 router.get('/leaders', (req, res) => {
   const { quizID } = req.query;
