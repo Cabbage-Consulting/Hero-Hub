@@ -25,9 +25,27 @@ router.get('/user/password', (req, res) => {
   db.getUserPassword((e, r) => respond(e, r, res), { username });
 });
 
+router.post('/user', (req, res) => {
+  const {
+    username, pfpUrl, location, password,
+  } = req.query;
+  db.addUser((e, r) => respond(e, r, res), {
+    username, pfpUrl, location, password,
+  });
+});
+
 router.get('/user/quiz', (req, res) => {
   const { userID } = req.query;
   db.getUserQuiz((e, r) => respond(e, r, res), { userID });
+});
+
+router.post('/user/quiz', (req, res) => {
+  const {
+    userID, quizID, score, difficulty,
+  } = req.query;
+  db.addCompletedQuiz((e, r) => respond(e, r, res), {
+    userID, quizID, score, difficulty,
+  });
 });
 
 router.get('/chat', (req, res) => {
@@ -70,6 +88,8 @@ router.post('/chat', (req, res) => {
   const { userID, body } = req.query;
   db.addToChat((e, r) => respond(e, r, res), { userID, body });
 });
+
+// POST USER QUIZ
 
 module.exports = router;
 

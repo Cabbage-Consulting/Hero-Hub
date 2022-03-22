@@ -8,7 +8,7 @@ function query(string, params, cb) {
 }
 
 function getQuizzes(cb) {
-  const string = 'select * from quizzes';
+  const string = 'select quizzes.*, users.username from quizzes left join users on quizzes.id_users = users.id';
   const params = [];
   query(string, params, cb);
 }
@@ -22,6 +22,12 @@ function getQuestions(cb, data) {
 function getUserPassword(cb, data) {
   const string = 'select password from users where username = $1';
   const params = [data.username];
+  query(string, params, cb);
+}
+
+function addUser(cb, data) {
+  const string = 'insert into users (username, pfp_url, location, password) values ($1, $2, $3, $4)';
+  const params = [data.username, data.pfpUrl, data.location, data.password];
   query(string, params, cb);
 }
 
@@ -77,6 +83,7 @@ module.exports = {
   getQuizzes,
   getQuestions,
   getUserPassword,
+  addUser,
   getChat,
   getChatAfterTime,
   getUserQuiz,
