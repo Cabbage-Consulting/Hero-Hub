@@ -9,7 +9,7 @@ function App() {
   const [openModal, setOpenModal] = useState(false);
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <h1>Hero Hub</h1>
       <CreateQuiz />
       <button type="button" className="openModalBtn" onClick={() => { setOpenModal(true); }}>Open Modal</button>
