@@ -62,20 +62,10 @@ router.get('/chat', (req, res) => {
 // want to error out if we can't fully add a quiz?
 router.post('/quiz', (req, res) => {
   const {
-    userID, quizID, score, difficulty,
+    userID, name, category, questions,
   } = req.query;
-  db.addCompletedQuiz((e, r) => respond(e, r, res), {
-    userID, quizID, score, difficulty,
-  });
-});
-
-// data validation for happy database entry?
-router.post('/question', (req, res) => {
-  const {
-    quizID, body, correctAnswer, incorrectAnswers,
-  } = req.query;
-  db.addQuestion((e, r) => respond(e, r, res), {
-    quizID, body, correctAnswer, incorrectAnswers,
+  db.addQuiz(() => {}, {
+    userID, name, category,
   });
 });
 
