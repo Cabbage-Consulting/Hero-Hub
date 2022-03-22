@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 // import PropTypes from 'prop-types';
 
@@ -23,20 +23,38 @@ const BackdropStyle = styled.div`
   }
 `;
 
-function Modal({ toggleModal, login, leaderboard }) {
-  const [userName, setUserName] = useState();
-  const [password, setPassword] = useState();
+function Modal({
+  toggleModal, login, leaderboard, question
+}) {
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+  // might need to and question category state
 
+  // Need to implenet login logic
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log('in submit, event: ', event.target.value);
-  }
+    if (login) {
+      console.log('in submit, event; user: ', userName, 'pass: ', password);
+    }
+    if (question) {
+      // might need to and question category state
+      console.log('in submit, event; question: ', userName, 'answer: ', password);
+    }
+    setUserName('');
+    setPassword('');
+  };
 
-  // We can either use if statements or conditional rendering
+  // Need to implenet register new user logic
+  const handleRegister = (user, pass) => {
+    console.log('In handleRegister; userName: ', user, 'password: ', pass);
+    setUserName('');
+    setPassword('');
+  };
+
   if (login) {
     return (
-      <BackdropStyle onClick={() => toggleModal(false)}>
-        <div className="container" onClick={console.log('clicked')}>
+      <BackdropStyle>
+        <div className="container">
           <div className="xBtn">
             <button type="button" onClick={() => toggleModal(false)}>X</button>
           </div>
@@ -51,21 +69,70 @@ function Modal({ toggleModal, login, leaderboard }) {
                 Password:
                 <input type="text" value={password} onChange={(e) => { setPassword(e.target.value); }} />
               </label>
+              <button type="submit" value="Submit">Login</button>
             </form>
           </div>
           <div className="footer">
-            <button type="button" onClick={() => toggleModal(false)}>PlaceHolder (cancel for now)</button>
+            <button type="button" onClick={() => toggleModal(false)}>Cancel</button>
+            <button type="button" onClick={() => handleRegister(userName, password)}>Register</button>
           </div>
         </div>
       </BackdropStyle>
     );
   }
 
-  // if (leaderboard) {
-  //   return (
+  // Need to know formatting for leaderboard info
+  if (leaderboard) {
+    return (
+      <BackdropStyle>
+        <div className="container">
+          <div className="xBtn">
+            <button type="button" onClick={() => toggleModal(false)}>X</button>
+          </div>
+          <div className="title">
+            <h1>leaderboard</h1>
+          </div>
+          <div className="chart">
+            {leaderboard.length > 0 ? leaderboard.map((person, index) => (
+              <div>{person}</div>
+            )) : <div>No Scores Available</div>}
+          </div>
+          <div className="footer">
+            <button type="button" onClick={() => toggleModal(false)}>Back</button>
+          </div>
+        </div>
+      </BackdropStyle>
+    );
+  }
 
-  //   );
-  // }
+  if (question) {
+    return (
+      <BackdropStyle>
+        <div className="container">
+          <div className="xBtn">
+            <button type="button" onClick={() => toggleModal(false)}>X</button>
+          </div>
+          <div className="title">
+            <h1>Add Quiz Question</h1>
+            <form onSubmit={handleSubmit}>
+              <label>
+                Question:
+                <input type="text" value={userName} onChange={(e) => { setUserName(e.target.value); }} />
+              </label>
+              <label>
+                Answer:
+                <input type="text" value={password} onChange={(e) => { setPassword(e.target.value); }} />
+              </label>
+              <button type="submit" value="Submit">Submit</button>
+            </form>
+          </div>
+          <div className="footer">
+            <button type="button" onClick={() => toggleModal(false)}>Cancel</button>
+          </div>
+        </div>
+      </BackdropStyle>
+    );
+  }
 
   // Default Modal
   return (
@@ -88,12 +155,7 @@ function Modal({ toggleModal, login, leaderboard }) {
 // Modal.propTypes = {
 //   toggleModal: PropTypes.func.isRequired,
 //   login: PropTypes.bool,
-//   leaderboard: PropTypes.bool,
-// };
-
-// Modal.defaultProps = {
-//   login: false,
-//   leaderboard: false,
+//   leaderboard: PropTypes.array,
 // };
 
 export default Modal;
