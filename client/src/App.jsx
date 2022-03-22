@@ -7,7 +7,7 @@ function App() {
     <div>
       <h1>Hero Hub</h1>
       <button type="button" className="openModalBtn" onClick={() => { setOpenModal(true); }}>Open Modal</button>
-      {openModal && <Modal toggleModal={setOpenModal}  />}
+      {openModal && <Modal toggleModal={setOpenModal} question="true" />}
     </div>
   );
 }
