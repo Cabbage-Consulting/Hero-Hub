@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import Modal from './Modal.jsx';
-import CreateQuiz from './Components/CreateQuiz.jsx';
-import Chatroom from './Chat/Chatroom.jsx';
+import Modal from './Modal';
+import CreateQuiz from './Components/CreateQuiz';
+import Chatroom from './Chat/Chatroom';
 
 function App() {
-  // const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   return (
     <div>
       <h1>Hero Hub</h1>
       <CreateQuiz />
       <button type="button" className="openModalBtn" onClick={() => { setOpenModal(true); }}>Open Modal</button>
-      {openModal && <Modal toggleModal={setOpenModal}  />}
+      {openModal && <Modal toggleModal={setOpenModal} />}
       <Chatroom />
     </div>
   );
