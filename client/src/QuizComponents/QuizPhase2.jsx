@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import Countdown from 'react-countdown';
+import axios from 'axios';
 import { Button } from '../../GlobalStyles.jsx';
 
 function QuizPhase2({ category, difficulty }) {
-  const [questionNumber, setQuestionNumber] = useState(1);
+  const [questionNumber, setQuestionNumber] = useState(0);
   const [question, setQuestion] = useState(null);
   const [answer1, setAnswer1] = useState(1);
   const [answer2, setAnswer2] = useState(2);

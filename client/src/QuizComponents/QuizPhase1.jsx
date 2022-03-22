@@ -1,22 +1,44 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import axios from 'axios';
 import QuizPhase2 from './QuizPhase2.jsx';
 import { Button, Select } from '../../GlobalStyles.jsx';
 
 function QuizPhase1() {
   const [category, setCategory] = useState(null);
+  const [quiz, setQuiz] = useState(null);
   const [difficulty, setDifficulty] = useState(null);
   const [renderPhase2, setRenderPhase2] = useState(false);
+  const [quizzes, setQuizzes] = useState([]);
   const [questions, setQuestions] = useState();
+  // let categoryOptions = [];
 
+  const getPhase1 = () => {
+    axios({
+      method: 'GET',
+      url: '/herohub/quiz',
+    })
+      .then((res) => {
+        setQuizzes(res.data);
+      });
+  };
+
+  useEffect(() => {
+    getPhase1();
+  }, []);
   // recieve categories from API call, set values after get request?
   const handleCategoryChange = (event) => {
-    event.persist();
     setCategory(event.target.value);
+    event.preventDefault();
+  };
+
+  const handleQuizChange = (event) => {
+    setQuiz(event.target.value);
+    event.preventDefault();
   };
 
   const handleDifficultyChange = (event) => {
-    event.persist();
     setDifficulty(event.target.value);
+    event.preventDefault();
   };
 
   const handleSubmit = (event) => {
@@ -36,25 +58,64 @@ function QuizPhase1() {
         && (
         <form>
           <label>
-            Choose your category:
             <Select value={category} onChange={handleCategoryChange}>
-              {/* {categoryOptions} */}
-              <option value="dummy1">dummy1</option>
+              <option>Choose your category</option>
+              {
+                Object.keys(quizzes).map(
+                  (c, i) => (
+                    <option
+                      key={`${i}${c.id}${c.name}`}
+                      value={c}
+                    >
+                      {c}
+                    </option>
+                  ),
+                )
+              }
+              {/* <option value="dummy1">dummy1</option>
               <option value="dummy2">dummy2</option>
               <option value="dummy3">dummy3</option>
-              <option value="dummy4">dummy4</option>
+              <option value="dummy4">dummy4</option> */}
               {/* comment out dummy options after we finish DB */}
             </Select>
           </label>
         </form>
         )}
 
-      {category !== null && renderPhase2 === false
+      {renderPhase2 === false && category !== null && category !== 'Choose your category'
+              && (
+              <form>
+                <label>
+                  <Select value={quiz} onChange={handleQuizChange}>
+                    <option>Choose your quiz</option>
+                    {
+                      quizzes[category].map(
+                        (q, i) => (
+                          <option
+                            key={`${i}${q.id}${q.name}`}
+                            value={q.id}
+                          >
+                            {q.name}
+                          </option>
+                        ),
+                      )
+                    }
+                    {/* <option value="dummy1">dummy1</option>
+                    <option value="dummy2">dummy2</option>
+                    <option value="dummy3">dummy3</option>
+                    <option value="dummy4">dummy4</option> */}
+                    {/* comment out dummy options after we finish DB */}
+                  </Select>
+                </label>
+              </form>
+              )}
+
+      {quiz !== null && renderPhase2 === false && quiz !== 'Choose your quiz'
         && (
         <form>
           <label>
-            Choose your difficulty:
             <Select value={difficulty} onChange={handleDifficultyChange}>
+              <option>Choose your difficulty</option>
               <option value="easy">Easy</option>
               <option value="medium">Medium</option>
               <option value="hard">Hard</option>
@@ -63,7 +124,7 @@ function QuizPhase1() {
         </form>
         )}
 
-      {difficulty !== null && renderPhase2 == false
+      {difficulty !== null && renderPhase2 === false && difficulty !== 'Choose your difficulty'
         && <Button onClick={handleSubmit}>Go!</Button>}
       {renderPhase2 === true && <QuizPhase2 category={category} difficulty={difficulty} />}
     </>
