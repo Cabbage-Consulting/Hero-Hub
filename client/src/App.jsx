@@ -13,9 +13,13 @@ function App() {
       <h1>Hero Hub</h1>
       <CreateQuiz />
       <button type="button" className="openModalBtn" onClick={() => { setOpenModal(true); }}>Open Modal</button>
+<<<<<<< HEAD
+      {openModal && <Modal toggleModal={setOpenModal} question="true" />}
+=======
       {openModal && <Modal toggleModal={setOpenModal}  />}
       <Chatroom />
       <QuizPhase1 />
+>>>>>>> main
     </div>
   );
 }
