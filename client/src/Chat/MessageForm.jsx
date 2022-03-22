@@ -6,22 +6,27 @@ function MessageForm({ setMessages, chatMessages }) {
   const handleInputUser = (e) => {
     e.preventDefault();
     setInputUser(e.target.value);
-  }
+  };
+
   const handleInputMsg = (e) => {
     e.preventDefault();
     setInputMsg(e.target.value);
-  }
+  };
+
   const addUserMsg = (item) => {
     setMessages([...chatMessages, item]);
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     addUserMsg({
       user: inputUser,
-      message: inputMsg
-    })
-  }
+      message: inputMsg,
+    });
+
+    setInputUser('');
+    setInputMsg('');
+  };
 
   return (
     <div>
