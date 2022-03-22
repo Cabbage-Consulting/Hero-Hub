@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import Modal from './Modal';
-import CreateQuiz from './Components/CreateQuiz';
+import Modal from './Modal.jsx';
+import CreateQuiz from './Components/CreateQuiz.jsx';
+import Chatroom from './Chat/Chatroom.jsx';
 
 function App() {
   // const [openModal, setOpenModal] = useState(false);
@@ -10,6 +11,7 @@ function App() {
       <CreateQuiz />
       <button type="button" className="openModalBtn" onClick={() => { setOpenModal(true); }}>Open Modal</button>
       {openModal && <Modal toggleModal={setOpenModal}  />}
+      <Chatroom />
     </div>
   );
 }
