@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import Modal from './Modal';
+import Modal from './Modal';
 import CreateQuiz from './Components/CreateQuiz';
 
 function App() {
@@ -8,6 +8,8 @@ function App() {
     <div>
       <h1>Hero Hub</h1>
       <CreateQuiz />
+      <button type="button" className="openModalBtn" onClick={() => { setOpenModal(true); }}>Open Modal</button>
+      {openModal && <Modal toggleModal={setOpenModal}  />}
     </div>
   );
 }
