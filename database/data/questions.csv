@@ -1,31 +1,31 @@
 id,id_quizzes,body,correctAnswer,incorrectAnswers
-1,1,Batman operates in which city?,Gotham City,'{ Metropolis, New York City, Hong Kong }'
-2,1,What is Batman's butler's name?,Alfred Pennyworth,'{ Robin, BatKid Gordon, Horace Carrington }'
-3,1,What is the name of Batman's car?,The Batmobile,'{ Lightning McQueen, Mach 8, Trigger }'
-4,1,Who did Batman have a son with?,Talia Al Ghul,'{ Selena Kyle, Diana of Themiscyra, Batman has no son }'
-5,1,Who is Martha Wayne?,Bruce Wayne's mother,'{ No relation, Bruce Wayne's Sister, Bruce Wayne's Daughter }'
-6,1,Who is Bruce Wayne's alter ego?,Batman,'{ Commissioner Gordon, The Green Lantern, Two-Face }'
-7,1,Where is Gotham located?,New Jersey,'{ Illinois, Massachusetts, Maryland }'
-8,1,What is Batman's secret hideout called?,The Bat Cave,'{ Area 51, Endor, Destination Unknown }'
-9,1,What is the name of Batman's traditional sidekick?,Robin,'{ Batman works alone, Tonto, Darth Revan }'
-10,1,Who is Batman's greatest enemy?,The Joker,'{ Ego, Thanos, Lex Luthor }'
-11,2,What color was Iron Man's original armor?,Grey,'{ Green, Orange, Black }'
-12,2,What part of Iron Man's armor keeps him alive?,Chest plate,'{ Helmet, Jarvis AI, Rocket Shoes }'
-13,2,What is Tony Stark's(Iron Man) net worth estimate?,$12 billion,'{ $0, $1 million, $100 trillion }'
-14,2,Who once served as Tony Stark's(Iron Man) personal assistant?,Mary Jane Watson,'{ Harry Osbourne, Stephen Strange, Clark Kent }'
-15,2,What kind of addiction does Tony Stark(Iron Man) struggle with?,Alcoholism,'{ Kryptonite, Uru, Heart-Shaped Herb }'
-16,2,'Finish the quote, My old man had a philosophy, 'Peace means having a bigger stick than _____.',The other guy,'{ Theodore Roosevelt, Groot, Lassie }'
-17,2,How old was Tony Stark(Iron Man) when he graduated from MIT?,17,'{ 28, 33, 12 }'
-18,2,Iron Man's suit can lift up to how much weight?,100 tonnes,'{ 500 lbs, 1 tonne, unknown }'
-19,2,Who is the Stark family butler?,Edwin Jarvis,'{ Geoffrey, Alfred, Emeril }'
-20,2,'What organization took Tony Stark hostage, resulting in the creation of the first Iron Man suit?',The Ten Rings,'{ Kaos, The First Order, League of Shadows }'
-21,3,What is All Might's real name?,Toshinori Yagi,'{ Yagami Light, Satoshi Tajiri, Kevin Tanaka }'
-22,3,When is All Might's birthday?,June 10,'{ February 14, December 25th, January 1st }'
-23,3,What is All Might's quirk?,One For All,'{ Unkown, Fa Jin, Danger Sense }'
-24,3,All Might's strongest move is?,United States of Smash,'{ Falcon Punch, Kamehameha, Hadouken }'
-25,3,All Might shares his birthday with the following hero:,Cow Lady,'{ Pinky, Chargebolt, Earphone Jack } '
-26,3,All Might's hero agency is located in which Tokyo ward?,Minato,'{ Shinkjuku, Koto, Shinagawa }'
-27,3,How tall is All Might?,7'2,'{ 5'10'', 6'3'', 10'2'' }'
-28,3,Who was All Might's mentor/predecessor?,Shimura Nana,'{ Yoichi Shigaraki, Hikage Shinomori, Daigoro Banjo }'
-29,3,Who does All Might pass his quirk to?,Midoriya Izuku,'{ Toshinori Yagi, En, Nana Shimura }'
-30,3,What is All Might's blood type?,A,'{ O-, AB+, B- }'
+1,1,"Batman operates in which city?","Gotham City","{Metropolis,New York City,Hong Kong}"
+2,1,"What is Batman's butler's name?","Alfred Pennyworth","{Robin,BatKid Gordon,Horace Carrington}"
+3,1,"What is the name of Batman's car?","The Batmobile","{Lightning McQueen,Mach 8,Trigger}"
+4,1,"Who did Batman have a son with?","Talia Al Ghul","{Selena Kyle,Diana of Themiscyra,Batman has no son}"
+5,1,"Who is Martha Wayne?","Bruce Wayne's mother","{No relation,Bruce Wayne's Sister,Bruce Wayne's Daughter}"
+6,1,"Who is Bruce Wayne's alter ego?","Batman","{Commissioner Gordon,The Green Lantern,Two-Face}"
+7,1,"Where is Gotham located?","New Jersey","{Illinois,Massachusetts,Maryland}"
+8,1,"What is Batman's secret hideout called?","The Bat Cave","{Area 51,Endor,Destination Unknown}"
+9,1,"What is the name of Batman's traditional sidekick?","Robin","{Batman works alone,Tonto,Darth Revan}"
+10,1,"Who is Batman's greatest enemy?","The Joker","{Ego,Thanos,Lex Luthor}"
+11,2,"What color was Iron Man's original armor?","Grey","{Green,Orange,Black}"
+12,2,"What part of Iron Man's armor keeps him alive?","Chest plate","{Helmet,Jarvis AI,Rocket Shoes}"
+13,2,"What is Tony Stark's (Iron Man) net worth estimate?","$12 billion","{$0,$1 million,$100 trillion}"
+14,2,"Who once served as Tony Stark's (Iron Man) personal assistant?","Mary Jane Watson","{Harry Osbourne,Stephen Strange,Clark Kent}"
+15,2,"What kind of addiction does Tony Stark (Iron Man) struggle with?","Alcoholism","{Kryptonite,Uru,Heart-Shaped Herb}"
+16,2,"Finish the quote: 'My old man had a philosophy - Peace means having a bigger stick than _____.'","The other guy","{Theodore Roosevelt,Groot,Lassie}"
+17,2,"How old was Tony Stark (Iron Man) when he graduated from MIT?","17","{28,33,12}"
+18,2,"Iron Man's suit can lift up to how much weight?","100 tonnes","{500 lbs,1 tonne,unknown}"
+19,2,"Who is the Stark family butler?","Edwin Jarvis","{Geoffrey,Alfred,Emeril}"
+20,2,"What organization took Tony Stark hostage, resulting in the creation of the first Iron Man suit?","The Ten Rings","{Kaos,The First Order,League of Shadows}"
+21,3,"What is All Might's real name?","Toshinori Yagi","{Yagami Light,Satoshi Tajiri,Kevin Tanaka}"
+22,3,"When is All Might's birthday?","June 10","{February 14,December 25th,January 1st}"
+23,3,"What is All Might's quirk?","One For All","{Unkown,Fa Jin,Danger Sense}"
+24,3,"All Might's strongest move is?","United States of Smash","{Falcon Punch,Kamehameha,Hadouken}"
+25,3,"All Might shares his birthday with the following hero:","Cow Lady","{Pinky,Chargebolt,Earphone Jack}"
+26,3,"All Might's hero agency is located in which Tokyo ward?","Minato","{Shinkjuku,Koto,Shinagawa}"
+27,3,"How tall is All Might?","7'2''","{5'10'',6'3'',10'2''}"
+28,3,"Who was All Might's mentor/predecessor?","Shimura Nana","{Yoichi Shigaraki,Hikage Shinomori,Daigoro Banjo}"
+29,3,"Who does All Might pass his quirk to?","Midoriya Izuku","{Toshinori Yagi,En,Nana Shimura}"
+30,3,"What is All Might's blood type?","A","{O-,AB+,B-}"

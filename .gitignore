@@ -2,4 +2,8 @@
 /client/build
 package-lock.json
 .babelrc
+<<<<<<< HEAD
 config.js
+=======
+config.js
+>>>>>>> main
