@@ -1,4 +1,4 @@
 /node_modules
 /client/build
-package-log.json
+package-lock.json
 .babelrc
