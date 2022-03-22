@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import Modal from './Modal.jsx';
+import Modal from './Modal';
+import CreateQuiz from './Components/CreateQuiz';
 
 function App() {
-  const [openModal, setOpenModal] = useState(false);
+  // const [openModal, setOpenModal] = useState(false);
   return (
     <div>
       <h1>Hero Hub</h1>
+      <CreateQuiz />
       <button type="button" className="openModalBtn" onClick={() => { setOpenModal(true); }}>Open Modal</button>
       {openModal && <Modal toggleModal={setOpenModal}  />}
     </div>
