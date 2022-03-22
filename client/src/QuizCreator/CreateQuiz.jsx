@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Modal from '../Modal';
 import AddQuizQuestion from './AddQuizQuestion';
 
 let questionCounter = 0;
@@ -33,7 +32,7 @@ function CreateQuiz() {
   const createQuiz = (e) => {
     e.preventDefault();
     console.table(questions);
-  }
+  };
 
   return (
     <form>

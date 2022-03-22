@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 function AddQuizQuestion({ index, questions, setQuestions }) {
-const [questionDetails, setQuestionDetails] = useState({
+  const [questionDetails, setQuestionDetails] = useState({
     question: '',
     correctAnswer: '',
     incorrectAnswer1: '',
