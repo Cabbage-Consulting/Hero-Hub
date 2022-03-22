@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import Modal from './Modal.jsx';
 import Chatroom from './Chat/Chatroom.jsx';
+import QuizPhase1 from './QuizComponents/QuizPhase1.jsx';
+import Navbar from './QuizComponents/Navbar.jsx'
 
 function App() {
   const [openModal, setOpenModal] = useState(false);
   return (
     <div>
+      <Navbar/>
       <h1>Hero Hub</h1>
       <button type="button" className="openModalBtn" onClick={() => { setOpenModal(true); }}>Open Modal</button>
       {openModal && <Modal toggleModal={setOpenModal}  />}
       <Chatroom />
+      <QuizPhase1 />
     </div>
   );
 }
