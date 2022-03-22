@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Modal from './Modal.jsx';
-import CreateQuiz from './Components/CreateQuiz.jsx';
-import Chatroom from './Chat/Chatroom.jsx';
-import QuizPhase1 from './QuizComponents/QuizPhase1.jsx';
-import Navbar from './QuizComponents/Navbar.jsx'
+import Modal from './Modal';
+import CreateQuiz from './Components/CreateQuiz';
+import Chatroom from './Chat/Chatroom';
+import QuizPhase1 from './QuizComponents/QuizPhase1';
+import Navbar from './QuizComponents/Navbar';
 
 function App() {
   const [openModal, setOpenModal] = useState(false);
@@ -13,7 +13,7 @@ function App() {
       <h1>Hero Hub</h1>
       <CreateQuiz />
       <button type="button" className="openModalBtn" onClick={() => { setOpenModal(true); }}>Open Modal</button>
-      {openModal && <Modal toggleModal={setOpenModal} question="true" />}
+      {openModal && <Modal toggleModal={setOpenModal} />}
       <Chatroom />
       <QuizPhase1 />
     </div>
