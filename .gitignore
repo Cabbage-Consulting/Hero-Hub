@@ -1,3 +1,4 @@
 /node_modules
-/package-lock.json
-/.bablerc
+/client/build
+package-lock.json
+.babelrc
