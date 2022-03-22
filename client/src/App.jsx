@@ -6,7 +6,7 @@ import QuizPhase1 from './QuizComponents/QuizPhase1.jsx';
 import Navbar from './QuizComponents/Navbar.jsx'
 
 function App() {
-  // const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   return (
     <div>
       <Navbar/>
