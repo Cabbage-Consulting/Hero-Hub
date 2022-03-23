@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import AddQuizQuestion from './AddQuizQuestion';
 
 let questionCounter = 0;
 
 function CreateQuiz() {
-  const [quizCategories, setQuizCategories] = useState(['Hunks', 'Dorks', 'Baseballers']);
+  const [quizCategories, setQuizCategories] = useState([]);
+  const [quizNamesByCategory, setQuizNamesByCategory] = useState([]);
   const [categorySelection, setCategorySelection] = useState('');
   const [quizNameInput, setQuizNameInput] = useState('');
   const [createdQuizQuestions, setCreatedQuizQuestions] = useState([]);
@@ -49,7 +50,19 @@ function CreateQuiz() {
     });
   };
 
+  const getCategories = () => {
+    axios.get('/herohub/quiz')
+      .then((res) => {
+        console.log(res.data);
+        setQuizCategories(Object.keys(res.data));
+      });
+  };
+
   // UseEffect to GET quiz categories
+
+  useEffect(() => {
+    getCategories();
+  }, []);
 
   return (
     <form>
