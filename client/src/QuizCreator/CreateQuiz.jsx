@@ -6,7 +6,7 @@ let questionCounter = 0;
 
 function CreateQuiz() {
   const [quizCategories, setQuizCategories] = useState([]);
-  const [quizNamesByCategory, setQuizNamesByCategory] = useState([]);
+  const [quizzes, setQuizzes] = useState([]);
   const [categorySelection, setCategorySelection] = useState('');
   const [quizNameInput, setQuizNameInput] = useState('');
   const [createdQuizQuestions, setCreatedQuizQuestions] = useState([]);
@@ -38,6 +38,19 @@ function CreateQuiz() {
 
   const createQuiz = (e) => {
     e.preventDefault();
+
+    let exists = false;
+    if (quizzes[categorySelection]) {
+      quizzes[categorySelection].forEach((quiz) => {
+        if (quiz.name === quizNameInput) {
+          alert('Quiz Name taken for this category, please change it to something else');
+          exists = true;
+        }
+      });
+    }
+
+    if (exists) return;
+
     const formattedQuizObject = {
       userID: 1,
       name: quizNameInput,
@@ -53,8 +66,9 @@ function CreateQuiz() {
   const getCategories = () => {
     axios.get('/herohub/quiz')
       .then((res) => {
-        console.log(res.data);
         setQuizCategories(Object.keys(res.data));
+        setQuizzes(res.data);
+        console.log(res.data);
       });
   };
 
