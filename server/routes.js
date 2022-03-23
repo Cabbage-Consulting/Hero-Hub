@@ -15,7 +15,6 @@ function respond(err, rows, res) {
 }
 
 router.get('/quiz', (req, res) => {
-<<<<<<< HEAD
   db.getQuizzes((e, r) => {
     if (e) {
       respond(e, null, res);
@@ -32,14 +31,6 @@ router.get('/quiz', (req, res) => {
     }
     // respond(e, r, res);
   });
-=======
-  const { category } = req.query;
-  if (category) {
-    db.getQuizzesByCategory((e, r) => respond(e, r, res), { category });
-  } else {
-    db.getQuizzes((e, r) => respond(e, r, res));
-  }
->>>>>>> main
 });
 
 router.get('/questions', (req, res) => {

@@ -13,6 +13,7 @@ function QuizPhase2({ quiz, difficulty }) {
   const [correctAnswer, setCorrectAnswer] = useState(4);
   const [difficultyMod, setDifficultyMod] = useState(new Array(2));
   const [currentScore, setCurrentScore] = useState(0);
+  const [tracker, setTracker] = useState(0);
 
   // axios get request with category and difficulty as params using questionNumber to identify the number
   // .then set questions with information from array
@@ -50,12 +51,14 @@ function QuizPhase2({ quiz, difficulty }) {
       // get request for next question?
       // do call for next question
       // setCurrentScore(currentScore + 1)
+      //if tracker is >= 10 tracker +=1 else quiz is done
       alert('good job buddy');
     } else {
       // change button CSS red
       // setQuestionNumber(questionNumber + 1)
       // get request for next question?
       // do call for next question
+      //if tracker is >= 10 tracker +=1 else quiz is done
       alert('try again dork');
     }
   };
@@ -67,12 +70,14 @@ function QuizPhase2({ quiz, difficulty }) {
       // get request for next question?
       // do call for next question
       // setCurrentScore(currentScore + 1)
+      //if tracker is >= 10 tracker +=1 else quiz is done
       alert('good job buddy');
     } else {
       // change button CSS red
       // setQuestionNumber(questionNumber + 1)
       // get request for next question?
       // do call for next question
+      //if tracker is >= 10 tracker +=1 else quiz is done
       alert('try again dork');
     }
   };
@@ -84,12 +89,14 @@ function QuizPhase2({ quiz, difficulty }) {
       // get request for next question?
       // do call for next question
       // setCurrentScore(currentScore + 1)
+      //if tracker is >= 10 tracker +=1 else quiz is done
       alert('good job buddy');
     } else {
       // change button CSS red
       // setQuestionNumber(questionNumber + 1)
       // get request for next question?
       // do call for next question
+      //if tracker is >= 10 tracker +=1 else quiz is done
       alert('try again dork');
     }
   };
@@ -101,12 +108,14 @@ function QuizPhase2({ quiz, difficulty }) {
       // get request for next question?
       // do call for next question
       // setCurrentScore(currentScore + 1)
+      //if tracker is >= 10 tracker +=1 else quiz is done
       alert('good job buddy');
     } else {
       // change button CSS red
       // setQuestionNumber(questionNumber + 1)
       // get request for next question?
       // do call for next question
+      //if tracker is >= 10 tracker +=1 else quiz is done
       alert('try again dork');
     }
   };
@@ -123,10 +132,6 @@ function QuizPhase2({ quiz, difficulty }) {
       <Button onClick={handleClick3}>{answer3}</Button>
       <Button onClick={handleClick4}>{answer4}</Button>
       <Countdown date={Date.now() + difficultyMod[1]} />
-      {/* <Button onClick={handleClick1}>{answer1}</Button>
-      <Button onClick={handleClick2}>{answer2}</Button>
-      <Button onClick={handleClick3}>{answer3}</Button>
-      <Button onClick={handleClick4}>{answer4}</Button> */}
     </div>
   );
 }
