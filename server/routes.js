@@ -53,6 +53,24 @@ router.post('/user', (req, res) => {
   });
 });
 
+router.put('/user', async (req, res) => {
+  const {
+    userID, username, pfpUrl, location, password,
+  } = req.body;
+  console.log(password);
+  db.updateUser({ userID, parameter: 'password', newValue: password })
+    .then((r) => res.send(r))
+    .catch((e) => res.send(e));
+  // Promise.all([
+  //   username ? db.updateUser({ userID, parameter: 'username', newValue: username }) : null,
+  //   pfpUrl ? db.updateUser({ userID, parameter: 'pfp_url', newValue: pfpUrl }) : null,
+  //   location ? db.updateUser({ userID, parameter: 'location', newValue: location }) : null,
+  //   password ? db.updateUser({ userID, parameter: 'password', newValue: password }) : null,
+  // ])
+  //   .then((r) => res.status(200).send(r))
+  //   .catch((e) => res.status(500).send(e));
+});
+
 router.get('/user/quiz', (req, res) => {
   const { userID } = req.query;
   db.getUserQuiz((e, r) => respond(e, r, res), { userID });

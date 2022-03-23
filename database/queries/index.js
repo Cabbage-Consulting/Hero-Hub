@@ -44,6 +44,16 @@ function addUser(cb, data) {
   query(string, params, cb);
 }
 
+async function updateUser(data) {
+  console.log(data);
+  const string = 'update users set password = $3 where id = $1';
+  const params = [data.userID, data.parameter, data.newValue];
+  pool
+    .query(string, params)
+    .then((res) => res)
+    .catch((err) => err);
+}
+
 function getChat(cb) {
   const string = 'Select users.username, chat.* from chat left join users on chat.id_users = users.id order by chat.date ASC';
   const params = [];
@@ -114,6 +124,7 @@ module.exports = {
   getQuestions,
   getUserPassword,
   addUser,
+  updateUser,
   getChat,
   getChatAfterTime,
   getUserQuiz,
