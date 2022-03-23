@@ -1,5 +1,8 @@
 const express = require('express');
 const db = require('../database/queries');
+const utils = require('./utils');
+const test_data = require('../database/data/api_questions');
+// remove test data and file
 
 const router = express.Router();
 
@@ -12,6 +15,7 @@ function respond(err, rows, res) {
 }
 
 router.get('/quiz', (req, res) => {
+<<<<<<< HEAD
   db.getQuizzes((e, r) => {
     if (e) {
       respond(e, null, res);
@@ -28,6 +32,14 @@ router.get('/quiz', (req, res) => {
     }
     // respond(e, r, res);
   });
+=======
+  const { category } = req.query;
+  if (category) {
+    db.getQuizzesByCategory((e, r) => respond(e, r, res), { category });
+  } else {
+    db.getQuizzes((e, r) => respond(e, r, res));
+  }
+>>>>>>> main
 });
 
 router.get('/questions', (req, res) => {
@@ -43,7 +55,7 @@ router.get('/user/password', (req, res) => {
 router.post('/user', (req, res) => {
   const {
     username, pfpUrl, location, password,
-  } = req.query;
+  } = req.body;
   db.addUser((e, r) => respond(e, r, res), {
     username, pfpUrl, location, password,
   });
@@ -68,20 +80,34 @@ router.get('/chat', (req, res) => {
   if (dateJoined) {
     db.getChatAfterTime((e, r) => respond(e, r, res), { dateJoined });
   } else {
-    db.getChat((e, r) => respond(e, r));
+    db.getChat((e, r) => respond(e, r, res));
   }
 });
 
-// we probably want to fold in question addition into quiz creation,
-// but still let it be a "then" or "cb" contingency -
-// want to error out if we can't fully add a quiz?
-router.post('/quiz', (req, res) => {
+router.post('/quiz', async (req, res) => {
   const {
     userID, name, category, questions,
-  } = req.query;
-  db.addQuiz(() => {}, {
-    userID, name, category,
+  } = test_data.data;
+
+  // need to check if quiz ID exists
+
+  const quizID = await db.addQuiz({
+    userID, name, category, questions,
   });
+  if (typeof quizID === 'object') {
+    res.status(500).send('something went wrong creating the quiz');
+  }
+  const formattedQuestions = utils.formatQuestions(questions);
+
+  Promise.all(formattedQuestions.map(
+    (q) => db.addQuestion({
+      quizID,
+      body: q.question,
+      correctAnswer: q.correctAnswer,
+      incorrectAnswers: q.incorrectAnswers,
+    }),
+  )).then((x) => res.send(x))
+    .catch((err) => res.send(err));
 });
 
 router.get('/leaders', (req, res) => {
@@ -90,7 +116,7 @@ router.get('/leaders', (req, res) => {
 });
 
 router.post('/chat', (req, res) => {
-  const { userID, body } = req.query;
+  const { userID, body } = req.body;
   db.addToChat((e, r) => respond(e, r, res), { userID, body });
 });
 

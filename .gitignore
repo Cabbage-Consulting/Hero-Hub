@@ -3,3 +3,4 @@
 package-lock.json
 .babelrc
 config.js
+/database/data

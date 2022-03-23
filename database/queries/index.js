@@ -13,6 +13,13 @@ function getQuizzes(cb) {
   query(string, params, cb);
 }
 
+// add an index on category in schema for faster lookup?
+function getQuizzesByCategory(cb, data) {
+  const string = 'select quizzes.*, users.username from quizzes left join users on quizzes.id_users = users.id where quizzes.category = $1';
+  const params = [data.category];
+  query(string, params, cb);
+}
+
 function getQuestions(cb, data) {
   const string = 'select questions.* from questions right join quizzes on questions.id_quizzes = quizzes.id where quizzes.id = $1';
   const params = [data.quizID];
@@ -44,7 +51,7 @@ function getChatAfterTime(cb, data) {
 }
 
 function getUserQuiz(cb, data) {
-  const string = 'select users_quizzes.*, quizzes.name from quizzes right join users_quizzes on quizzes.id = users_quizzes.id_quizzes where users_quizzes.id_users = $1';
+  const string = 'select users_quizzes.*, quizzes.name from quizzes right join users_quizzes on quizzes.id = users_quizzes.id_quizzes where users_quizzes.id_users = $1 limit 10';
   const params = [data.userID];
   query(string, params, cb);
 }
@@ -61,26 +68,48 @@ function addToChat(cb, data) {
   query(string, params, cb);
 }
 
-function addQuiz(cb, data) {
-  const string = 'insert into quizzes (id_users, name, category) values ($1, $2, $3)';
-  const params = [data.userID, data.name, data.category];
-  query(string, params, cb);
-}
-
-function addQuestion(cb, data) {
-  const string = 'insert into questions (id_quizzes, body, correctAnswer, incorrectAnswers) values ($1, $2, $3, $4)';
-  const params = [data.quizID, data.body, data.correctAnswer, data.incorrectAnswers];
-  query(string, params, cb);
-}
+// function getMatchingQuizzes(cb, data) {
+//   const string = 'select * from quizzes where name = $1';
+//   const params = [data.name];
+//   query(string, params, cb);
+// }
 
 function getLeaders(cb, data) {
-  const string = 'Select users.username, users_quizzes.score from users right join users_quizzes on users_quizzes.id_users = users.id where users_quizzes.id_quizzes = $1 order by users_quizzes.score DESC;';
+  const string = 'Select users.username, users_quizzes.score from users right join users_quizzes on users_quizzes.id_users = users.id where users_quizzes.id_quizzes = $1 order by users_quizzes.score DESC limit 10';
   const params = [data.quizID];
   query(string, params, cb);
 }
 
+function getMatchingQuizzes(cb, data) {
+  const string = 'select * from quizzes where name = $1';
+  const params = [data.name];
+  query(string, params, cb);
+}
+
+async function addQuiz(data) {
+  const string = 'insert into quizzes (id_users, name, category) values ($1, $2, $3) returning quizzes.id';
+  const params = [data.userID, data.name, data.category];
+  try {
+    const res = await pool.query(string, params);
+    return res.rows[0].id;
+  } catch (error) {
+    return error;
+  }
+}
+
+async function addQuestion(data) {
+  const string = 'insert into questions (id_quizzes, body, correctAnswer, incorrectAnswers) values ($1, $2, $3, $4)';
+  const params = [data.quizID, data.body, data.correctAnswer, data.incorrectAnswers];
+  pool
+    .query(string, params)
+    .then((res) => res)
+    .catch((err) => err);
+}
+
 module.exports = {
   getQuizzes,
+  getQuizzesByCategory,
+  getMatchingQuizzes,
   getQuestions,
   getUserPassword,
   addUser,
