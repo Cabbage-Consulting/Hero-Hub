@@ -15,12 +15,22 @@ function respond(err, rows, res) {
 }
 
 router.get('/quiz', (req, res) => {
-  const { category } = req.query;
-  if (category) {
-    db.getQuizzesByCategory((e, r) => respond(e, r, res), { category });
-  } else {
-    db.getQuizzes((e, r) => respond(e, r, res));
-  }
+  db.getQuizzes((e, r) => {
+    if (e) {
+      respond(e, null, res);
+    } else {
+      const q = {};
+      r.forEach((i) => {
+        if (q[i.category]) {
+          q[i.category].push(i);
+        } else {
+          q[i.category] = [i];
+        }
+      });
+      respond(null, q, res);
+    }
+    // respond(e, r, res);
+  });
 });
 
 router.get('/questions', (req, res) => {
