@@ -6,8 +6,8 @@ function MessageList({ messages }) {
     <div>
       {messages.map((item) =>
       <MessageListItem
-        user={item.user}
-        message={item.message}
+        user={item.username}
+        message={item.body}
       />)}
     </div>
   );
