@@ -68,17 +68,11 @@ function addToChat(cb, data) {
   query(string, params, cb);
 }
 
-function addQuiz(cb, data) {
-  const string = 'insert into quizzes (id_users, name, category) values ($1, $2, $3)';
-  const params = [data.userID, data.name, data.category];
-  query(string, params, cb);
-}
-
-function addQuestion(cb, data) {
-  const string = 'insert into questions (id_quizzes, body, correctAnswer, incorrectAnswers) values ($1, $2, $3, $4)';
-  const params = [data.quizID, data.body, data.correctAnswer, data.incorrectAnswers];
-  query(string, params, cb);
-}
+// function getMatchingQuizzes(cb, data) {
+//   const string = 'select * from quizzes where name = $1';
+//   const params = [data.name];
+//   query(string, params, cb);
+// }
 
 function getLeaders(cb, data) {
   const string = 'Select users.username, users_quizzes.score from users right join users_quizzes on users_quizzes.id_users = users.id where users_quizzes.id_quizzes = $1 order by users_quizzes.score DESC limit 10';
@@ -86,9 +80,36 @@ function getLeaders(cb, data) {
   query(string, params, cb);
 }
 
+function getMatchingQuizzes(cb, data) {
+  const string = 'select * from quizzes where name = $1';
+  const params = [data.name];
+  query(string, params, cb);
+}
+
+async function addQuiz(data) {
+  const string = 'insert into quizzes (id_users, name, category) values ($1, $2, $3) returning quizzes.id';
+  const params = [data.userID, data.name, data.category];
+  try {
+    const res = await pool.query(string, params);
+    return res.rows[0].id;
+  } catch (error) {
+    return error;
+  }
+}
+
+async function addQuestion(data) {
+  const string = 'insert into questions (id_quizzes, body, correctAnswer, incorrectAnswers) values ($1, $2, $3, $4)';
+  const params = [data.quizID, data.body, data.correctAnswer, data.incorrectAnswers];
+  pool
+    .query(string, params)
+    .then((res) => res)
+    .catch((err) => err);
+}
+
 module.exports = {
   getQuizzes,
   getQuizzesByCategory,
+  getMatchingQuizzes,
   getQuestions,
   getUserPassword,
   addUser,

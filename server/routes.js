@@ -1,5 +1,7 @@
 const express = require('express');
 const db = require('../database/queries');
+const utils = require('./utils');
+const test_data = require('../database/data/api_questions');
 
 const router = express.Router();
 
@@ -33,7 +35,7 @@ router.get('/user/password', (req, res) => {
 router.post('/user', (req, res) => {
   const {
     username, pfpUrl, location, password,
-  } = req.query;
+  } = req.body;
   db.addUser((e, r) => respond(e, r, res), {
     username, pfpUrl, location, password,
   });
@@ -58,38 +60,35 @@ router.get('/chat', (req, res) => {
   if (dateJoined) {
     db.getChatAfterTime((e, r) => respond(e, r, res), { dateJoined });
   } else {
-    db.getChat((e, r) => respond(e, r));
+    db.getChat((e, r) => respond(e, r, res));
   }
 });
 
-// we probably want to fold in question addition into quiz creation,
-// but still let it be a "then" or "cb" contingency -
-// want to error out if we can't fully add a quiz?
-// if a quiz name exists, do a new one.
-router.post('/quiz', (req, res) => {
+router.post('/quiz', async (req, res) => {
   const {
     userID, name, category, questions,
-  } = req.query;
-<<<<<<< HEAD
-  db.addQuiz((e, r) => respond(e, r, res), {
-    userID, name, category,
-  });
-});
+  } = test_data.data;
 
-// router.post('/question', (req, res) => {
-//   const {
-//     quizID, body, correctAnswer, incorrectAnswers,
-//   } = req.query;
-//   db.addQuestion((e, r) => respond(e, r, res), {
-//     quizID, body, correctAnswer, incorrectAnswers,
-//   });
-// });
-=======
-  db.addQuiz(() => {}, {
-    userID, name, category,
+  // need to check if quiz ID exists
+
+  const quizID = await db.addQuiz({
+    userID, name, category, questions,
   });
+  if (typeof quizID === 'object') {
+    res.status(500).send('something went wrong creating the quiz');
+  }
+  const formattedQuestions = utils.formatQuestions(questions);
+
+  Promise.all(formattedQuestions.map(
+    (q) => db.addQuestion({
+      quizID,
+      body: q.question,
+      correctAnswer: q.correctAnswer,
+      incorrectAnswers: q.incorrectAnswers,
+    }),
+  )).then((x) => res.send(x))
+    .catch((err) => res.send(err));
 });
->>>>>>> main
 
 router.get('/leaders', (req, res) => {
   const { quizID } = req.query;
@@ -97,7 +96,7 @@ router.get('/leaders', (req, res) => {
 });
 
 router.post('/chat', (req, res) => {
-  const { userID, body } = req.query;
+  const { userID, body } = req.body;
   db.addToChat((e, r) => respond(e, r, res), { userID, body });
 });
 
