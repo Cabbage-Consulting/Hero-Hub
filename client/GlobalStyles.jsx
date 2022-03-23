@@ -1,5 +1,9 @@
 import styled, { createGlobalStyle } from 'styled-components';
 
+export default createGlobalStyle`
+  @import url('https://fonts.googleapis.com/css2?family=Cairo&family=Roboto:wght@300&display=swap');
+`;
+
 export const Button = styled.button`
   border-radius: ${({ bigRadius }) => (bigRadius ? '30px' : '5px')};
   background-color: #E7BA53;
@@ -8,7 +12,7 @@ export const Button = styled.button`
   font-size: ${({ bigFont }) => (bigFont ? '20px' : '15px')};
   outline: none;
   cursor: pointer;
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-weight: 400;
   border: none;
   transition: all .5s ease;
@@ -17,7 +21,7 @@ export const Button = styled.button`
   &:hover{
       background-color: #71798E;
       transform: translateY(-.5rem) scale(1.02);
-      color: #fff;
+      color: #f1f1f1;
   }
   &:active{
       transform: translateY(.5rem);
@@ -32,18 +36,18 @@ export const Select = styled.select`
   font-size: ${({ bigFont }) => (bigFont ? '20px' : '15px')};
   outline: none;
   cursor: pointer;
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-weight: 400;
   border: none;
   transition: all .5s ease;
   margin: 8px;
 
   .Select__control:hover {
-    border-color: #fff;
+    border-color: #f1f1f1;
   }
-`
+`;
 
-//GRID BELOW
+// GRID BELOW
 
 export const MainContentContainer = styled.div`
   display: grid;
@@ -57,58 +61,92 @@ export const MainContentContainer = styled.div`
     "chat quiz quiz"
     "chat metrics metrics"
 
-`
+`;
 export const Banner = styled.div`
   color: #C12835;
   grid-area: banner;
   padding: 0.25rem;
   align-content: center;
-`
+`;
 
 export const Quiz = styled.div`
   color: black;
   grid-area: quiz;
   padding: 0.25rem;
   align-content: center;
-`
+`;
 
 export const Chat = styled.div`
   color: black;
   grid-area: chat;
   padding: 0.25rem;
   align-content: center;
-`
+`;
 
 export const Metrics = styled.div`
-  color: black;
+  color: #C12835;
   grid-area: metrics;
   padding: 0.25rem;
   align-content: center;
-`
+`;
 // Navbar stuff
 
 export const Nav = styled.nav`
-  background: #000;
+  background: #C12835;
   height: 85px;
   display: flex;
   justify-content: space-between;
   padding: 30px;
  `;
 
-export const NavbarContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 80px;
-`;
-
 export const NavLogo = styled.div`
-  color: #fff;
-  padding-bottom: 50px;
+  color: #f1f1f1;
+  // padding-top: 50px;
+  transform: translate(-5%, 60%);
   cursor: pointer;
   display: flex;
   align-items: center;
   text-decoration: none;
-  font-size: 2.5rem;
+  font-size: 4rem;
   font-weight: 800;
+  font-family: 'Cairo', sans-serif;
+`;
+
+export const UserInfo = styled.div`
+
+`;
+
+export const Pfp = styled.img`
+
+  width: 70px;
+  height: 70px;
+  border-style:solid;
+  border-color: #E7BA53;
+  transform: translate(750%, 0%);
+  border-radius: 50%;
+  box-sizing: border-box;
+  display: flex;
+  // align-items: center;
+  // float: right;
+  // right: 1250px;
+  position: relative;
+  &:hover {
+      cursor: pointer;
+      // border: 3px outset transparent;
+      box-sizing: border-box;
+      border-style:solid;
+      border-color: #71798E;
+    }
+`;
+
+export const NavUsername = styled.div`
+  color: #f1f1f1;
+  // transform: translate(1067%, 320%);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: 'Cairo', sans-serif;
 `;
