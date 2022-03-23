@@ -13,6 +13,12 @@ function getQuizzes(cb) {
   query(string, params, cb);
 }
 
+function getRecentQuizzes(cb) {
+  const string = 'select users.username, quizzes.name as quizname, users_quizzes.score, users_quizzes.difficulty from users_quizzes left join users on users_quizzes.id_users = users.id left join quizzes on users_quizzes.id_quizzes = quizzes.id order by users_quizzes.date DESC limit 10';
+  const params = [];
+  query(string, params, cb);
+}
+
 // add an index on category in schema for faster lookup?
 function getQuizzesByCategory(cb, data) {
   const string = 'select quizzes.*, users.username from quizzes left join users on quizzes.id_users = users.id where quizzes.category = $1';
@@ -68,12 +74,6 @@ function addToChat(cb, data) {
   query(string, params, cb);
 }
 
-// function getMatchingQuizzes(cb, data) {
-//   const string = 'select * from quizzes where name = $1';
-//   const params = [data.name];
-//   query(string, params, cb);
-// }
-
 function getLeaders(cb, data) {
   const string = 'Select users.username, users_quizzes.score from users right join users_quizzes on users_quizzes.id_users = users.id where users_quizzes.id_quizzes = $1 order by users_quizzes.score DESC limit 10';
   const params = [data.quizID];
@@ -110,6 +110,7 @@ module.exports = {
   getQuizzes,
   getQuizzesByCategory,
   getMatchingQuizzes,
+  getRecentQuizzes,
   getQuestions,
   getUserPassword,
   addUser,
