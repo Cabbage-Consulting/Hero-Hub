@@ -1,8 +1,6 @@
 const express = require('express');
 const db = require('../database/queries');
 const utils = require('./utils');
-const test_data = require('../database/data/api_questions');
-// remove test data and file
 
 const router = express.Router();
 
@@ -29,8 +27,11 @@ router.get('/quiz', (req, res) => {
       });
       respond(null, q, res);
     }
-    // respond(e, r, res);
   });
+});
+
+router.get('/quiz/scores', (req, res) => {
+  db.getRecentQuizzes((e, r) => respond(e, r, res));
 });
 
 router.get('/questions', (req, res) => {
@@ -60,7 +61,7 @@ router.get('/user/quiz', (req, res) => {
 router.post('/user/quiz', (req, res) => {
   const {
     userID, quizID, score, difficulty,
-  } = req.query;
+  } = req.body;
   db.addCompletedQuiz((e, r) => respond(e, r, res), {
     userID, quizID, score, difficulty,
   });
@@ -78,9 +79,7 @@ router.get('/chat', (req, res) => {
 router.post('/quiz', async (req, res) => {
   const {
     userID, name, category, questions,
-  } = test_data.data;
-
-  // need to check if quiz ID exists
+  } = req.body;
 
   const quizID = await db.addQuiz({
     userID, name, category, questions,

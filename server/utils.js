@@ -1,6 +1,3 @@
-
-
-
 function formatQuestions(questions) {
   return questions.map((obj) => {
     const questionObj = Object.values(obj)[0];
@@ -15,9 +12,8 @@ function formatQuestions(questions) {
     );
     return { question, correctAnswer, incorrectAnswers };
   });
-};
-
+}
 
 module.exports = {
   formatQuestions,
-}
+};
