@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import QuizCreator from './QuizCreator/CreateQuiz';
-
-// import PropTypes from 'prop-types';
 
 const BackdropStyle = styled.div`
   width: 100vw;
@@ -31,20 +30,39 @@ const BackdropStyle = styled.div`
 `;
 
 function Modal({
-  toggleModal, login, leaderboard, createQuiz,
+  toggleModal, login, leaderboard, createQuiz, register,
 }) {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
-  // might need to and question category state
+  // dont know if i need this but want to start moving forward
+  const [loggedIn, setLoggedIn] = useState(false);
 
-  // Need to implenet login logic
+  const calls = (type, path, params, callback, errCB) => {
+    axios({
+      method: type,
+      url: path,
+      data: params,
+    })
+      .then(callback)
+      .catch(errCB);
+  };
+
+  // Need to implement login logic
   const handleSubmit = (event) => {
     event.preventDefault();
     if (login) {
       console.log('in submit, event; user: ', userName, 'pass: ', password);
+      calls('get', 'herohub/user/password', { username: userName }, (res) => {
+        console.log(res);
+        // check actual password matches (for now check array length)
+        if (res.data[0] === password) {
+          setLoggedIn(true);
+          console.log('loggedIn: ', loggedIn);
+        }
+        // need to handle case where password isnt right (like try again messege)
+      }, (err) => { console.log(err); });
     }
     if (createQuiz) {
-      // might need to and question category state
       console.log('in submit, event; question: ', userName, 'answer: ', password);
     }
     setUserName('');
@@ -67,6 +85,36 @@ function Modal({
           </div>
           <div className="title">
             <h1>Sign In</h1>
+            <form onSubmit={handleSubmit}>
+              <label>
+                Username:
+                <input type="text" value={userName} onChange={(e) => { setUserName(e.target.value); }} />
+              </label>
+              <label>
+                Password:
+                <input type="text" value={password} onChange={(e) => { setPassword(e.target.value); }} />
+              </label>
+              <button type="submit" value="Submit">Login</button>
+            </form>
+          </div>
+          <div className="footer">
+            <button type="button" onClick={() => toggleModal(false)}>Cancel</button>
+            <button type="button" onClick={() => handleRegister(userName, password)}>Register</button>
+          </div>
+        </div>
+      </BackdropStyle>
+    );
+  }
+
+  if (register) {
+    return (
+      <BackdropStyle>
+        <div className="container">
+          <div className="xBtn">
+            <button type="button" onClick={() => toggleModal(false)}>X</button>
+          </div>
+          <div className="title">
+            <h1>Create New Account</h1>
             <form onSubmit={handleSubmit}>
               <label>
                 Username:
@@ -148,11 +196,17 @@ function Modal({
 
 Modal.propTypes = {
   toggleModal: PropTypes.func.isRequired,
-  login: PropTypes.bool.isRequired,
-  leaderboard: PropTypes.array.isRequired,
-  createQuiz: PropTypes.bool.isRequired,
+  login: PropTypes.bool,
+  leaderboard: PropTypes.array,
+  createQuiz: PropTypes.bool,
+  register: PropTypes.bool,
+};
+
+Modal.defaultProps = {
+  login: false,
+  leaderboard: false,
+  createQuiz: false,
+  register: false,
 };
 
 export default Modal;
-
-// We havent installed propTypes yet

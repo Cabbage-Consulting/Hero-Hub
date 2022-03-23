@@ -14,7 +14,7 @@ function App() {
       <Chatroom />
       <QuizPhase1 />
       <button type="button" className="openModalBtn" onClick={() => { setOpenModal(true); }}>Open Modal</button>
-      {openModal && <Modal toggleModal={setOpenModal} />}
+      {openModal && <Modal toggleModal={setOpenModal} register="true" />}
     </div>
   );
 }
