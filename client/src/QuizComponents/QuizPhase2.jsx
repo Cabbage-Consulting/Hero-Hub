@@ -150,12 +150,11 @@ function QuizPhase2({ quiz, difficulty }) {
     setQuestionNumber(questionNumber + 1);
     randomizeAnswers();
   };
-  if (questions[questionNumber] !== undefined) {
-    return questions.length !== 0 && (
+
+  if (questions[questionNumber] === undefined && currentScore > 0) return <Modal quizComplete="true" score={currentScore} />;
+
+  return questions.length !== 0 && (
       <div>
-        {tracker > questions.length
-          ? <Modal quizComplete="true" />
-          : null }
         <h1>{questions[questionNumber].body}</h1>
         <Button onClick={handleClick1}>{answer1}</Button>
         <Button onClick={handleClick2}>{answer2}</Button>
@@ -163,11 +162,6 @@ function QuizPhase2({ quiz, difficulty }) {
         <Button onClick={handleClick4}>{answer4}</Button>
         <Countdown onComplete={timeout} date={Date.now() + difficultyMod[1]} />
       </div>
-    );
-  }
-
-  return (
-    <Modal quizComplete="true" />
   );
 }
 

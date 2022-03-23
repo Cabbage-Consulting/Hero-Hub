@@ -79,7 +79,7 @@ router.get('/chat', (req, res) => {
 router.post('/quiz', async (req, res) => {
   const {
     userID, name, category, questions,
-  } = req.body;
+  } = req.body.data;
 
   const quizID = await db.addQuiz({
     userID, name, category, questions,

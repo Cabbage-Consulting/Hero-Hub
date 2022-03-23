@@ -30,7 +30,7 @@ const BackdropStyle = styled.div`
 `;
 
 function Modal({
-  toggleModal, login, leaderboard, createQuiz, register, quizComplete,
+  toggleModal, login, leaderboard, createQuiz, register, quizComplete, currentScore
 }) {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
@@ -215,7 +215,10 @@ function Modal({
           </div>
           <div className="quiz-complete">
             <h1>Quiz Complete!</h1>
-            <h3>Score: </h3>
+            <h3>
+              Score:
+              {currentScore}
+            </h3>
             <h2>LeaderBoard: </h2>
             <br />
             <div className="chart">
@@ -258,6 +261,7 @@ Modal.propTypes = {
   createQuiz: PropTypes.bool,
   register: PropTypes.bool,
   quizComplete: PropTypes.bool,
+  currentScore: PropTypes.number.isRequired,
 };
 
 Modal.defaultProps = {
