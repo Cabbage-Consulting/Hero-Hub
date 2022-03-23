@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Countdown from 'react-countdown';
 import axios from 'axios';
-import { Button } from '../../GlobalStyles.jsx';
+import Modal from '../Modal';
+import { Button } from '../../GlobalStyles';
 
 function QuizPhase2({ quiz, difficulty }) {
   const [questionNumber, setQuestionNumber] = useState(0);
@@ -44,21 +45,22 @@ function QuizPhase2({ quiz, difficulty }) {
     getPhase2();
     handleDifficulty();
   }, []);
+
   const handleClick1 = (event) => {
     if (answer1 === correctAnswer) {
       // change button CSS to green
       // setQuestionNumber(questionNumber + 1)
       // get request for next question?
       // do call for next question
-      // setCurrentScore(currentScore + 1)
-      //if tracker is >= 10 tracker +=1 else quiz is done
+      setCurrentScore(currentScore + (1 * difficultyMod[0]));
+      if (tracker <= questions.length) setTracker(tracker + 1);
       alert('good job buddy');
     } else {
       // change button CSS red
       // setQuestionNumber(questionNumber + 1)
       // get request for next question?
       // do call for next question
-      //if tracker is >= 10 tracker +=1 else quiz is done
+      if (tracker <= questions.length) setTracker(tracker + 1);
       alert('try again dork');
     }
   };
@@ -69,15 +71,15 @@ function QuizPhase2({ quiz, difficulty }) {
       // setQuestionNumber(questionNumber + 1)
       // get request for next question?
       // do call for next question
-      // setCurrentScore(currentScore + 1)
-      //if tracker is >= 10 tracker +=1 else quiz is done
+      setCurrentScore(currentScore + (1 * difficultyMod[0]));
+      if (tracker <= questions.length) setTracker(tracker + 1);
       alert('good job buddy');
     } else {
       // change button CSS red
       // setQuestionNumber(questionNumber + 1)
       // get request for next question?
       // do call for next question
-      //if tracker is >= 10 tracker +=1 else quiz is done
+      if (tracker <= questions.length) setTracker(tracker + 1);
       alert('try again dork');
     }
   };
@@ -88,15 +90,15 @@ function QuizPhase2({ quiz, difficulty }) {
       // setQuestionNumber(questionNumber + 1)
       // get request for next question?
       // do call for next question
-      // setCurrentScore(currentScore + 1)
-      //if tracker is >= 10 tracker +=1 else quiz is done
+      setCurrentScore(currentScore + (1 * difficultyMod[0]));
+      if (tracker <= questions.length) setTracker(tracker + 1);
       alert('good job buddy');
     } else {
       // change button CSS red
       // setQuestionNumber(questionNumber + 1)
       // get request for next question?
       // do call for next question
-      //if tracker is >= 10 tracker +=1 else quiz is done
+      if (tracker <= questions.length) setTracker(tracker + 1);
       alert('try again dork');
     }
   };
@@ -107,15 +109,15 @@ function QuizPhase2({ quiz, difficulty }) {
       // setQuestionNumber(questionNumber + 1)
       // get request for next question?
       // do call for next question
-      // setCurrentScore(currentScore + 1)
-      //if tracker is >= 10 tracker +=1 else quiz is done
+      setCurrentScore(currentScore + (1 * difficultyMod[0]));
+      if (tracker <= questions.length) setTracker(tracker + 1);
       alert('good job buddy');
     } else {
       // change button CSS red
       // setQuestionNumber(questionNumber + 1)
       // get request for next question?
       // do call for next question
-      //if tracker is >= 10 tracker +=1 else quiz is done
+      if (tracker <= questions.length) setTracker(tracker + 1);
       alert('try again dork');
     }
   };
@@ -126,6 +128,9 @@ function QuizPhase2({ quiz, difficulty }) {
 
   return questions.length !== 0 && (
     <div>
+      {tracker > questions.length
+        ? <Modal quizComplete="true" />
+        : null }
       <h1>{questions[0].body}</h1>
       <Button onClick={handleClick1}>{answer1}</Button>
       <Button onClick={handleClick2}>{answer2}</Button>

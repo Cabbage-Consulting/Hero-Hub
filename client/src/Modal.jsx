@@ -30,7 +30,7 @@ const BackdropStyle = styled.div`
 `;
 
 function Modal({
-  toggleModal, login, leaderboard, createQuiz, register,
+  toggleModal, login, leaderboard, createQuiz, register, quizComplete,
 }) {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
@@ -74,6 +74,15 @@ function Modal({
     console.log('In handleRegister; userName: ', user, 'password: ', pass);
     setUserName('');
     setPassword('');
+  };
+
+  const returnToPhase1 = (e) => {
+    e.preventDefault();
+    console.log(`this should return to Phase 1/
+                and let the user select /
+                a new Quiz
+                `);
+    toggleModal(false);
   };
 
   if (login) {
@@ -176,6 +185,33 @@ function Modal({
     );
   }
 
+  if (quizComplete) {
+    return (
+      <BackdropStyle onClick={() => toggleModal(false)}>
+        <div className="container">
+          <div className="xBtn">
+            <button type="button" onClick={() => toggleModal(false)}>X</button>
+          </div>
+          <div className="quiz-complete">
+            <h1>Quiz Complete!</h1>
+            <h3>Score: </h3>
+            <h2>LeaderBoard: </h2>
+            <br />
+            <div className="chart">
+              {leaderboard.length > 0 ? leaderboard.map((person, index) => (
+                <div>{person}</div>
+              )) : <div>No Scores Available</div>}
+            </div>
+            <button type="button" onClick={returnToPhase1}>Return Home</button>
+          </div>
+          <div className="footer">
+            <button type="button" onClick={() => toggleModal(false)}>cancel</button>
+          </div>
+        </div>
+      </BackdropStyle>
+    );
+  }
+
   // Default Modal
   return (
     <BackdropStyle onClick={() => toggleModal(false)}>
@@ -200,6 +236,7 @@ Modal.propTypes = {
   leaderboard: PropTypes.array,
   createQuiz: PropTypes.bool,
   register: PropTypes.bool,
+  quizComplete: PropTypes.bool,
 };
 
 Modal.defaultProps = {
@@ -207,6 +244,7 @@ Modal.defaultProps = {
   leaderboard: false,
   createQuiz: false,
   register: false,
+  quizComplete: false,
 };
 
 export default Modal;
