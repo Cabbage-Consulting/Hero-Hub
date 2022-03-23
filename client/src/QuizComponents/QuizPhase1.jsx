@@ -176,8 +176,8 @@ function QuizPhase1() {
           <tbody>
             {recentActivity.map((act, index) => (
               <tr value={index} className="table-row">
-                <td>{act.user}</td>
-                <td>{act.quiz}</td>
+                <td>{act.username}</td>
+                <td>{act.quizname}</td>
                 <td>{act.difficulty}</td>
                 <td>{act.score}</td>
               </tr>
