@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import MessageList from './MessageList.jsx';
 import MessageForm from './MessageForm.jsx';
 
@@ -7,34 +8,47 @@ function Chatroom() {
   const chatMessages = [
     {
       user: 'man',
-      message: 'what up'
+      message: 'what up',
     },
     {
       user: 'bigman',
-      message: 'what up'
+      message: 'what up',
     },
     {
       user: 'lilman',
-      message: 'what up'
+      message: 'what up',
     },
     {
       user: 'badman',
-      message: 'man'
+      message: 'man',
     },
     {
       user: 'roadman',
-      message: 'wah gwaan'
+      message: 'wah gwaan',
     },
-  ]
+  ];
+
+  const getChat = () => {
+    axios({
+      method: 'get',
+      url: '/herohub/chat',
+      params: {},
+    })
+      .then((res) => {
+        setMessages(res.data);
+      })
+      .catch((err) => (console.log('error message', err)));
+  };
 
   useEffect(() => {
     setMessages(chatMessages);
-  }, [])
+    getChat();
+  }, []);
 
   return (
     <div style={{ border: 'solid' }}>
       <MessageList messages={messages} />
-      <MessageForm setMessages={setMessages} chatMessages={chatMessages} />
+      <MessageForm setMessages={setMessages} chatMessages={chatMessages} getChat={getChat} />
     </div>
   );
 }

@@ -1,6 +1,5 @@
 function formatQuestions(questions) {
-  return questions.map((obj) => {
-    const questionObj = Object.values(obj)[0];
+  return questions.map((questionObj) => {
     const { question, correctAnswer } = questionObj;
     const incorrectAnswers = [];
     Object.keys(questionObj).forEach(
