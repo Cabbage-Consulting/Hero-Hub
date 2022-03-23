@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
-function MessageForm({ setMessages, chatMessages }) {
+function MessageForm({ setMessages, chatMessages, getChat }) {
   const [inputUser, setInputUser] = useState('');
   const [inputMsg, setInputMsg] = useState('');
+
   const handleInputUser = (e) => {
     e.preventDefault();
     setInputUser(e.target.value);
@@ -13,19 +15,25 @@ function MessageForm({ setMessages, chatMessages }) {
     setInputMsg(e.target.value);
   };
 
-  const addUserMsg = (item) => {
-    setMessages([...chatMessages, item]);
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addUserMsg({
-      user: inputUser,
-      message: inputMsg,
-    });
 
-    setInputUser('');
+    // using admin user to test post requests
+
+    axios({
+      method: 'POST',
+      url: '/herohub/chat',
+      data: {
+        userID: 1,
+        body: inputMsg,
+      },
+    })
+      .then(() => getChat())
+      .catch((err) => console.log('error message', err));
+
     setInputMsg('');
+    setInputUser('');
   };
 
   return (

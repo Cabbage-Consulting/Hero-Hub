@@ -12,6 +12,7 @@ function QuizPhase1() {
   const [quizzes, setQuizzes] = useState([]);
   const [questions, setQuestions] = useState();
   const [openQuizCreator, setOpenQuizCreator] = useState(false);
+  const [recentActivity, setRecentActivity] = useState([]);
   // let categoryOptions = [];
 
   const getPhase1 = () => {
@@ -21,6 +22,42 @@ function QuizPhase1() {
     })
       .then((res) => {
         setQuizzes(res.data);
+      });
+
+    axios({
+      method: 'GET',
+      url: '/herohub/quiz/scores',
+    })
+      .then((res) => {
+        console.log(res.data);
+        setRecentActivity(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        // the following can be deleted once we have a working server route
+        setRecentActivity([
+          {
+            user: 'daniel',
+            score: 100000,
+            quiz: 'boss babies of history',
+            quiz_id: '200',
+            difficulty: 'easy',
+          },
+          {
+            user: 'ken',
+            score: 100000,
+            quiz: 'where is the beef?',
+            quiz_id: '201',
+            difficulty: 'medium',
+          },
+          {
+            user: 'doug',
+            score: 100000,
+            quiz: 'where is the cheese?',
+            quiz_id: '202',
+            difficulty: 'hard',
+          },
+        ]);
       });
   };
 
@@ -77,11 +114,6 @@ function QuizPhase1() {
                     ),
                   )
                 }
-                {/* <option value="dummy1">dummy1</option>
-                <option value="dummy2">dummy2</option>
-                <option value="dummy3">dummy3</option>
-                <option value="dummy4">dummy4</option> */}
-                {/* comment out dummy options after we finish DB */}
               </Select>
             </label>
           </form>
@@ -106,11 +138,6 @@ function QuizPhase1() {
                         ),
                       )
                     }
-                    {/* <option value="dummy1">dummy1</option>
-                    <option value="dummy2">dummy2</option>
-                    <option value="dummy3">dummy3</option>
-                    <option value="dummy4">dummy4</option> */}
-                    {/* comment out dummy options after we finish DB */}
                   </Select>
                 </label>
               </form>
@@ -133,6 +160,31 @@ function QuizPhase1() {
       {difficulty !== null && renderPhase2 === false && difficulty !== 'Choose your difficulty'
         && <Button onClick={handleSubmit}>Go!</Button>}
       {renderPhase2 === true && <QuizPhase2 quiz={quiz} difficulty={difficulty} />}
+      <div id="recent-activity">
+        <table>
+          <thead>
+            <tr className="table-title">
+              <th colSpan="4">Recent Activity</th>
+            </tr>
+            <tr className="table-columns">
+              <th>User</th>
+              <th>Quiz</th>
+              <th>Difficulty</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {recentActivity.map((act, index) => (
+              <tr value={index} className="table-row">
+                <td>{act.username}</td>
+                <td>{act.quizname}</td>
+                <td>{act.difficulty}</td>
+                <td>{act.score}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 }

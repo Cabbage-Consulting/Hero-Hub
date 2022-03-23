@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import MessageList from './MessageList';
-import MessageForm from './MessageForm';
+import axios from 'axios';
+import MessageList from './MessageList.jsx';
+import MessageForm from './MessageForm.jsx';
 
 function Chatroom() {
   const [messages, setMessages] = useState([]);
@@ -27,14 +28,27 @@ function Chatroom() {
     },
   ];
 
+  const getChat = () => {
+    axios({
+      method: 'get',
+      url: '/herohub/chat',
+      params: {},
+    })
+      .then((res) => {
+        setMessages(res.data);
+      })
+      .catch((err) => (console.log('error message', err)));
+  };
+
   useEffect(() => {
     setMessages(chatMessages);
+    getChat();
   }, []);
 
   return (
     <div style={{ border: 'solid' }}>
       <MessageList messages={messages} />
-      <MessageForm setMessages={setMessages} chatMessages={chatMessages} />
+      <MessageForm setMessages={setMessages} chatMessages={chatMessages} getChat={getChat} />
     </div>
   );
 }
