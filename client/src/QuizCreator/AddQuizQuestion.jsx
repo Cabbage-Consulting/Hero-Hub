@@ -17,22 +17,27 @@ function AddQuizQuestion({ index, questions, setQuestions }) {
   };
 
   const handleQuestionInput = (e) => {
+    e.preventDefault();
     setQuestionDetails({ ...questionDetails, question: e.target.value });
   };
 
   const handleCorrectAnswer = (e) => {
+    e.preventDefault();
     setQuestionDetails({ ...questionDetails, correctAnswer: e.target.value });
   };
 
   const handleIncorrectAnswer1 = (e) => {
+    e.preventDefault();
     setQuestionDetails({ ...questionDetails, incorrectAnswer1: e.target.value });
   };
 
   const handleIncorrectAnswer2 = (e) => {
+    e.preventDefault();
     setQuestionDetails({ ...questionDetails, incorrectAnswer2: e.target.value });
   };
 
   const handleIncorrectAnswer3 = (e) => {
+    e.preventDefault();
     setQuestionDetails({ ...questionDetails, incorrectAnswer3: e.target.value });
   };
 

@@ -155,8 +155,8 @@ function QuizPhase2({ quiz, difficulty }) {
 
   return questions.length !== 0 && (
     <div>
-      {tracker > questions.length
-        ? <Modal quizComplete="true" />
+      {tracker === questions.length
+        ? <Modal quizComplete="true" score={currentScore} />
         : null }
       <h1>{questions[0].body}</h1>
       <Button onClick={handleClick1}>{answer1}</Button>
