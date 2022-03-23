@@ -29,7 +29,6 @@ function QuizPhase1() {
       url: '/herohub/quiz/scores',
     })
       .then((res) => {
-        console.log(res.data);
         setRecentActivity(res.data);
       })
       .catch((err) => {

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import MessageListItem from './MessageListItem.jsx';
+import React from 'react';
+import MessageListItem from './MessageListItem';
 
 function MessageList({ messages }) {
   return (
