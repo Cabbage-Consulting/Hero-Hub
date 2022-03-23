@@ -17,9 +17,9 @@ function CreateQuiz() {
   };
 
   const handleQuizNameInput = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     setQuizNameInput(e.target.value);
-  }
+  };
 
   const addQuestionInputs = (e) => {
     e.preventDefault();
@@ -38,12 +38,18 @@ function CreateQuiz() {
   const createQuiz = (e) => {
     e.preventDefault();
     const formattedQuizObject = {
+      userID: 1,
       name: quizNameInput,
       category: categorySelection,
       questions,
     };
-    console.log(formattedQuizObject);
+
+    axios.post('/herohub/quiz', {
+      data: formattedQuizObject,
+    });
   };
+
+  // UseEffect to GET quiz categories
 
   return (
     <form>

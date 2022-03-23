@@ -1,5 +1,8 @@
 const express = require('express');
 const db = require('../database/queries');
+const utils = require('./utils');
+const test_data = require('../database/data/api_questions');
+// remove test data and file
 
 const router = express.Router();
 
@@ -12,7 +15,12 @@ function respond(err, rows, res) {
 }
 
 router.get('/quiz', (req, res) => {
-  db.getQuizzes((e, r) => respond(e, r, res));
+  const { category } = req.query;
+  if (category) {
+    db.getQuizzesByCategory((e, r) => respond(e, r, res), { category });
+  } else {
+    db.getQuizzes((e, r) => respond(e, r, res));
+  }
 });
 
 router.get('/questions', (req, res) => {
@@ -28,7 +36,7 @@ router.get('/user/password', (req, res) => {
 router.post('/user', (req, res) => {
   const {
     username, pfpUrl, location, password,
-  } = req.query;
+  } = req.body;
   db.addUser((e, r) => respond(e, r, res), {
     username, pfpUrl, location, password,
   });
@@ -53,30 +61,34 @@ router.get('/chat', (req, res) => {
   if (dateJoined) {
     db.getChatAfterTime((e, r) => respond(e, r, res), { dateJoined });
   } else {
-    db.getChat((e, r) => respond(e, r));
+    db.getChat((e, r) => respond(e, r, res));
   }
 });
 
-// we probably want to fold in question addition into quiz creation,
-// but still let it be a "then" or "cb" contingency -
-// want to error out if we can't fully add a quiz?
-router.post('/quiz', (req, res) => {
+router.post('/quiz', async (req, res) => {
   const {
-    userID, quizID, score, difficulty,
-  } = req.query;
-  db.addCompletedQuiz((e, r) => respond(e, r, res), {
-    userID, quizID, score, difficulty,
-  });
-});
+    userID, name, category, questions,
+  } = test_data.data;
 
-// data validation for happy database entry?
-router.post('/question', (req, res) => {
-  const {
-    quizID, body, correctAnswer, incorrectAnswers,
-  } = req.query;
-  db.addQuestion((e, r) => respond(e, r, res), {
-    quizID, body, correctAnswer, incorrectAnswers,
+  // need to check if quiz ID exists
+
+  const quizID = await db.addQuiz({
+    userID, name, category, questions,
   });
+  if (typeof quizID === 'object') {
+    res.status(500).send('something went wrong creating the quiz');
+  }
+  const formattedQuestions = utils.formatQuestions(questions);
+
+  Promise.all(formattedQuestions.map(
+    (q) => db.addQuestion({
+      quizID,
+      body: q.question,
+      correctAnswer: q.correctAnswer,
+      incorrectAnswers: q.incorrectAnswers,
+    }),
+  )).then((x) => res.send(x))
+    .catch((err) => res.send(err));
 });
 
 router.get('/leaders', (req, res) => {
@@ -85,7 +97,7 @@ router.get('/leaders', (req, res) => {
 });
 
 router.post('/chat', (req, res) => {
-  const { userID, body } = req.query;
+  const { userID, body } = req.body;
   db.addToChat((e, r) => respond(e, r, res), { userID, body });
 });
 
