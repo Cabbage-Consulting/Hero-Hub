@@ -30,7 +30,7 @@ const BackdropStyle = styled.div`
 `;
 
 function Modal({
-  toggleModal, login, leaderboard, createQuiz, register, quizComplete,
+  toggleModal, login, leaderboard, createQuiz, register, quizComplete, update,
 }) {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
@@ -38,6 +38,7 @@ function Modal({
   const [pfpUrl, setPfpUrl] = useState('');
   // dont know if i need this but want to start moving forward (change to context)
   const [loggedIn, setLoggedIn] = useState(false);
+  const [leaderInfo, setLeaderInfo] = useState([]);
 
   const calls = (method, url, params, data, callback, errCB) => {
     axios({
@@ -75,6 +76,10 @@ function Modal({
         console.log('posted new user; res: ', res);
       }, (err) => { console.log('error in post new user; err: ', err); });
     }
+    if (update) {
+      console.log('in update');
+      calls('put', 'herohub/user', )
+    }
     if (createQuiz) {
       console.log('in submit, event; question: ', userName, 'answer: ', password);
     }
@@ -96,6 +101,10 @@ function Modal({
                 a new Quiz
                 `);
     toggleModal(false);
+  };
+
+  const handleLeaders = (quizID) => {
+    calls('get', 'herohub/leaders', { quizID }, null, (res) => { setLeaderInfo(res.data); }, (err) => { console.log('error in handleLeaders; err: ', err); });
   };
 
   if (login) {
@@ -166,6 +175,44 @@ function Modal({
     );
   }
 
+  if (update) {
+    return (
+      <BackdropStyle>
+        <div className="container">
+          <div className="xBtn">
+            <button type="button" onClick={() => toggleModal(false)}>X</button>
+          </div>
+          <div className="title">
+            <h1>Update Account Settings</h1>
+            <form onSubmit={handleSubmit}>
+              <label>
+                Username:
+                <input type="text" value={userName} onChange={(e) => { setUserName(e.target.value); }} />
+              </label>
+              <label>
+                Password:
+                <input type="text" value={password} onChange={(e) => { setPassword(e.target.value); }} />
+              </label>
+              <label>
+                Location:
+                <input type="text" value={userLocation} onChange={(e) => { setUserLocation(e.target.value); }} />
+              </label>
+              <label>
+                Profile Picture URL:
+                <input type="text" value={pfpUrl} onChange={(e) => { setPfpUrl(e.target.value); }} />
+              </label>
+              <button type="submit" value="Submit">Register</button>
+            </form>
+          </div>
+          <div className="footer">
+            <button type="button" onClick={() => toggleModal(false)}>Cancel</button>
+            <button type="button" onClick={() => handleRegister(userName, password)}>PlaceHolder</button>
+          </div>
+        </div>
+      </BackdropStyle>
+    );
+  }
+
   // Need to know formatting for leaderboard info
   if (leaderboard) {
     return (
@@ -178,12 +225,17 @@ function Modal({
             <h1>leaderboard</h1>
           </div>
           <div className="chart">
-            {leaderboard.length > 0 ? leaderboard.map((person, index) => (
-              <div>{person}</div>
+            {leaderInfo.length > 0 ? leaderInfo.map((person, index) => (
+              <>
+                <div>{index}</div>
+                <div>{person.username}</div>
+                <div>{person.score}</div>
+              </>
             )) : <div>No Scores Available</div>}
           </div>
           <div className="footer">
             <button type="button" onClick={() => toggleModal(false)}>Back</button>
+            <button type="button" onClick={() => handleLeaders(leaderboard)}>Get Scores</button>
           </div>
         </div>
       </BackdropStyle>
@@ -258,6 +310,7 @@ Modal.propTypes = {
   createQuiz: PropTypes.bool,
   register: PropTypes.bool,
   quizComplete: PropTypes.bool,
+  update: PropTypes.bool,
 };
 
 Modal.defaultProps = {
@@ -266,6 +319,7 @@ Modal.defaultProps = {
   createQuiz: false,
   register: false,
   quizComplete: false,
+  update: false,
 };
 
 export default Modal;
