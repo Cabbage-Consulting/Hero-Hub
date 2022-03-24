@@ -1,61 +1,51 @@
 const express = require('express');
 const db = require('../database/queries');
-const utils = require('./utils');
+const { formatQuestions, formatQuizzesObject } = require('./utils');
 
 const router = express.Router();
 
-function respond(err, rows, res) {
-  if (err) {
-    res.status(500).send(err);
-  } else {
-    res.status(200).send(rows);
-  }
-}
-
-router.get('/quiz', (req, res) => {
-  db.getQuizzes((e, r) => {
-    if (e) {
-      respond(e, null, res);
-    } else {
-      const q = {};
-      r.forEach((i) => {
-        if (q[i.category]) {
-          q[i.category].push(i);
-        } else {
-          q[i.category] = [i];
-        }
-      });
-      respond(null, q, res);
-    }
-  });
+router.get('/quiz', async (req, res) => {
+  db.getQuizzes()
+    .then((d) => res.status(200).send(formatQuizzesObject(d)))
+    .catch((e) => res.status(500).send(e));
 });
 
-router.get('/quiz/scores', (req, res) => {
-  db.getRecentQuizzes((e, r) => respond(e, r, res));
+router.get('/quiz/scores', async (req, res) => {
+  db.getRecentQuizzes()
+    .then((d) => res.status(200).send(d))
+    .catch((e) => res.status(500).send(e));
 });
 
-router.get('/questions', (req, res) => {
+router.get('/questions', async (req, res) => {
   const { quizID } = req.query;
-  db.getQuestions((e, r) => respond(e, r, res), { quizID });
+  db.getQuestions({ quizID })
+    .then((d) => res.status(200).send(d))
+    .catch((e) => res.status(500).send(e));
 });
 
-router.get('/user/password', (req, res) => {
+router.get('/user/password', async (req, res) => {
   const { username } = req.query;
-  db.getUserPassword((e, r) => respond(e, r, res), { username });
+  db.getUserPassword({ username })
+    .then((d) => res.status(200).send(d))
+    .catch((e) => res.status(500).send(e));
 });
 
 router.get('/user', async (req, res) => {
-  const { username } = req.query;
-  db.getUserIdByUserName((e, r) => respond(e, r, res), { username });
+  const { userID } = req.query;
+  db.getUserByUserID({ userID })
+    .then((d) => res.status(200).send(d))
+    .catch((e) => res.status(500).send(e));
 });
 
-router.post('/user', (req, res) => {
+router.post('/user', async (req, res) => {
   const {
     username, pfpUrl, location, password,
   } = req.body;
-  db.addUser((e, r) => respond(e, r, res), {
+  db.addUser({
     username, pfpUrl, location, password,
-  });
+  })
+    .then((d) => res.status(200).send(d))
+    .catch((e) => res.status(500).send(e));
 });
 
 router.put('/user', async (req, res) => {
@@ -64,18 +54,21 @@ router.put('/user', async (req, res) => {
   } = req.body;
 
   Promise.all([
-    username ? db.updateUsername({ userID, parameter: 'username', newValue: username }) : null,
-    pfpUrl ? db.updateUserProfilePicture({ userID, parameter: 'pfp_url', newValue: pfpUrl }) : null,
-    location ? db.updateUserLocation({ userID, parameter: 'location', newValue: location }) : null,
-    password ? db.updateUserPassword({ userID, parameter: 'password', newValue: password }) : null,
+    username ? db.updateUsername({ userID, newValue: username }) : null,
+    pfpUrl ? db.updateUserProfilePicture({ userID, newValue: pfpUrl }) : null,
+    location ? db.updateUserLocation({ userID, newValue: location }) : null,
+    password ? db.updateUserPassword({ userID, newValue: password }) : null,
   ])
-    .then((r) => res.status(200).send(r))
+    .then(() => db.getUserByUserID({ userID })
+      .then((user) => res.status(200).send(user)))
     .catch((e) => res.status(500).send(e));
 });
 
-router.get('/user/quiz', (req, res) => {
+router.get('/user/quiz', async (req, res) => {
   const { userID } = req.query;
-  db.getUserQuizzes((e, r) => respond(e, r, res), { userID });
+  db.getUserQuizzes({ userID })
+    .then((d) => res.status(200).send(d))
+    .catch((e) => res.status(500).send(e));
 });
 
 router.post('/user/quiz', (req, res) => {
@@ -107,7 +100,7 @@ router.post('/quiz', async (req, res) => {
   if (typeof quizID === 'object') {
     res.status(500).send('something went wrong creating the quiz');
   }
-  const formattedQuestions = utils.formatQuestions(questions);
+  const formattedQuestions = formatQuestions(questions);
 
   Promise.all(formattedQuestions.map(
     (q) => db.addQuestion({

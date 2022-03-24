@@ -8,10 +8,10 @@ function query(string, params, cb) {
     .catch((err) => cb(err));
 }
 
-async function asyncQuery(string, params) {
-  pool
+async function asyncQuery(string, params, oneResult) {
+  return pool
     .query(string, params)
-    .then((res) => res)
+    .then((res) => (oneResult ? res.rows[0] : res.rows))
     .catch((err) => err);
 }
 
@@ -86,31 +86,38 @@ function addUser(cb, data) {
 async function updateUserPassword(data) {
   const string = 'update users set password = $2 where id = $1';
   const params = [data.userID, data.newValue];
-  return asyncQuery(string, params);
+  return asyncQuery(string, params, true);
 }
 
 async function updateUsername(data) {
   const string = 'update users set username = $2 where id = $1';
   const params = [data.userID, data.newValue];
-  return asyncQuery(string, params);
+  return asyncQuery(string, params, true);
 }
 
 async function updateUserProfilePicture(data) {
   const string = 'update users set pfp_url = $2 where id = $1';
   const params = [data.userID, data.newValue];
-  return asyncQuery(string, params);
+  return asyncQuery(string, params, true);
 }
 
 async function updateUserLocation(data) {
   const string = 'update users set location = $2 where id = $1';
   const params = [data.userID, data.newValue];
-  return asyncQuery(string, params);
+  return asyncQuery(string, params, true);
 }
 
-function getUserIdByUserName(cb, data) {
+async function getUserIdByUserName(cb, data) {
   const string = 'select id as user_id, username, pfp_url, location from users where username = $1';
   const params = [data.username];
-  query(string, params, cb);
+  // query(string, params, cb);
+  return asyncQuery(string, params, true);
+}
+
+async function getUserByUserID(data) {
+  const string = 'select id, username, pfp_url, location from users where id = $1';
+  const params = [data.userID];
+  return asyncQuery(string, params, true);
 }
 
 // chat queries --------------------------------
@@ -148,6 +155,7 @@ module.exports = {
   updateUsername,
   updateUserProfilePicture,
   updateUserLocation,
+  getUserByUserID,
   getChat,
   addToChat,
   getChatAfterTime,
