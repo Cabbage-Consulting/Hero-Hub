@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Countdown from 'react-countdown';
+import Countdown, { calcTimeDelta, formatTimeDelta } from 'react-countdown';
 import axios from 'axios';
 import Modal from '../Modal';
 import { Button } from '../../GlobalStyles';
@@ -34,9 +34,7 @@ function QuizPhase2({ quiz, difficulty }) {
           res.data[questionNumber].incorrectanswers[2],
         ];
         const shuffledArray = array.sort((a, b) => 0.5 - Math.random());
-        console.log('correct answer in get request:', res.data[questionNumber].correctanswer);
         setCorrectAnswer(res.data[questionNumber].correctanswer);
-        console.log('answer during get request:', correctAnswer);
         setAnswer1(shuffledArray[0]);
         setAnswer2(shuffledArray[1]);
         setAnswer3(shuffledArray[2]);
@@ -64,6 +62,14 @@ function QuizPhase2({ quiz, difficulty }) {
     if (difficulty === 'hard') setDifficultyMod([2, 30000]);
   };
 
+  const updateGame = () => {
+    setQuestionNumber(questionNumber + 1);
+    if (questions[questionNumber + 1] !== undefined) {
+      setCorrectAnswer(questions[questionNumber + 1].correctanswer);
+    }
+    randomizeAnswers();
+  };
+
   useEffect(() => {
     getPhase2();
     handleDifficulty();
@@ -72,18 +78,12 @@ function QuizPhase2({ quiz, difficulty }) {
   const handleClick1 = () => {
     if (answer1 === correctAnswer) {
       // change button CSS to green
-      setQuestionNumber(questionNumber + 1);
-      setCorrectAnswer(questions[questionNumber + 1].correctanswer);
-      randomizeAnswers();
+      updateGame();
       setCurrentScore(currentScore + (1 * difficultyMod[0]));
-      if (tracker <= questions.length) setTracker(tracker + 1);
       alert('good job buddy');
     } else {
       // change button CSS red
-      setQuestionNumber(questionNumber + 1);
-      setCorrectAnswer(questions[questionNumber + 1].correctanswer);
-      randomizeAnswers();
-      if (tracker <= questions.length) setTracker(tracker + 1);
+      updateGame();
       alert('try again dork');
     }
   };
@@ -91,18 +91,12 @@ function QuizPhase2({ quiz, difficulty }) {
   const handleClick2 = () => {
     if (answer2 === correctAnswer) {
       // change button CSS to green
-      setQuestionNumber(questionNumber + 1);
-      setCorrectAnswer(questions[questionNumber + 1].correctanswer);
-      randomizeAnswers();
+      updateGame();
       setCurrentScore(currentScore + (1 * difficultyMod[0]));
-      if (tracker <= questions.length) setTracker(tracker + 1);
       alert('good job buddy');
     } else {
       // change button CSS red
-      setQuestionNumber(questionNumber + 1);
-      setCorrectAnswer(questions[questionNumber + 1].correctanswer);
-      randomizeAnswers();
-      if (tracker <= questions.length) setTracker(tracker + 1);
+      updateGame();
       alert('try again dork');
     }
   };
@@ -110,17 +104,11 @@ function QuizPhase2({ quiz, difficulty }) {
   const handleClick3 = () => {
     if (answer3 === correctAnswer) {
       // change button CSS to green
-      setQuestionNumber(questionNumber + 1);
-      setCorrectAnswer(questions[questionNumber + 1].correctanswer);
-      randomizeAnswers();
+      updateGame();
       setCurrentScore(currentScore + (1 * difficultyMod[0]));
-      if (tracker <= questions.length) setTracker(tracker + 1);
       alert('good job buddy');
     } else {
-      setQuestionNumber(questionNumber + 1);
-      setCorrectAnswer(questions[questionNumber + 1].correctanswer);
-      randomizeAnswers();
-      if (tracker <= questions.length) setTracker(tracker + 1);
+      updateGame();
       alert('try again dork');
     }
   };
@@ -128,19 +116,13 @@ function QuizPhase2({ quiz, difficulty }) {
   const handleClick4 = () => {
     if (answer4 === correctAnswer) {
       // change button CSS to green
-      setQuestionNumber(questionNumber + 1);
-      setCorrectAnswer(questions[questionNumber + 1].correctanswer);
-      randomizeAnswers();
+      updateGame();
       setCurrentScore(currentScore + (1 * difficultyMod[0]));
-      if (tracker <= questions.length) setTracker(tracker + 1);
       alert('good job buddy');
     } else {
       // change button CSS red
       // setQuestionNumber(questionNumber + 1)
-      setQuestionNumber(questionNumber + 1);
-      setCorrectAnswer(questions[questionNumber + 1].correctanswer);
-      randomizeAnswers();
-      if (tracker <= questions.length) setTracker(tracker + 1);
+      updateGame();
       alert('try again dork');
     }
   };
@@ -151,17 +133,25 @@ function QuizPhase2({ quiz, difficulty }) {
     randomizeAnswers();
   };
 
+  const time = calcTimeDelta(Date.now() + difficultyMod[1]);
+  const timer = `${time.minutes}:${time.seconds}`;
+  console.log(timer);
+
   if (questions[questionNumber] === undefined && currentScore > 0) return <Modal quizComplete="true" score={currentScore} />;
 
   return questions.length !== 0 && (
-      <div>
-        <h1>{questions[questionNumber].body}</h1>
-        <Button onClick={handleClick1}>{answer1}</Button>
-        <Button onClick={handleClick2}>{answer2}</Button>
-        <Button onClick={handleClick3}>{answer3}</Button>
-        <Button onClick={handleClick4}>{answer4}</Button>
-        <Countdown onComplete={timeout} date={Date.now() + difficultyMod[1]} />
-      </div>
+    <div>
+      <h1>{questions[questionNumber].body}</h1>
+      <Button onClick={handleClick1}>{answer1}</Button>
+      <Button onClick={handleClick2}>{answer2}</Button>
+      <Button onClick={handleClick3}>{answer3}</Button>
+      <Button onClick={handleClick4}>{answer4}</Button>
+      <Countdown
+        onComplete={timeout}
+        key={questionNumber}
+        date={Date.now() + difficultyMod[1]}
+      />
+    </div>
   );
 }
 
