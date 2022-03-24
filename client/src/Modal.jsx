@@ -30,7 +30,7 @@ const BackdropStyle = styled.div`
 `;
 
 function Modal({
-  toggleModal, login, leaderboard, createQuiz, register, quizComplete, update, currentScore
+  toggleModal, login, leaderboard, createQuiz, register, quizComplete, update, currentScore,
 }) {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
@@ -62,6 +62,7 @@ function Modal({
         if (res.data[0].password === password) {
           setLoggedIn(true);
           console.log('loggedIn: ', loggedIn);
+          calls('get', 'herohub/')
         } else {
           console.log('wrong password homie');
         }
@@ -79,7 +80,7 @@ function Modal({
     // need to finish update user profile
     if (update) {
       console.log('in update');
-      calls('put', 'herohub/user', )
+      calls('put', 'herohub/user', null, { })
     }
     if (createQuiz) {
       console.log('in submit, event; question: ', userName, 'answer: ', password);
