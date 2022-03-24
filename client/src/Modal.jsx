@@ -62,7 +62,10 @@ function Modal({
         if (res.data[0].password === password) {
           setLoggedIn(true);
           console.log('loggedIn: ', loggedIn);
-          calls('get', 'herohub/')
+          calls('get', 'herohub/user', { username: userName }, null, (response) => {
+            console.log('in sign in second call; res: ', response.data);
+            localStorage.setItem('currentUser', JSON.stringify(response.data[0]));
+          }, (err) => { console.log('error in second login call; err: ', err); });
         } else {
           console.log('wrong password homie');
         }
@@ -80,7 +83,7 @@ function Modal({
     // need to finish update user profile
     if (update) {
       console.log('in update');
-      calls('put', 'herohub/user', null, { })
+      // calls('put', 'herohub/user', null, { })
     }
     if (createQuiz) {
       console.log('in submit, event; question: ', userName, 'answer: ', password);
@@ -199,7 +202,7 @@ function Modal({
                 Profile Picture URL:
                 <input type="text" value={pfpUrl} onChange={(e) => { setPfpUrl(e.target.value); }} />
               </label>
-              <button type="submit" value="Submit">Register</button>
+              <button type="submit" value="Submit">Update</button>
             </form>
           </div>
           <div className="footer">
