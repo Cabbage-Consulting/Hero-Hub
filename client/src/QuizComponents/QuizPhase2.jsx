@@ -121,7 +121,6 @@ function QuizPhase2({ quiz, difficulty }) {
       alert('good job buddy');
     } else {
       // change button CSS red
-      // setQuestionNumber(questionNumber + 1)
       updateGame();
       alert('try again dork');
     }
