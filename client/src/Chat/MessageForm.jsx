@@ -39,15 +39,15 @@ function MessageForm({ setMessages, chatMessages, getChat }) {
   return (
     <div>
       <input
-        type='text'
+        type="text"
         value={inputUser}
-        placeholder='username'
+        placeholder="username"
         onChange={handleInputUser}
       />
       <input
-        type='text'
+        type="text"
         value={inputMsg}
-        placeholder='message'
+        placeholder="message"
         onChange={handleInputMsg}
       />
       <button onClick={handleSubmit}>
@@ -59,9 +59,9 @@ function MessageForm({ setMessages, chatMessages, getChat }) {
 
 export default MessageForm;
 
-{/* <textarea
+{ /* <textarea
 value={input}
 placeholder="Write message..."
 className="new-message-input-field"
 onChange={handleInput}
-/> */}
+/> */ }

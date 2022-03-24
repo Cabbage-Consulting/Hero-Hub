@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Countdown from 'react-countdown';
+import Countdown, { calcTimeDelta, formatTimeDelta } from 'react-countdown';
 import axios from 'axios';
 import Modal from '../Modal';
 import { Button } from '../../GlobalStyles';
@@ -12,7 +12,6 @@ function QuizPhase2({ quiz, difficulty }) {
   const [answer3, setAnswer3] = useState(3);
   const [answer4, setAnswer4] = useState(4);
   const [correctAnswer, setCorrectAnswer] = useState(4);
-  const [answers, setAnswers] = useState([]);
   const [difficultyMod, setDifficultyMod] = useState(new Array(2));
   const [currentScore, setCurrentScore] = useState(0);
   const [tracker, setTracker] = useState(0);
@@ -28,7 +27,6 @@ function QuizPhase2({ quiz, difficulty }) {
     })
       .then((res) => {
         setQuestions(res.data);
-        console.log('questions:', questions);
         const array = [
           res.data[questionNumber].correctanswer,
           res.data[questionNumber].incorrectanswers[0],
@@ -36,8 +34,7 @@ function QuizPhase2({ quiz, difficulty }) {
           res.data[questionNumber].incorrectanswers[2],
         ];
         const shuffledArray = array.sort((a, b) => 0.5 - Math.random());
-        setCorrectAnswer(res.data[questionNumber].correctAnswer);
-        console.log('answer during get request:', correctAnswer);
+        setCorrectAnswer(res.data[questionNumber].correctanswer);
         setAnswer1(shuffledArray[0]);
         setAnswer2(shuffledArray[1]);
         setAnswer3(shuffledArray[2]);
@@ -65,84 +62,66 @@ function QuizPhase2({ quiz, difficulty }) {
     if (difficulty === 'hard') setDifficultyMod([2, 30000]);
   };
 
+  const updateGame = () => {
+    setQuestionNumber(questionNumber + 1);
+    if (questions[questionNumber + 1] !== undefined) {
+      setCorrectAnswer(questions[questionNumber + 1].correctanswer);
+    }
+    randomizeAnswers();
+  };
+
   useEffect(() => {
     getPhase2();
     handleDifficulty();
   }, []);
 
-  const handleClick1 = (event) => {
+  const handleClick1 = () => {
     if (answer1 === correctAnswer) {
       // change button CSS to green
-      setQuestionNumber(questionNumber + 1);
-      setCorrectAnswer(questions[questionNumber].correctanswer);
-      randomizeAnswers();
+      updateGame();
       setCurrentScore(currentScore + (1 * difficultyMod[0]));
-      if (tracker <= questions.length) setTracker(tracker + 1);
       alert('good job buddy');
     } else {
       // change button CSS red
-      // setQuestionNumber(questionNumber + 1)
-      setQuestionNumber(questionNumber + 1);
-      setCorrectAnswer(questions[questionNumber].correctanswer);
-      randomizeAnswers();
-      if (tracker <= questions.length) setTracker(tracker + 1);
+      updateGame();
       alert('try again dork');
     }
   };
 
-  const handleClick2 = (event) => {
+  const handleClick2 = () => {
     if (answer2 === correctAnswer) {
       // change button CSS to green
-      setQuestionNumber(questionNumber + 1);
-      setCorrectAnswer(questions[questionNumber].correctanswer);
-      randomizeAnswers();
+      updateGame();
       setCurrentScore(currentScore + (1 * difficultyMod[0]));
-      if (tracker <= questions.length) setTracker(tracker + 1);
       alert('good job buddy');
     } else {
       // change button CSS red
-      setQuestionNumber(questionNumber + 1);
-      setCorrectAnswer(questions[questionNumber].correctanswer);
-      randomizeAnswers();
-      if (tracker <= questions.length) setTracker(tracker + 1);
+      updateGame();
       alert('try again dork');
     }
   };
 
-  const handleClick3 = (event) => {
+  const handleClick3 = () => {
     if (answer3 === correctAnswer) {
       // change button CSS to green
-      setQuestionNumber(questionNumber + 1);
-      setCorrectAnswer(questions[questionNumber].correctanswer);
-      randomizeAnswers();
+      updateGame();
       setCurrentScore(currentScore + (1 * difficultyMod[0]));
-      if (tracker <= questions.length) setTracker(tracker + 1);
       alert('good job buddy');
     } else {
-      setQuestionNumber(questionNumber + 1);
-      setCorrectAnswer(questions[questionNumber].correctanswer);
-      randomizeAnswers();
-      if (tracker <= questions.length) setTracker(tracker + 1);
+      updateGame();
       alert('try again dork');
     }
   };
 
-  const handleClick4 = (event) => {
+  const handleClick4 = () => {
     if (answer4 === correctAnswer) {
       // change button CSS to green
-      setQuestionNumber(questionNumber + 1);
-      setCorrectAnswer(questions[questionNumber].correctanswer);
-      randomizeAnswers();
+      updateGame();
       setCurrentScore(currentScore + (1 * difficultyMod[0]));
-      if (tracker <= questions.length) setTracker(tracker + 1);
       alert('good job buddy');
     } else {
       // change button CSS red
-      // setQuestionNumber(questionNumber + 1)
-      setQuestionNumber(questionNumber + 1);
-      setCorrectAnswer(questions[questionNumber].correctanswer);
-      randomizeAnswers();
-      if (tracker <= questions.length) setTracker(tracker + 1);
+      updateGame();
       alert('try again dork');
     }
   };
@@ -153,18 +132,34 @@ function QuizPhase2({ quiz, difficulty }) {
     randomizeAnswers();
   };
 
+  const time = calcTimeDelta(Date.now() + difficultyMod[1]);
+  const timer = `${time.minutes}:${time.seconds}`;
+  console.log(timer);
+
+  if (questions[questionNumber] === undefined && currentScore > 0) return <Modal quizComplete="true" score={currentScore} />;
+
   return questions.length !== 0 && (
-    <div>
-      {tracker > questions.length
-        ? <Modal quizComplete="true" />
-        : null }
-      <h1>{questions[0].body}</h1>
-      <Button onClick={handleClick1}>{answer1}</Button>
-      <Button onClick={handleClick2}>{answer2}</Button>
-      <Button onClick={handleClick3}>{answer3}</Button>
-      <Button onClick={handleClick4}>{answer4}</Button>
-      <Countdown date={Date.now() + difficultyMod[1]} />
-    </div>
+      <div>
+        <h1>{questions[questionNumber].body}</h1>
+        <Button onClick={handleClick1}>{answer1}</Button>
+        <Button onClick={handleClick2}>{answer2}</Button>
+        <Button onClick={handleClick3}>{answer3}</Button>
+        <Button onClick={handleClick4}>{answer4}</Button>
+        <Countdown
+          onComplete={timeout}
+          key={questionNumber}
+          date={Date.now() + difficultyMod[1]}
+          renderer={(props) => (
+            <div>
+              {props.minutes}
+              :
+              {props.seconds
+              ? props.seconds
+              : '00' }
+            </div>
+          )}
+        />
+      </div>
   );
 }
 

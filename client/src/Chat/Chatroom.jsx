@@ -8,25 +8,25 @@ function Chatroom() {
   const chatMessages = [
     {
       user: 'man',
-      message: 'what up'
+      message: 'what up',
     },
     {
       user: 'bigman',
-      message: 'what up'
+      message: 'what up',
     },
     {
       user: 'lilman',
-      message: 'what up'
+      message: 'what up',
     },
     {
       user: 'badman',
-      message: 'man'
+      message: 'man',
     },
     {
       user: 'roadman',
-      message: 'wah gwaan'
+      message: 'wah gwaan',
     },
-  ]
+  ];
 
   const getChat = () => {
     axios({
@@ -41,6 +41,7 @@ function Chatroom() {
   };
 
   useEffect(() => {
+    setMessages(chatMessages);
     getChat();
   }, []);
 

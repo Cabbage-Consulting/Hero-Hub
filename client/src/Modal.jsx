@@ -30,7 +30,7 @@ const BackdropStyle = styled.div`
 `;
 
 function Modal({
-  toggleModal, login, leaderboard, createQuiz, register, quizComplete, update,
+  toggleModal, login, leaderboard, createQuiz, register, quizComplete, update, currentScore
 }) {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
@@ -97,11 +97,7 @@ function Modal({
 
   const returnToPhase1 = (e) => {
     e.preventDefault();
-    console.log(`this should return to Phase 1/
-                and let the user select /
-                a new Quiz
-                `);
-    toggleModal(false);
+    window.location.reload(false);
   };
 
   const handleLeaders = (quizID) => {
@@ -268,7 +264,10 @@ function Modal({
           </div>
           <div className="quiz-complete">
             <h1>Quiz Complete!</h1>
-            <h3>Score: </h3>
+            <h3>
+              Score:
+              {currentScore}
+            </h3>
             <h2>LeaderBoard: </h2>
             <br />
             <div className="chart">
@@ -312,6 +311,7 @@ Modal.propTypes = {
   register: PropTypes.bool,
   quizComplete: PropTypes.bool,
   update: PropTypes.bool,
+  currentScore: PropTypes.number,
 };
 
 Modal.defaultProps = {
@@ -321,6 +321,7 @@ Modal.defaultProps = {
   register: false,
   quizComplete: false,
   update: false,
+  currentScore: false,
 };
 
 export default Modal;

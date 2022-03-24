@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
-import QuizPhase2 from './QuizPhase2.jsx';
+import QuizPhase2 from './QuizPhase2';
 import Modal from '../Modal';
 import { Button, Select } from '../../GlobalStyles';
 
@@ -29,7 +29,6 @@ function QuizPhase1() {
       url: '/herohub/quiz/scores',
     })
       .then((res) => {
-        console.log(res.data);
         setRecentActivity(res.data);
       })
       .catch((err) => {
