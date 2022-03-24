@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Countdown, { calcTimeDelta, formatTimeDelta } from 'react-countdown';
+import Countdown from 'react-countdown';
 import axios from 'axios';
 import Modal from '../Modal';
 import { Button } from '../../GlobalStyles';
@@ -14,10 +14,6 @@ function QuizPhase2({ quiz, difficulty }) {
   const [correctAnswer, setCorrectAnswer] = useState(4);
   const [difficultyMod, setDifficultyMod] = useState(new Array(2));
   const [currentScore, setCurrentScore] = useState(0);
-
-  // axios get request with category and difficulty as
-  // params using questionNumber to identify the number
-  // .then set questions with information from array
 
   const getPhase2 = () => {
     axios({
@@ -69,7 +65,7 @@ function QuizPhase2({ quiz, difficulty }) {
     setQuestionNumber(questionNumber + 1);
     if (questions[questionNumber + 1] !== undefined) {
       setCorrectAnswer(questions[questionNumber + 1].correctanswer);
-    }
+    } else { <Modal quizComplete="true" currentScore={currentScore} />; }
     randomizeAnswers();
   };
 
@@ -134,7 +130,7 @@ function QuizPhase2({ quiz, difficulty }) {
     alert(`Time's up!`);
   };
 
-  if (questions[questionNumber] === undefined && currentScore > 0) return <Modal quizComplete="true" score={currentScore} />;
+  if (questions[questionNumber] === undefined && currentScore > 0) return <Modal quizComplete="true" currentScore={currentScore} />;
 
   return questions.length !== 0 && questions[questionNumber] !== undefined && (
     <div>
@@ -149,8 +145,9 @@ function QuizPhase2({ quiz, difficulty }) {
         date={Date.now() + difficultyMod[1]}
         renderer={(props) => (
           <div>
-            {props.minutes}
-            :
+            {props.minutes
+              ? props.minutes + ':'
+              : null}
             {props.seconds
               ? props.seconds
               : '00' }
