@@ -107,6 +107,12 @@ async function updateUserLocation(data) {
   return asyncQuery(string, params);
 }
 
+function getUserIdByUserName(cb, data) {
+  const string = 'select id as user_id, username, pfp_url, location from users where username = $1';
+  const params = [data.username];
+  query(string, params, cb);
+}
+
 // chat queries --------------------------------
 function getChat(cb) {
   const string = 'Select users.username, chat.* from chat left join users on chat.id_users = users.id order by chat.date ASC';
@@ -136,6 +142,7 @@ module.exports = {
   getLeaders,
   getUserQuizzes,
   getUserPassword,
+  getUserIdByUserName,
   addUser,
   updateUserPassword,
   updateUsername,

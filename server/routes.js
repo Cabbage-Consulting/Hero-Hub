@@ -44,6 +44,11 @@ router.get('/user/password', (req, res) => {
   db.getUserPassword((e, r) => respond(e, r, res), { username });
 });
 
+router.get('/user', async (req, res) => {
+  const { username } = req.query;
+  db.getUserIdByUserName((e, r) => respond(e, r, res), { username });
+});
+
 router.post('/user', (req, res) => {
   const {
     username, pfpUrl, location, password,
