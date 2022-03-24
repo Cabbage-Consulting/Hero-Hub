@@ -44,17 +44,19 @@ function QuizPhase2({ quiz, difficulty }) {
   };
 
   const randomizeAnswers = () => {
-    const array = [
-      questions[questionNumber + 1].correctanswer,
-      questions[questionNumber + 1].incorrectanswers[0],
-      questions[questionNumber + 1].incorrectanswers[1],
-      questions[questionNumber + 1].incorrectanswers[2],
-    ];
-    const shuffledArray = array.sort((a, b) => 0.5 - Math.random());
-    setAnswer1(shuffledArray[0]);
-    setAnswer2(shuffledArray[1]);
-    setAnswer3(shuffledArray[2]);
-    setAnswer4(shuffledArray[3]);
+    if (questions[questionNumber + 1]) {
+      const array = [
+        questions[questionNumber + 1].correctanswer,
+        questions[questionNumber + 1].incorrectanswers[0],
+        questions[questionNumber + 1].incorrectanswers[1],
+        questions[questionNumber + 1].incorrectanswers[2],
+      ];
+      const shuffledArray = array.sort((a, b) => 0.5 - Math.random());
+      setAnswer1(shuffledArray[0]);
+      setAnswer2(shuffledArray[1]);
+      setAnswer3(shuffledArray[2]);
+      setAnswer4(shuffledArray[3]);
+    }
   };
 
   const handleDifficulty = () => {
@@ -128,9 +130,8 @@ function QuizPhase2({ quiz, difficulty }) {
   };
 
   const timeout = () => {
+    updateGame();
     alert(`Time's up!`);
-    setQuestionNumber(questionNumber + 1);
-    randomizeAnswers();
   };
 
   if (questions[questionNumber] === undefined && currentScore > 0) return <Modal quizComplete="true" score={currentScore} />;
