@@ -1,18 +1,47 @@
 import styled, { createGlobalStyle } from 'styled-components';
 
+const AVG_ROUNDING = '5px';
+
 export default createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Cairo&family=Roboto:wght@300&display=swap');
+  @font-face {
+    font-family: MHA;
+    src: url(../Futura-Display-BQ-Regular.otf);
+  }
 `;
 
 export const Button = styled.button`
-  border-radius: ${({ bigRadius }) => (bigRadius ? '30px' : '5px')};
+  border-radius: ${({ bigRadius }) => (bigRadius ? '30px' : AVG_ROUNDING)};
   background-color: #E7BA53;
   color: #000;
   padding: ${({ big }) => (big ? '18px 30px' : '10px 28px')};
   font-size: ${({ bigFont }) => (bigFont ? '20px' : '15px')};
   outline: none;
   cursor: pointer;
-  font-family: 'Roboto', sans-serif;
+  font-family: Play;
+  font-weight: 400;
+  border: none;
+  transition: all .5s ease;
+  margin: 8px;
+  &:hover{
+      background-color: #71798E;
+      transform: translateY(-.5rem) scale(1.02);
+      color: #f1f1f1;
+  }
+  &:active{
+      transform: translateY(.5rem);
+  }
+`;
+
+export const MainButtons = styled.button`
+  border-radius: ${({ bigRadius }) => (bigRadius ? '30px' : AVG_ROUNDING)};
+  background-color: #E7BA53;
+  color: #000;
+  padding: ${({ big }) => (big ? '18px 30px' : '10px 28px')};
+  font-size: ${({ bigFont }) => (bigFont ? '20px' : '15px')};
+  outline: none;
+  cursor: pointer;
+  font-family: Play;
   font-weight: 400;
   border: none;
   transition: all .5s ease;
@@ -28,14 +57,14 @@ export const Button = styled.button`
 `;
 
 export const Select = styled.select`
-  border-radius: ${({ bigRadius }) => (bigRadius ? '30px' : '5px')};
+  border-radius: ${({ bigRadius }) => (bigRadius ? '30px' : AVG_ROUNDING)};
   background-color: #E7BA53;
   color: #000;
   padding: ${({ big }) => (big ? '18px 30px' : '10px 28px')};
   font-size: ${({ bigFont }) => (bigFont ? '20px' : '15px')};
   outline: none;
   cursor: pointer;
-  font-family: 'Roboto', sans-serif;
+  font-family: Play;
   font-weight: 400;
   border: none;
   transition: all .5s ease;
@@ -46,47 +75,63 @@ export const Select = styled.select`
   }
 `;
 
+export const Form = styled.input`
+  border-radius: ${AVG_ROUNDING};
+  font-family: monospace;
+  border-color: #E7BA53;
+  color: #1d2066;
+  background: #f1f1f1;
+  border: none;
+  border-bottom: thin solid #1d2066;
+`;
+
 // GRID BELOW
+export const GeneralDiv = styled.div`
+  background: #F1F1F1;
+  font-family: Play sans-serif;
+`;
 
 export const MainContentContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  grid-gap: 0.25rem;
+  display: flex;
+  flex-direction: row;
   margin: auto;
-  grid-template- areas:
-    "banner banner banner"
-    "chat quiz quiz"
-    "chat quiz quiz"
-    "chat metrics metrics"
-
-`;
-export const Banner = styled.div`
-  color: #C12835;
-  grid-area: banner;
-  padding: 0.25rem;
-  align-content: center;
+  font-family: Play;
+  // border-style: solid;
+  // border-color: #1d2066;
+  // border-width: 1em;
+  // background: #71798E;
 `;
 
 export const Quiz = styled.div`
   color: black;
-  grid-area: quiz;
   padding: 0.25rem;
   align-content: center;
+  width: 60%;
+  border-style: solid;
+  border-color: #1d2066;
+  border-width: 0.5em 4px;
 `;
 
 export const Chat = styled.div`
   color: black;
-  grid-area: chat;
   padding: 0.25rem;
   align-content: center;
+  width: 20%;
+  border-style: solid;
+  border-color: #1d2066;
+  border-width: 0.5em 4px 0.5em 8px;
+  border-radius: 0 0 0 ${AVG_ROUNDING};
 `;
 
-export const Metrics = styled.div`
-  color: #C12835;
-  grid-area: metrics;
+export const Recent = styled.div`
+  color: black;
   padding: 0.25rem;
   align-content: center;
+  width: 20%;
+  border-style: solid;
+  border-color: #1d2066;
+  border-width: 0.5em 8px 0.5em 4px;
+  border-radius: 0 0 ${AVG_ROUNDING} 0;
 `;
 // Navbar stuff
 
@@ -96,6 +141,7 @@ export const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
   padding: 30px;
+  border-radius: ${AVG_ROUNDING} ${AVG_ROUNDING} 0 0;
  `;
 
 export const NavLogo = styled.div`
@@ -108,13 +154,18 @@ export const NavLogo = styled.div`
   text-decoration: none;
   font-size: 4rem;
   font-weight: 800;
-  font-family: 'Cairo', sans-serif;
+
 `;
 
 export const UserInfo = styled.div`
-  transform: translate(-15%, 30%);
+  transform: translate(-10%, 30%);
   text-align: center;
+  box-sizing: border-box;
 `;
+
+export const HeroHub = styled.img`
+transform: translate(0%, -20%);
+`
 
 export const Pfp = styled.img`
 
@@ -143,7 +194,7 @@ export const Pfp = styled.img`
 export const NavUsername = styled.div`
   color: #f1f1f1;
   cursor: pointer;
-
+  font-family: Play;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -151,19 +202,17 @@ export const NavUsername = styled.div`
   text-decoration: none;
   font-size: 1rem;
   font-weight: 500;
-  font-family: 'Cairo', sans-serif;
-
 `;
 
 export const PfpButtons = styled.button`
-  border-radius: 5px;
+  border-radius: ${AVG_ROUNDING};
   background-color: #E7BA53;
+  font-family: Play;
   color: #000;
   padding: 5px 14px;
   font-size: 10px;
   outline: none;
   cursor: pointer;
-  font-family: 'Roboto', sans-serif;
   font-weight: 400;
   border: none;
   transition: all .5s ease;

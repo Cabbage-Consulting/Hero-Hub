@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
-  Nav, NavLogo, Pfp, NavUsername, UserInfo, PfpButtons,
+  Nav, NavLogo, Pfp, NavUsername, UserInfo, PfpButtons, GlobalStyles, HeroHub,
 } from '../../GlobalStyles';
 
 function Navbar() {
@@ -19,7 +19,9 @@ function Navbar() {
 
   return (
     <Nav>
-      <NavLogo to="/">Hero Hub</NavLogo>
+      <NavLogo to="/">
+        <HeroHub src={`https://fontmeme.com/permalink/220324/ae15e9855bcec955ae197139e69fdd07.png`}></HeroHub>
+      </NavLogo>
       <UserInfo>
         <Pfp src={'https://steamuserimages-a.akamaihd.net/ugc/786371856221183225/2F04B32CA10AD1ADBC01CE5D4DC6F7AF0E96AE6C/?imw=512&imh=512&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true'} onClick={() => { setIsActive(true); }} />
         <NavUsername>
