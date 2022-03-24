@@ -3,10 +3,11 @@ import React from 'react';
 function MessageListItem({ user, message }) {
   return (
     <div>
-      <div style={{ fontWeight: 'bold' }}>
-        {user}:
+      <div className="chat-username">
+        {user}
+        :
       </div>
-      <div>
+      <div className="chat-text">
         {message}
       </div>
     </div>
