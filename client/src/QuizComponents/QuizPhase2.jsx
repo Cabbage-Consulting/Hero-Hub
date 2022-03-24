@@ -160,7 +160,21 @@ function QuizPhase2({ quiz, difficulty }) {
         <Button onClick={handleClick2}>{answer2}</Button>
         <Button onClick={handleClick3}>{answer3}</Button>
         <Button onClick={handleClick4}>{answer4}</Button>
-        <Countdown onComplete={timeout} date={Date.now() + difficultyMod[1]} />
+        <Countdown
+          onComplete={timeout}
+          key={questionNumber}
+          date={Date.now() + difficultyMod[1]}
+          precision={3}
+          renderer={(props) => (
+            <div>
+              {props.minutes}
+              :
+              {props.seconds
+              ? props.seconds
+              : '00' }
+            </div>
+          )}
+        />
       </div>
   );
 }

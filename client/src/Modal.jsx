@@ -91,11 +91,7 @@ function Modal({
 
   const returnToPhase1 = (e) => {
     e.preventDefault();
-    console.log(`this should return to Phase 1/
-                and let the user select /
-                a new Quiz
-                `);
-    toggleModal(false);
+    window.location.reload(false);
   };
 
   if (login) {
