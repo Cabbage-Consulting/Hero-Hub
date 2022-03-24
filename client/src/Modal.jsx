@@ -76,6 +76,7 @@ function Modal({
         console.log('posted new user; res: ', res);
       }, (err) => { console.log('error in post new user; err: ', err); });
     }
+    // need to finish update user profile
     if (update) {
       console.log('in update');
       calls('put', 'herohub/user', )
