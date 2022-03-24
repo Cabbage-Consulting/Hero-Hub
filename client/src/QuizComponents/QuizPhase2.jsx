@@ -14,11 +14,11 @@ function QuizPhase2({ quiz, difficulty }) {
   const [correctAnswer, setCorrectAnswer] = useState(4);
   const [difficultyMod, setDifficultyMod] = useState(new Array(2));
   const [currentScore, setCurrentScore] = useState(0);
-  const [tracker, setTracker] = useState(0);
 
-
-  // axios get request with category and difficulty as params using questionNumber to identify the number
+  // axios get request with category and difficulty as
+  // params using questionNumber to identify the number
   // .then set questions with information from array
+
   const getPhase2 = () => {
     axios({
       method: 'GET',
@@ -33,6 +33,7 @@ function QuizPhase2({ quiz, difficulty }) {
           res.data[questionNumber].incorrectanswers[1],
           res.data[questionNumber].incorrectanswers[2],
         ];
+
         const shuffledArray = array.sort((a, b) => 0.5 - Math.random());
         setCorrectAnswer(res.data[questionNumber].correctanswer);
         setAnswer1(shuffledArray[0]);
@@ -132,34 +133,30 @@ function QuizPhase2({ quiz, difficulty }) {
     randomizeAnswers();
   };
 
-  const time = calcTimeDelta(Date.now() + difficultyMod[1]);
-  const timer = `${time.minutes}:${time.seconds}`;
-  console.log(timer);
-
   if (questions[questionNumber] === undefined && currentScore > 0) return <Modal quizComplete="true" score={currentScore} />;
 
-  return questions.length !== 0 && (
-      <div>
-        <h1>{questions[questionNumber].body}</h1>
-        <Button onClick={handleClick1}>{answer1}</Button>
-        <Button onClick={handleClick2}>{answer2}</Button>
-        <Button onClick={handleClick3}>{answer3}</Button>
-        <Button onClick={handleClick4}>{answer4}</Button>
-        <Countdown
-          onComplete={timeout}
-          key={questionNumber}
-          date={Date.now() + difficultyMod[1]}
-          renderer={(props) => (
-            <div>
-              {props.minutes}
-              :
-              {props.seconds
+  return questions.length !== 0 && questions[questionNumber] !== undefined && (
+    <div>
+      <h1>{questions[questionNumber].body}</h1>
+      <Button onClick={handleClick1}>{answer1}</Button>
+      <Button onClick={handleClick2}>{answer2}</Button>
+      <Button onClick={handleClick3}>{answer3}</Button>
+      <Button onClick={handleClick4}>{answer4}</Button>
+      <Countdown
+        onComplete={timeout}
+        key={questionNumber}
+        date={Date.now() + difficultyMod[1]}
+        renderer={(props) => (
+          <div>
+            {props.minutes}
+            :
+            {props.seconds
               ? props.seconds
               : '00' }
-            </div>
-          )}
-        />
-      </div>
+          </div>
+        )}
+      />
+    </div>
   );
 }
 
