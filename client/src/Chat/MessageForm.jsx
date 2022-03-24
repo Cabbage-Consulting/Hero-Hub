@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { PfpButtons, Form } from '../../GlobalStyles';
 import axios from 'axios';
 
 function MessageForm({ setMessages, chatMessages, getChat }) {
@@ -38,21 +39,21 @@ function MessageForm({ setMessages, chatMessages, getChat }) {
 
   return (
     <div>
-      <input
+      <Form
         type="text"
         value={inputUser}
         placeholder="username"
         onChange={handleInputUser}
       />
-      <input
+      <Form
         type="text"
         value={inputMsg}
         placeholder="message"
         onChange={handleInputMsg}
       />
-      <button onClick={handleSubmit}>
+      <PfpButtons onClick={handleSubmit}>
         Send
-      </button>
+      </PfpButtons>
     </div>
   );
 }
