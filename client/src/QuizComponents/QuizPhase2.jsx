@@ -166,12 +166,12 @@ function QuizPhase2({ quiz, difficulty }) {
           date={Date.now() + difficultyMod[1]}
           precision={3}
           renderer={(props) => (
-            <div>
+            <div id="timer">
               {props.minutes}
               :
               {props.seconds
-              ? props.seconds
-              : '00' }
+                ? props.seconds
+                : '00' }
             </div>
           )}
         />
