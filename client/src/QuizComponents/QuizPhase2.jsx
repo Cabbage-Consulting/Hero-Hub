@@ -139,18 +139,27 @@ function QuizPhase2({ quiz, difficulty }) {
   if (questions[questionNumber] === undefined && currentScore > 0) return <Modal quizComplete="true" score={currentScore} />;
 
   return questions.length !== 0 && (
-    <div>
-      <h1>{questions[questionNumber].body}</h1>
-      <Button onClick={handleClick1}>{answer1}</Button>
-      <Button onClick={handleClick2}>{answer2}</Button>
-      <Button onClick={handleClick3}>{answer3}</Button>
-      <Button onClick={handleClick4}>{answer4}</Button>
-      <Countdown
-        onComplete={timeout}
-        key={questionNumber}
-        date={Date.now() + difficultyMod[1]}
-      />
-    </div>
+      <div>
+        <h1>{questions[questionNumber].body}</h1>
+        <Button onClick={handleClick1}>{answer1}</Button>
+        <Button onClick={handleClick2}>{answer2}</Button>
+        <Button onClick={handleClick3}>{answer3}</Button>
+        <Button onClick={handleClick4}>{answer4}</Button>
+        <Countdown
+          onComplete={timeout}
+          key={questionNumber}
+          date={Date.now() + difficultyMod[1]}
+          renderer={(props) => (
+            <div>
+              {props.minutes}
+              :
+              {props.seconds
+              ? props.seconds
+              : '00' }
+            </div>
+          )}
+        />
+      </div>
   );
 }
 
