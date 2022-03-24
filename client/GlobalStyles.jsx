@@ -17,7 +17,6 @@ export const Button = styled.button`
   border: none;
   transition: all .5s ease;
   margin: 8px;
-
   &:hover{
       background-color: #71798E;
       transform: translateY(-.5rem) scale(1.02);
@@ -101,8 +100,8 @@ export const Nav = styled.nav`
 
 export const NavLogo = styled.div`
   color: #f1f1f1;
-  // padding-top: 50px;
-  transform: translate(-5%, 60%);
+
+  transform: translate(-5%, 55%);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -113,7 +112,8 @@ export const NavLogo = styled.div`
 `;
 
 export const UserInfo = styled.div`
-
+  transform: translate(-15%, 30%);
+  text-align: center;
 `;
 
 export const Pfp = styled.img`
@@ -122,13 +122,14 @@ export const Pfp = styled.img`
   height: 70px;
   border-style:solid;
   border-color: #E7BA53;
-  transform: translate(750%, 0%);
   border-radius: 50%;
   box-sizing: border-box;
   display: flex;
-  // align-items: center;
-  // float: right;
-  // right: 1250px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+
+
   position: relative;
   &:hover {
       cursor: pointer;
@@ -141,12 +142,43 @@ export const Pfp = styled.img`
 
 export const NavUsername = styled.div`
   color: #f1f1f1;
-  // transform: translate(1067%, 320%);
   cursor: pointer;
-  display: flex;
+
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
   align-items: center;
   text-decoration: none;
   font-size: 1rem;
   font-weight: 500;
   font-family: 'Cairo', sans-serif;
+
+`;
+
+export const PfpButtons = styled.button`
+  border-radius: 5px;
+  background-color: #E7BA53;
+  color: #000;
+  padding: 5px 14px;
+  font-size: 10px;
+  outline: none;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  border: none;
+  transition: all .5s ease;
+  margin: 8px;
+  width: 85px;
+  height 22px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  &:hover{
+      background-color: #71798E;
+      transform: translateY(-.5rem) scale(1.02);
+      color: #f1f1f1;
+  }
+  &:active{
+      transform: translateY(.5rem);
+  }
 `;
