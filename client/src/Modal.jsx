@@ -4,7 +4,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import QuizCreator from './QuizCreator/CreateQuiz';
-import { Button, ExitButton, ExitDivSignInModal, QuizCreatorDiv } from '../GlobalStyles';
+import { Button, ExitButton, ExitDivSignInModal, QuizCreatorDiv, ModalButton } from '../GlobalStyles';
 
 const BackdropStyle = styled.div`
   width: 100vw;
@@ -358,10 +358,9 @@ function Modal({
           <QuizCreatorDiv>
             <QuizCreator />
             <div className="footer">
-              <Button type="button" onClick={() => toggleModal(false)}>Cancel</Button>
+              <ModalButton type="button" onClick={() => toggleModal(false)}>Cancel</ModalButton>
             </div>
           </QuizCreatorDiv>
-
         </div>
       </BackdropStyle>
     );
@@ -379,9 +378,6 @@ function Modal({
     return (
       <BackdropStyle onClick={() => toggleModal(false)}>
         <div className="container">
-          <div className="xBtn">
-            <button type="button" onClick={() => toggleModal(false)}>X</button>
-          </div>
           <div className="quiz-complete">
             <h1>Quiz Complete!</h1>
             <h3>
@@ -395,10 +391,7 @@ function Modal({
                 <div>{person}</div>
               )) : <div>No Scores Available</div>}
             </div>
-            <button type="button" onClick={returnToPhase1}>Return Home</button>
-          </div>
-          <div className="footer">
-            <button type="button" onClick={() => toggleModal(false)}>cancel</button>
+            <ModalButton type="button" onClick={returnToPhase1}>Return Home</ModalButton>
           </div>
         </div>
       </BackdropStyle>
