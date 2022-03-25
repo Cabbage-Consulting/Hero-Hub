@@ -37,6 +37,10 @@ const RecentStyling = styled.div`
     border-top: thin solid black;
   }
 
+  tr {
+    height: 2em;
+  }
+
   .legend {
     background-color: #71798e;
     border-radius: 5px;

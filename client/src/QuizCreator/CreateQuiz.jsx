@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import AddQuizQuestion from './AddQuizQuestion';
+import { Button } from '../../GlobalStyles';
 
 let questionCounter = 0;
 
@@ -91,9 +92,14 @@ function CreateQuiz() {
         {quizCategories.map((category) => <option value={category} />)}
       </datalist>
       Questions:
-      {createdQuizQuestions.map((questions) => questions)}
-      <button type="button" onClick={addQuestionInputs}>Add a Question</button>
-      <button type="submit" onClick={createQuiz}>Submit Quiz</button>
+      <div>
+        {createdQuizQuestions.map((questions) => questions)}
+        <div>
+
+        <Button type="button" onClick={addQuestionInputs}>Add a Question</Button>
+        </div>
+        <Button type="submit" onClick={createQuiz}>Submit Quiz</Button>
+      </div>
     </form>
   );
 }

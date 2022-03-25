@@ -4,14 +4,14 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import QuizCreator from './QuizCreator/CreateQuiz';
-import { Button, ExitButton } from '../GlobalStyles';
+import { Button, ExitButton, ExitDivSignInModal } from '../GlobalStyles';
 
 const BackdropStyle = styled.div`
   width: 100vw;
   height: 100vh;
   left: 0;
   top: 0;
-  background-color: rgba(200, 200, 200, 0.7);
+  background-color: rgba(100, 100, 100, 0.7);
   position: fixed;
   display: flex;
   justify-content: center;
@@ -68,10 +68,46 @@ const BackdropStyle = styled.div`
       color: #E7BA53;
     }
   }
+
+  #register {
+    width: 100%;
+    font-size: 1.5em;
+    padding: 0.5em;
+
+    &:hover {
+      color: #E7BA53;
+    }
+  }
+
+  #toggle-sign-in-register {
+    width: 100%;
+    font-size: 1.5em;
+    transform: translateX(-0.4em);
+    padding: 0.5em;
+
+    &:hover {
+      color: #f1f1f1;
+      background-color: #C12835;
+    }
+  }
+
+  #pfpUrl{
+    width: 40%;
+  }
 `;
 
 function Modal({
-  toggleModal, login, leaderboard, createQuiz, register, quizComplete, update, score, userID, quizID, difficulty,
+  toggleModal,
+  login,
+  leaderboard,
+  createQuiz,
+  register,
+  quizComplete,
+  update,
+  score,
+  userID,
+  quizID,
+  difficulty,
 }) {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
@@ -80,6 +116,8 @@ function Modal({
   // dont know if i need this but want to start moving forward (change to context)
   const [loggedIn, setLoggedIn] = useState(false);
   const [leaderInfo, setLeaderInfo] = useState([]);
+  const [displaySignIn, setDisplaySignIn] = useState(login);
+  const [displayRegister, setDisplayRegister] = useState(register);
 
   const calls = (method, url, params, data, callback, errCB) => {
     axios({
@@ -97,7 +135,7 @@ function Modal({
     event.preventDefault();
     if (login) {
       console.log('in submit, event; user: ', userName, 'pass: ', password);
-      calls('get', 'herohub/user/password', { username: userName }, null, (res) => {
+      calls('get', 'herohub/user/password', { usernames: userName }, null, (res) => {
         console.log(res.data);
         // check actual password matches (for now check array length)
         if (res.data.password === password) {
@@ -150,13 +188,19 @@ function Modal({
     calls('get', 'herohub/leaders', { quizID }, null, (res) => { setLeaderInfo(res.data); }, (err) => { console.log('error in handleLeaders; err: ', err); });
   };
 
-  if (login) {
+  const toggleBetweenSignInAndRegister = (e) => {
+    e.preventDefault();
+    setDisplayRegister(!displayRegister);
+    setDisplaySignIn(!displaySignIn);
+  };
+
+  if (displaySignIn) {
     return (
       <BackdropStyle>
         <div className="container sign-in">
-          <div className="xBtn">
+          <ExitDivSignInModal className="xBtn">
             <ExitButton type="Button" chatsend="true" onClick={() => toggleModal(false)}>X</ExitButton>
-          </div>
+          </ExitDivSignInModal>
           <div className="title">
             <h1>Sign In</h1>
             <form onSubmit={handleSubmit}>
@@ -171,15 +215,21 @@ function Modal({
               </label>
               <Button type="submit" value="Submit" id="signin">Login</Button>
             </form>
-          </div>
-          <div className="footer">
+            <Button
+              type="button"
+              value="switch-to-register"
+              id="toggle-sign-in-register"
+              onClick={toggleBetweenSignInAndRegister}
+            >
+              No Account?
+            </Button>
           </div>
         </div>
       </BackdropStyle>
     );
   }
 
-  if (register) {
+  if (displayRegister) {
     return (
       <BackdropStyle>
         <div className="container">
@@ -193,24 +243,32 @@ function Modal({
                 Username:
                 <input type="text" value={userName} onChange={(e) => { setUserName(e.target.value); }} />
               </label>
+              <br />
               <label>
                 Password:
                 <input type="text" value={password} onChange={(e) => { setPassword(e.target.value); }} />
               </label>
+              <br />
               <label>
                 Location:
                 <input type="text" value={userLocation} onChange={(e) => { setUserLocation(e.target.value); }} />
               </label>
+              <br />
               <label>
                 Profile Picture URL:
-                <input type="text" value={pfpUrl} onChange={(e) => { setPfpUrl(e.target.value); }} />
+                <input id="pfpUrl" type="text" value={pfpUrl} onChange={(e) => { setPfpUrl(e.target.value); }} />
               </label>
-              <button type="submit" value="Submit">Register</button>
+              <br />
+              <button type="submit" value="Submit" id="register">Register</button>
             </form>
-          </div>
-          <div className="footer">
-            <button type="button" onClick={() => toggleModal(false)}>Cancel</button>
-            <button type="button" onClick={() => handleRegister(userName, password)}>PlaceHolder</button>
+            <Button
+              type="button"
+              value="switch-to-register"
+              id="toggle-sign-in-register"
+              onClick={toggleBetweenSignInAndRegister}
+            >
+              Have an Account?
+            </Button>
           </div>
         </div>
       </BackdropStyle>
@@ -289,11 +347,11 @@ function Modal({
       <BackdropStyle>
         <div className="container">
           <div className="xBtn">
-            <button type="button" onClick={() => toggleModal(false)}>X</button>
+            <ExitButton type="button" onClick={() => toggleModal(false)}>X</ExitButton>
           </div>
           <QuizCreator />
           <div className="footer">
-            <button type="button" onClick={() => toggleModal(false)}>Cancel</button>
+            <Button type="button" onClick={() => toggleModal(false)}>Cancel</Button>
           </div>
         </div>
       </BackdropStyle>
@@ -303,7 +361,7 @@ function Modal({
   if (quizComplete) {
     axios({
       method: 'POST',
-      url: '/user/quiz',
+      url: '/herohub/user/quiz',
       data: {
         userID, quizID, score, difficulty,
       },

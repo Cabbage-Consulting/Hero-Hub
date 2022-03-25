@@ -348,7 +348,6 @@ export const ExitButton = styled.button`
   font-size: ${({ bigFont }) => (bigFont ? '20px' : '15px')};
   outline: none;
   cursor: pointer;
-  transform: translate(0%, 30%);
   font-family: Play;
   font-weight: 400;
   border: none;
@@ -360,4 +359,8 @@ export const ExitButton = styled.button`
   &:active{
       background-color: #3f4553;
   }
+`;
+
+export const ExitDivSignInModal = styled.div`
+  transform: translate(0%, 2%);
 `;
