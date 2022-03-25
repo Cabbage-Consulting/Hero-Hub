@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
-import { PfpButtons, Form } from '../../GlobalStyles';
 import axios from 'axios';
+import { PfpButtons, Form } from '../../GlobalStyles';
 
-function MessageForm({ setMessages, chatMessages, getChat }) {
+function MessageForm({ getChat }) {
   const [inputMsg, setInputMsg] = useState('');
 
   const handleInputMsg = (e) => {
     e.preventDefault();
     setInputMsg(e.target.value);
   };
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,7 +27,6 @@ function MessageForm({ setMessages, chatMessages, getChat }) {
       .catch((err) => console.log('error message', err));
 
     setInputMsg('');
-    setInputUser('');
   };
 
   return (
@@ -38,8 +36,12 @@ function MessageForm({ setMessages, chatMessages, getChat }) {
         value={inputMsg}
         placeholder="message"
         onChange={handleInputMsg}
+        chatinput="true"
       />
-      <PfpButtons onClick={handleSubmit}>
+      <PfpButtons
+        onClick={handleSubmit}
+        chatsend="true"
+      >
         Send
       </PfpButtons>
     </div>

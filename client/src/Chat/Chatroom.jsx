@@ -18,6 +18,8 @@ const ChatStyle = styled.div`
 
   #chat-inputs {
     height: 5vh;
+    background-color: #71798e94;
+    border-radius: 0 0 5px 5px;
   }
 
   .chat-username {

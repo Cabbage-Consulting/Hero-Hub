@@ -32,8 +32,12 @@ router.get('/user/password', async (req, res) => {
 });
 
 router.get('/user', async (req, res) => {
-  const { userID } = req.query;
-  query(res, db.getUserByUserID, { userID });
+  const { userID, username } = req.query;
+  if (userID) {
+    query(res, db.getUserByUserID, { userID });
+  } else {
+    query(res, db.getUserByUsername, { username });
+  }
 });
 
 // this route will return with new user info
