@@ -84,6 +84,10 @@ export const Select = styled.select`
   .Select__control:hover {
     border-color: #f1f1f1;
   }
+  &:active{
+    // transform: translateY(.05rem);
+    background-color: #3f4553;
+}
 `;
 
 export const Form = styled.input`
@@ -363,6 +367,7 @@ export const QuizCreatorDiv = styled.div`
 
 export const QuizQuestionContainter = styled.div`
   z-index: 4;
+  font-size: 0.5em;
   font-family: 'Play';
   background: #f1f1f1;
   display: flex;
@@ -372,4 +377,36 @@ export const QuizQuestionContainter = styled.div`
   height: 70%;
   overflow: scroll;
   align-content: center;
+  label{
+    text-align: center;
+  }
+`;
+
+export const ModalButton = styled.button`
+  border-radius: ${({ bigRadius }) => (bigRadius ? '30px' : AVG_ROUNDING)};
+  background-color: #E7BA53;
+  color: #000;
+  padding: ${({ big }) => (big ? '18px 30px' : '10px 28px')};
+  font-size: 1.5em;
+  outline: none;
+  cursor: pointer;
+  font-family: Play;
+  font-weight: 400;
+  border: none;
+  transition: all .5s ease;
+  transform: translateX(-0.4em);
+  width: 90%;
+  margin: 8px;
+  padding: 0.5em;
+  align-content: center;
+
+  &:hover{
+      background-color: #71798E;
+
+      color: #f1f1f1;
+  }
+  &:active{
+
+      background-color: #3f4553;
+  }
 `;
