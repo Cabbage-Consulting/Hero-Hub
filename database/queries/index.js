@@ -64,7 +64,7 @@ async function getUserPassword(data) {
 }
 
 async function addUser(data) {
-  const string = 'insert into users (username, pfp_url, location, password) values ($1, $2, $3, $4) returning id, username, pfp_url, location';
+  const string = 'insert into users (username, pfp_url, location, password) values ($1, $2, $3, $4) returning id as user_id, username, pfp_url, location';
   const params = [data.username, data.pfpUrl, data.location, data.password];
   return asyncQuery(string, params, true);
 }
@@ -100,13 +100,13 @@ async function getUserIdByUserName(data) {
 }
 
 async function getUserByUserID(data) {
-  const string = 'select id, username, pfp_url, location from users where id = $1';
+  const string = 'select id as user_id, username, pfp_url, location from users where id = $1';
   const params = [data.userID];
   return asyncQuery(string, params, true);
 }
 
 async function getUserByUsername(data) {
-  const string = 'select id, username, pfp_url, location from users where username = $1';
+  const string = 'select id as user_id, username, pfp_url, location from users where username = $1';
   const params = [data.username];
   return asyncQuery(string, params, true);
 }

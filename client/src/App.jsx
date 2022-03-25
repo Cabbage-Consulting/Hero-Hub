@@ -22,6 +22,10 @@ function App() {
           <RecentActivity />
         </Recent>
       </MainContentContainer>
+      <button type="button" className="openModalBtn" onClick={() => { setOpenModal(true); }}>sign in</button>
+      {openModal && <Modal toggleModal={setOpenModal} update="true" />}
+      {/* <button type="button" className="openModalBtn" onClick={() => { setOpenModal(true); }}>update</button>
+      {openModal && <Modal toggleModal={setOpenModal} update="true" />} */}
     </GeneralDiv>
   );
 }
