@@ -22,7 +22,9 @@ function QuizPhase2({ quiz, difficulty }) {
       params: { quizID: quiz },
     })
       .then((res) => {
-        setQuestions(res.data);
+        const questionArray = res.data;
+        const shuffledQuestions = questionArray.sort((a, b) => 0.5 - Math.random());
+        setQuestions(shuffledQuestions);
         const array = [
           res.data[questionNumber].correctanswer,
           res.data[questionNumber].incorrectanswers[0],

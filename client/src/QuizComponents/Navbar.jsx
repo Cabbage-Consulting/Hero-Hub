@@ -9,11 +9,24 @@ const defaultPfp = 'https://steamuserimages-a.akamaihd.net/ugc/78637185622118322
 function Navbar() {
   const [isActive, setIsActive] = useState(false);
   const [signIn, setSignIn] = useState(false);
+  const [viewLeaders, setViewLeaders] = useState(false);
+  const [viewProfile, setViewProfile] = useState(false);
   const [userInformation, setUserInformation] = useState(false);
+
   const handleSignOut = (e) => {
     e.preventDefault();
     delete window.localStorage.currentUser;
     window.location.reload(false);
+  };
+
+  const pullUpLeaders = (e) => {
+    e.preventDefault();
+    setViewLeaders(true);
+  };
+
+  const viewEditProfile = (e) => {
+    e.preventDefault();
+    setViewProfile(true);
   };
 
   useEffect(() => {
@@ -55,10 +68,10 @@ function Navbar() {
               && (
                 <>
                   <div>
-                    <PfpButtons>Account</PfpButtons>
+                    <PfpButtons onClick={viewEditProfile}>Account</PfpButtons>
                   </div>
                   <div>
-                    <PfpButtons>Leaderboard</PfpButtons>
+                    <PfpButtons onClick={pullUpLeaders}>Leaderboard</PfpButtons>
                   </div>
                   <div>
                     <PfpButtons onClick={handleSignOut}>Sign Out</PfpButtons>
@@ -81,6 +94,20 @@ function Navbar() {
         <Modal
           login="true"
           toggleModal={setSignIn}
+        />
+      )}
+      {viewLeaders
+      && (
+        <Modal
+          leaderboard="true"
+          toggleModal={setViewLeaders}
+        />
+      )}
+      {viewProfile
+      && (
+        <Modal
+          update="true"
+          toggleModal={setViewProfile}
         />
       )}
     </Nav>

@@ -375,6 +375,16 @@ function Modal({
         userID, quizID, score, difficulty,
       },
     });
+      // .then(() => {
+      //   axios({
+      //     method: 'GET',
+      //     url: '/herohub/leaders',
+      //     params: { quizID },
+      //   })
+      //     .then((res) => {
+      //       setLeaderInfo(res.data);
+      //     });
+      // });
 
     return (
       <BackdropStyle onClick={() => toggleModal(false)}>
@@ -391,8 +401,14 @@ function Modal({
             <h2>LeaderBoard: </h2>
             <br />
             <div className="chart">
-              {leaderboard.length > 0 ? leaderboard.map((person, index) => (
-                <div>{person}</div>
+              {leaderInfo.length > 0 ? leaderInfo.map((person, index) => (
+                <>
+                  <div>{index}</div>
+                  <div>{person.username}</div>
+                  <div>{person.score}</div>
+                  <br />
+                  <br />
+                </>
               )) : <div>No Scores Available</div>}
             </div>
             <button type="button" onClick={returnToPhase1}>Return Home</button>
