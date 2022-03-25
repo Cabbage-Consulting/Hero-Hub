@@ -4,13 +4,14 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import QuizCreator from './QuizCreator/CreateQuiz';
+import { Button, ExitButton } from '../GlobalStyles';
 
 const BackdropStyle = styled.div`
   width: 100vw;
   height: 100vh;
   left: 0;
   top: 0;
-  background-color: rgba(200, 200, 200);
+  background-color: rgba(200, 200, 200, 0.7);
   position: fixed;
   display: flex;
   justify-content: center;
@@ -19,14 +20,53 @@ const BackdropStyle = styled.div`
 
   .container {
     z-index: 4;
-    background: white;
+    font-family: 'Play';
+    background: #f1f1f1;
     border-radius: 10px;
+    border: thick solid #1d2066;
     display: flex;
     justify-content: center;
     flex-direction: row;
     width: 60%;
     height: 70%;
     overflow: scroll;
+  }
+
+  label {
+    font-size: 1.5em;
+  }
+
+  input {
+    background-color: transparent;
+    border: none;
+    border-bottom: thin solid #71798E;
+    color: #1d2066;
+    font-family: 'Play';
+    font-size: 1em;
+    outline: none;
+    padding: 0.5em;
+    margin: 1em;
+    text-shadow: -0.5px 0.5px #71798E;
+    width: 60%;
+  }
+
+  h1 {
+    background: #71798E;
+    color: #E7BA53;
+    padding: 1em;
+    border-radius: 5px;
+    text-align: center;
+  }
+
+  #signin {
+    width: 100%;
+    font-size: 1.5em;
+    transform: translateX(-0.4em);
+    padding: 0.5em;
+
+    &:hover {
+      color: #E7BA53;
+    }
   }
 `;
 
@@ -113,9 +153,9 @@ function Modal({
   if (login) {
     return (
       <BackdropStyle>
-        <div className="container">
+        <div className="container sign-in">
           <div className="xBtn">
-            <button type="button" onClick={() => toggleModal(false)}>X</button>
+            <ExitButton type="Button" chatsend="true" onClick={() => toggleModal(false)}>X</ExitButton>
           </div>
           <div className="title">
             <h1>Sign In</h1>
@@ -124,16 +164,15 @@ function Modal({
                 Username:
                 <input type="text" value={userName} onChange={(e) => { setUserName(e.target.value); }} />
               </label>
+              <br />
               <label>
                 Password:
                 <input type="text" value={password} onChange={(e) => { setPassword(e.target.value); }} />
               </label>
-              <button type="submit" value="Submit">Login</button>
+              <Button type="submit" value="Submit" id="signin">Login</Button>
             </form>
           </div>
           <div className="footer">
-            <button type="button" onClick={() => toggleModal(false)}>Cancel</button>
-            <button type="button" onClick={() => handleRegister(userName, password)}>PlaceHolder</button>
           </div>
         </div>
       </BackdropStyle>

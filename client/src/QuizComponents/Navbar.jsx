@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from '../Modal';
 import {
-  Nav, NavLogo, Pfp, NavUsername, UserInfo, PfpButtons, HeroHub, LoginButton
+  Nav, NavLogo, Pfp, NavUsername, UserInfo, PfpButtons, HeroHub, LoginButton,
 } from '../../GlobalStyles';
 
 function Navbar() {
@@ -68,7 +68,13 @@ function Navbar() {
             </LoginButton>
           </UserInfo>
         )}
-      {signIn && <Modal login="true" toggleModal={setSignIn} />}
+      {signIn
+      && (
+        <Modal
+          login="true"
+          toggleModal={setSignIn}
+        />
+      )}
     </Nav>
   );
 }

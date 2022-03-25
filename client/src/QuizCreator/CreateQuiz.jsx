@@ -68,7 +68,6 @@ function CreateQuiz() {
       .then((res) => {
         setQuizCategories(Object.keys(res.data));
         setQuizzes(res.data);
-        console.log(res.data);
       });
   };
 
