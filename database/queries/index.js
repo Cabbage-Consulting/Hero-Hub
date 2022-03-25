@@ -96,7 +96,6 @@ async function updateUserLocation(data) {
 async function getUserIdByUserName(data) {
   const string = 'select id as user_id, username, pfp_url, location from users where username = $1';
   const params = [data.username];
-  // query(string, params, cb);
   return asyncQuery(string, params, true);
 }
 

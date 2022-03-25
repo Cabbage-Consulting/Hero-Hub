@@ -25,6 +25,7 @@ router.get('/questions', async (req, res) => {
   query(res, db.getQuestions, { quizID });
 });
 
+// response for this will be { password: password }
 router.get('/user/password', async (req, res) => {
   const { username } = req.query;
   query(res, db.getUserPassword, { username });
@@ -35,6 +36,7 @@ router.get('/user', async (req, res) => {
   query(res, db.getUserByUserID, { userID });
 });
 
+// this route will return with new user info
 router.post('/user', async (req, res) => {
   const {
     username, pfpUrl, location, password,
@@ -44,6 +46,7 @@ router.post('/user', async (req, res) => {
   });
 });
 
+// this route will respond with all user info, including updates
 router.put('/user', async (req, res) => {
   const {
     userID, username, pfpUrl, location, password,
@@ -72,6 +75,7 @@ router.post('/user/quiz', (req, res) => {
   });
 });
 
+// getChatAfterTime may not work depending on dateJoined as string or Date
 router.get('/chat', (req, res) => {
   const { dateJoined } = req.query;
   if (dateJoined) {
