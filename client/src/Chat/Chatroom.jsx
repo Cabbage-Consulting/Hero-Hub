@@ -14,6 +14,7 @@ const ChatStyle = styled.div`
   #chat-list {
     height: 60vh;
     overflow: scroll;
+
   }
 
   #chat-inputs {
@@ -38,11 +39,8 @@ function Chatroom() {
   const [messages, setMessages] = useState([]);
 
   const messagesEndRef = useRef(null);
-
   const scrollToBottom = () => {
-    messagesEndRef.current.scrollIntoView({
-      behavior: 'instant',
-    });
+    messagesEndRef.current.scrollIntoView({});
   };
 
   const getChat = () => {
