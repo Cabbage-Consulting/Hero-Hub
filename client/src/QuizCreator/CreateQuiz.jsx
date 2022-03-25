@@ -80,19 +80,19 @@ function CreateQuiz() {
 
   return (
     <form>
-      <label>
-        Quiz Name:
-        <input id="quiz-name" onChange={handleQuizNameInput} />
-      </label>
-      <label htmlFor="quiz-category">
-        Category:
-      </label>
       <div>
-
-      <input list="quiz-categories" id="quiz-category" name="quiz-category" onChange={selectCategory} />
-      <datalist id="quiz-categories">
-        {quizCategories.map((category) => <option value={category} />)}
-      </datalist>
+          <label>
+            Quiz Name:
+            <input id="quiz-name" onChange={handleQuizNameInput} />
+          </label>
+          <br />
+        <label htmlFor="quiz-category">
+          Category:
+        </label>
+        <input list="quiz-categories" id="quiz-category" name="quiz-category" onChange={selectCategory} />
+        <datalist id="quiz-categories">
+          {quizCategories.map((category) => <option value={category} />)}
+        </datalist>
       </div>
       Questions:
       <div>

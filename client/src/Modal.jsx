@@ -148,6 +148,7 @@ function Modal({
         username: userName, pfpUrl, location: userLocation, password,
       }, (res) => {
         localStorage.setItem('currentUser', JSON.stringify(res.data));
+        window.location.reload(false);
       }, (err) => { console.log('error in post new user; err: ', err); });
     }
     if (update) {
