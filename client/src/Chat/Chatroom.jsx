@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import MessageList from './MessageList';
@@ -14,6 +14,7 @@ const ChatStyle = styled.div`
   #chat-list {
     height: 60vh;
     overflow: scroll;
+
   }
 
   #chat-inputs {
@@ -34,28 +35,11 @@ const ChatStyle = styled.div`
 
 function Chatroom() {
   const [messages, setMessages] = useState([]);
-  const chatMessages = [
-    {
-      user: 'man',
-      message: 'what up',
-    },
-    {
-      user: 'bigman',
-      message: 'what up',
-    },
-    {
-      user: 'lilman',
-      message: 'what up',
-    },
-    {
-      user: 'badman',
-      message: 'man',
-    },
-    {
-      user: 'roadman',
-      message: 'wah gwaan',
-    },
-  ];
+
+  const messagesEndRef = useRef(null);
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({});
+  };
 
   const getChat = () => {
     axios({
@@ -65,12 +49,14 @@ function Chatroom() {
     })
       .then((res) => {
         setMessages(res.data);
+        scrollToBottom();
       })
       .catch((err) => (console.log('error message', err)));
   };
 
+
+
   useEffect(() => {
-    setMessages(chatMessages);
     getChat();
   }, []);
 
@@ -78,11 +64,12 @@ function Chatroom() {
     <ChatStyle>
       <div id="chat-list">
         <MessageList messages={messages} />
+        <div ref={messagesEndRef} />
       </div>
       <div id="chat-inputs">
         <MessageForm
           setMessages={setMessages}
-          chatMessages={chatMessages}
+          chatMessages={messages}
           getChat={getChat}
         />
       </div>
