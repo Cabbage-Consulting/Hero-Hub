@@ -146,6 +146,36 @@ export const Chat = styled.div`
   border-color: #1d2066;
   border-width: 0.5em 4px 0.5em 8px;
   border-radius: 0 0 0 ${AVG_ROUNDING};
+
+  #chatroom {
+    border: thin solid #1d2066;
+    border-radius: 5px;
+    font-family: monospace;
+    height: 65vh;
+    padding: .25em;
+
+    #chat-list {
+      height: 60vh;
+      overflow: scroll;
+    }
+
+    #chat-inputs {
+      height: 5vh;
+      background-color: #71798e94;
+      border-radius: 0 0 5px 5px;
+    }
+
+    .chat-username {
+      color: #1d2066;
+      font-weight: 500;
+      text-shadow: -0.5px 0.5px #71798e;
+    }
+
+    .chat-text {
+      color: #1d2066;
+      font-style: italic;
+    }
+  }
 `;
 
 export const Recent = styled.div`
@@ -172,6 +202,10 @@ export const Nav = styled.nav`
   justify-content: space-between;
   padding: 30px;
   border-radius: ${AVG_ROUNDING} ${AVG_ROUNDING} 0 0;
+
+  #sign-in-modal {
+    color: #C12835;
+  }
  `;
 
 export const NavLogo = styled.div`
@@ -288,7 +322,7 @@ export const PfpButtons = styled.button`
 export const LoginButton = styled.button`
   background-color: #71798E;
   border-radius: 50%;
-  color: #f1f1f1;
+  color: #E7BA53;
   font-weight: 600;
   font-size: 1em;
   font-family: 'Play';
@@ -304,4 +338,46 @@ export const LoginButton = styled.button`
   &:active {
     box-shadow: inset 0 0 10px #362e19;
   }
+`;
+
+export const ExitButton = styled.button`
+  border-radius: ${({ bigRadius }) => (bigRadius ? '30px' : AVG_ROUNDING)};
+  background-color: #C12835;
+  color: #f1f1f1;
+  padding: ${({ big }) => (big ? '18px 30px' : '10px 28px')};
+  font-size: ${({ bigFont }) => (bigFont ? '20px' : '15px')};
+  outline: none;
+  cursor: pointer;
+  font-family: Play;
+  font-weight: 400;
+  border: none;
+  transition: all .5s ease;
+  margin: 8px;
+  &:hover{
+      color: #f1f1f1;
+  }
+  &:active{
+      background-color: #3f4553;
+  }
+`;
+
+export const ExitDivSignInModal = styled.div`
+  transform: translate(0%, 2%);
+`;
+
+export const QuizCreatorDiv = styled.div`
+  transform: translate(0%, 20%);
+`;
+
+export const QuizQuestionContainter = styled.div`
+  z-index: 4;
+  font-family: 'Play';
+  background: #f1f1f1;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  width: 90%;
+  height: 70%;
+  overflow: scroll;
+  align-content: center;
 `;

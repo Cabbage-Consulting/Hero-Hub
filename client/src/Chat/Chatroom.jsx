@@ -4,43 +4,12 @@ import styled from 'styled-components';
 import MessageList from './MessageList';
 import MessageForm from './MessageForm';
 
-const ChatStyle = styled.div`
-  border: thin solid #1d2066;
-  border-radius: 5px;
-  font-family: monospace;
-  height: 65vh;
-  padding: .25em;
-
-  #chat-list {
-    height: 60vh;
-    overflow: scroll;
-
-  }
-
-  #chat-inputs {
-    height: 5vh;
-    background-color: #71798e94;
-    border-radius: 0 0 5px 5px;
-  }
-
-  .chat-username {
-    color: #1d2066;
-    font-weight: 500;
-    text-shadow: -0.5px 0.5px #71798e;
-  }
-
-  .chat-text {
-    color: #1d2066;
-    font-style: italic;
-  }
-`;
-
 function Chatroom() {
   const [messages, setMessages] = useState([]);
-
   const messagesEndRef = useRef(null);
+
   const scrollToBottom = () => {
-    messagesEndRef.current.scrollIntoView({});
+    messagesEndRef.current.scrollIntoView({ behavior: 'instant' });
   };
 
   const getChat = () => {
@@ -66,7 +35,7 @@ function Chatroom() {
   }
 
   return (
-    <ChatStyle>
+    <div id="chatroom">
       <div id="chat-list">
         <MessageList messages={messages} />
         <div ref={messagesEndRef} />
@@ -81,7 +50,7 @@ function Chatroom() {
         />
       </div>
       )}
-    </ChatStyle>
+    </div>
   );
 }
 

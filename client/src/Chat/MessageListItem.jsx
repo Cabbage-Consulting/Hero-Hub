@@ -18,6 +18,6 @@ function MessageListItem({ user, message }) {
 MessageListItem.propTypes = {
   user: PropTypes.string.isRequired,
   message: PropTypes.string.isRequired,
-}
+};
 
 export default MessageListItem;

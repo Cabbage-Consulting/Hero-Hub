@@ -94,9 +94,10 @@ router.post('/quiz', async (req, res) => {
     userID, name, category, questions,
   } = req.body.data;
 
-  const quizID = await db.addQuiz({
+  const quiz = await db.addQuiz({
     userID, name, category, questions,
   });
+  const quizID = quiz.id;
   if (typeof quizID === 'object') {
     res.status(500).send('something went wrong creating the quiz');
   }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import AddQuizQuestion from './AddQuizQuestion';
+import { Button } from '../../GlobalStyles';
 
 let questionCounter = 0;
 
@@ -68,7 +69,6 @@ function CreateQuiz() {
       .then((res) => {
         setQuizCategories(Object.keys(res.data));
         setQuizzes(res.data);
-        console.log(res.data);
       });
   };
 
@@ -80,21 +80,28 @@ function CreateQuiz() {
 
   return (
     <form>
-      <label>
-        Quiz Name:
+      <div>
+        <label>
+          Quiz Name:
+        </label>
         <input id="quiz-name" onChange={handleQuizNameInput} />
-      </label>
-      <label htmlFor="quiz-category">
-        Category:
-      </label>
-      <input list="quiz-categories" id="quiz-category" name="quiz-category" onChange={selectCategory} />
-      <datalist id="quiz-categories">
-        {quizCategories.map((category) => <option value={category} />)}
-      </datalist>
+        <br />
+        <label htmlFor="quiz-category">
+          Category:
+        </label>
+        <input list="quiz-categories" id="quiz-category" name="quiz-category" onChange={selectCategory} />
+        <datalist id="quiz-categories">
+          {quizCategories.map((category) => <option value={category} />)}
+        </datalist>
+      </div>
       Questions:
-      {createdQuizQuestions.map((questions) => questions)}
-      <button type="button" onClick={addQuestionInputs}>Add a Question</button>
-      <button type="submit" onClick={createQuiz}>Submit Quiz</button>
+      <div>
+        {createdQuizQuestions.map((questions) => questions)}
+        <div>
+          <Button type="button" onClick={addQuestionInputs}>Add a Question</Button>
+        </div>
+        <Button type="submit" onClick={createQuiz}>Submit Quiz</Button>
+      </div>
     </form>
   );
 }

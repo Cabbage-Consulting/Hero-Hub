@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { QuizQuestionContainter } from '../../GlobalStyles';
 import PropTypes from 'prop-types';
 
 function AddQuizQuestion({ index, questions, setQuestions }) {
@@ -46,7 +47,7 @@ function AddQuizQuestion({ index, questions, setQuestions }) {
   });
 
   return (
-    <div>
+    <QuizQuestionContainter>
       <label>
         Question:
         <input type="text" onChange={handleQuestionInput} />
@@ -67,7 +68,7 @@ function AddQuizQuestion({ index, questions, setQuestions }) {
         Incorrect Answer #3:
         <input type="text" onChange={handleIncorrectAnswer3} />
       </label>
-    </div>
+    </QuizQuestionContainter>
   );
 }
 

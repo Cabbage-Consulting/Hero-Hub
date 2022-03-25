@@ -4,13 +4,14 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import QuizCreator from './QuizCreator/CreateQuiz';
+import { Button, ExitButton, ExitDivSignInModal, QuizCreatorDiv } from '../GlobalStyles';
 
 const BackdropStyle = styled.div`
   width: 100vw;
   height: 100vh;
   left: 0;
   top: 0;
-  background-color: rgba(200, 200, 200);
+  background-color: rgba(100, 100, 100, 0.7);
   position: fixed;
   display: flex;
   justify-content: center;
@@ -19,8 +20,10 @@ const BackdropStyle = styled.div`
 
   .container {
     z-index: 4;
-    background: white;
+    font-family: 'Play';
+    background: #f1f1f1;
     border-radius: 10px;
+    border: thick solid #1d2066;
     display: flex;
     justify-content: center;
     flex-direction: row;
@@ -28,16 +31,98 @@ const BackdropStyle = styled.div`
     height: 70%;
     overflow: scroll;
   }
+
+  label {
+    font-size: 1.5em;
+  }
+
+  input {
+    background-color: transparent;
+    border: none;
+    border-bottom: thin solid #71798E;
+    color: #1d2066;
+    font-family: 'Play';
+    font-size: 1em;
+    outline: none;
+    padding: 0.5em;
+    margin: 1em;
+    text-shadow: -0.5px 0.5px #71798E;
+    width: 60%;
+  }
+
+  h1 {
+    background: #71798E;
+    color: #E7BA53;
+    padding: 1em;
+    border-radius: 5px;
+    text-align: center;
+  }
+
+  #signin {
+    width: 100%;
+    font-size: 1.5em;
+    transform: translateX(-0.4em);
+    padding: 0.5em;
+
+    &:hover {
+      color: #E7BA53;
+    }
+  }
+
+  #register {
+    background-color: #E7BA53;
+    border-radius: 5px;
+    border: none;
+    color: black;
+    font-family: 'Play';
+    width: 100%;
+    font-size: 1.5em;
+    padding: 0.5em;
+
+    &:hover {
+      cursor: pointer;
+      color: #E7BA53;
+      background: #71798E;
+    }
+  }
+
+  #toggle-sign-in-register {
+    width: 100%;
+    font-size: 1.5em;
+    transform: translateX(-0.4em);
+    padding: 0.5em;
+
+    &:hover {
+      color: #f1f1f1;
+      background-color: #C12835;
+    }
+  }
+
+  #pfpUrl{
+    width: 40%;
+  }
 `;
 
 function Modal({
-  toggleModal, login, leaderboard, createQuiz, register, quizComplete, update, score, userID, quizID, difficulty,
+  toggleModal,
+  login,
+  leaderboard,
+  createQuiz,
+  register,
+  quizComplete,
+  update,
+  score,
+  userID,
+  quizID,
+  difficulty,
 }) {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [userLocation, setUserLocation] = useState('');
   const [pfpUrl, setPfpUrl] = useState('');
   const [leaderInfo, setLeaderInfo] = useState([]);
+  const [displaySignIn, setDisplaySignIn] = useState(login);
+  const [displayRegister, setDisplayRegister] = useState(register);
 
   const calls = (method, url, params, data, callback, errCB) => {
     axios({
@@ -52,7 +137,7 @@ function Modal({
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (login) {
+    if (displaySignIn) {
       calls('get', 'herohub/user/password', { username: userName }, null, (res) => {
         if (res.data.password === password) {
           calls('get', 'herohub/user', { username: userName }, null, (response) => {
@@ -65,11 +150,12 @@ function Modal({
         // need to handle case where password isnt right (like try again messege)
       }, (err) => { console.log(err); });
     }
-    if (register) {
+    if (displayRegister) {
       calls('post', 'herohub/user', null, {
         username: userName, pfpUrl, location: userLocation, password,
       }, (res) => {
         localStorage.setItem('currentUser', JSON.stringify(res.data));
+        window.location.reload(false);
       }, (err) => { console.log('error in post new user; err: ', err); });
     }
     if (update) {
@@ -108,13 +194,19 @@ function Modal({
     calls('get', 'herohub/leaders', { quizID }, null, (res) => { setLeaderInfo(res.data); }, (err) => { console.log('error in handleLeaders; err: ', err); });
   };
 
-  if (login) {
+  const toggleBetweenSignInAndRegister = (e) => {
+    e.preventDefault();
+    setDisplayRegister(!displayRegister);
+    setDisplaySignIn(!displaySignIn);
+  };
+
+  if (displaySignIn) {
     return (
       <BackdropStyle>
-        <div className="container">
-          <div className="xBtn">
-            <button type="button" onClick={() => toggleModal(false)}>X</button>
-          </div>
+        <div className="container sign-in">
+          <ExitDivSignInModal className="xBtn">
+            <ExitButton type="Button" chatsend="true" onClick={() => toggleModal(false)}>X</ExitButton>
+          </ExitDivSignInModal>
           <div className="title">
             <h1>Sign In</h1>
             <form onSubmit={handleSubmit}>
@@ -122,29 +214,34 @@ function Modal({
                 Username:
                 <input type="text" value={userName} onChange={(e) => { setUserName(e.target.value); }} />
               </label>
+              <br />
               <label>
                 Password:
-                <input type="text" value={password} onChange={(e) => { setPassword(e.target.value); }} />
+                <input type="password" value={password} onChange={(e) => { setPassword(e.target.value); }} />
               </label>
-              <button type="submit" value="Submit">Login</button>
+              <Button type="submit" value="Submit" id="signin">Login</Button>
             </form>
-          </div>
-          <div className="footer">
-            <button type="button" onClick={() => toggleModal(false)}>Cancel</button>
-            <button type="button" onClick={() => handleRegister(userName, password)}>PlaceHolder</button>
+            <Button
+              type="button"
+              value="switch-to-register"
+              id="toggle-sign-in-register"
+              onClick={toggleBetweenSignInAndRegister}
+            >
+              No Account?
+            </Button>
           </div>
         </div>
       </BackdropStyle>
     );
   }
 
-  if (register) {
+  if (displayRegister) {
     return (
       <BackdropStyle>
         <div className="container">
-          <div className="xBtn">
-            <button type="button" onClick={() => toggleModal(false)}>X</button>
-          </div>
+          <ExitDivSignInModal className="xBtn">
+            <ExitButton type="Button" chatsend="true" onClick={() => toggleModal(false)}>X</ExitButton>
+          </ExitDivSignInModal>
           <div className="title">
             <h1>Create New Account</h1>
             <form onSubmit={handleSubmit}>
@@ -152,24 +249,32 @@ function Modal({
                 Username:
                 <input type="text" value={userName} onChange={(e) => { setUserName(e.target.value); }} />
               </label>
+              <br />
               <label>
                 Password:
-                <input type="text" value={password} onChange={(e) => { setPassword(e.target.value); }} />
+                <input type="password" value={password} onChange={(e) => { setPassword(e.target.value); }} />
               </label>
+              <br />
               <label>
                 Location:
                 <input type="text" value={userLocation} onChange={(e) => { setUserLocation(e.target.value); }} />
               </label>
+              <br />
               <label>
                 Profile Picture URL:
-                <input type="text" value={pfpUrl} onChange={(e) => { setPfpUrl(e.target.value); }} />
+                <input id="pfpUrl" type="text" value={pfpUrl} onChange={(e) => { setPfpUrl(e.target.value); }} />
               </label>
-              <button type="submit" value="Submit">Register</button>
+              <br />
+              <button type="submit" value="Submit" id="register">Register</button>
             </form>
-          </div>
-          <div className="footer">
-            <button type="button" onClick={() => toggleModal(false)}>Cancel</button>
-            <button type="button" onClick={() => handleRegister(userName, password)}>PlaceHolder</button>
+            <Button
+              type="button"
+              value="switch-to-register"
+              id="toggle-sign-in-register"
+              onClick={toggleBetweenSignInAndRegister}
+            >
+              Have an Account?
+            </Button>
           </div>
         </div>
       </BackdropStyle>
@@ -248,12 +353,15 @@ function Modal({
       <BackdropStyle>
         <div className="container">
           <div className="xBtn">
-            <button type="button" onClick={() => toggleModal(false)}>X</button>
+            <ExitButton type="button" onClick={() => toggleModal(false)}>X</ExitButton>
           </div>
-          <QuizCreator />
-          <div className="footer">
-            <button type="button" onClick={() => toggleModal(false)}>Cancel</button>
-          </div>
+          <QuizCreatorDiv>
+            <QuizCreator />
+            <div className="footer">
+              <Button type="button" onClick={() => toggleModal(false)}>Cancel</Button>
+            </div>
+          </QuizCreatorDiv>
+
         </div>
       </BackdropStyle>
     );
@@ -262,7 +370,7 @@ function Modal({
   if (quizComplete) {
     axios({
       method: 'POST',
-      url: '/user/quiz',
+      url: '/herohub/user/quiz',
       data: {
         userID, quizID, score, difficulty,
       },

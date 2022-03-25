@@ -20,7 +20,7 @@ function MessageForm({ getChat }) {
       method: 'POST',
       url: '/herohub/chat',
       data: {
-        userID: 1,
+        userID: JSON.parse(window.localStorage.currentUser).user_id,
         body: inputMsg,
       },
     })
