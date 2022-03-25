@@ -1,4 +1,5 @@
 const { pool } = require('../index');
+const defaultPfp = 'https://steamuserimages-a.akamaihd.net/ugc/786371856221183225/2F04B32CA10AD1ADBC01CE5D4DC6F7AF0E96AE6C/?imw=512&imh=512&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true';
 
 async function asyncQuery(string, params, oneResult) {
   return pool
@@ -65,7 +66,7 @@ async function getUserPassword(data) {
 
 async function addUser(data) {
   const string = 'insert into users (username, pfp_url, location, password) values ($1, $2, $3, $4) returning id as user_id, username, pfp_url, location';
-  const params = [data.username, data.pfpUrl, data.location, data.password];
+  const params = [data.username, data.pfpUrl || defaultPfp, data.location, data.password];
   return asyncQuery(string, params, true);
 }
 

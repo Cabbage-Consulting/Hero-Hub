@@ -210,7 +210,7 @@ function Modal({
               <br />
               <label>
                 Password:
-                <input type="text" value={password} onChange={(e) => { setPassword(e.target.value); }} />
+                <input type="password" value={password} onChange={(e) => { setPassword(e.target.value); }} />
               </label>
               <Button type="submit" value="Submit" id="signin">Login</Button>
             </form>
@@ -245,7 +245,7 @@ function Modal({
               <br />
               <label>
                 Password:
-                <input type="text" value={password} onChange={(e) => { setPassword(e.target.value); }} />
+                <input type="password" value={password} onChange={(e) => { setPassword(e.target.value); }} />
               </label>
               <br />
               <label>
@@ -348,6 +348,7 @@ function Modal({
           <div className="xBtn">
             <ExitButton type="button" onClick={() => toggleModal(false)}>X</ExitButton>
           </div>
+
           <QuizCreator />
           <div className="footer">
             <Button type="button" onClick={() => toggleModal(false)}>Cancel</Button>

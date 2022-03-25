@@ -74,7 +74,6 @@ router.post('/user/quiz', (req, res) => {
   const {
     userID, quizID, score, difficulty,
   } = req.body;
-  // res.send({ userID, quizID, score, difficulty });
   query(res, db.addCompletedQuiz, {
     userID, quizID, score, difficulty,
   });
