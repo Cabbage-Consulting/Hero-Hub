@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import { PfpButtons, Form } from '../../GlobalStyles';
 
 function MessageForm({ getChat }) {
@@ -47,5 +48,9 @@ function MessageForm({ getChat }) {
     </div>
   );
 }
+
+MessageForm.propTypes = {
+  getChat: PropTypes.func.isRequired,
+};
 
 export default MessageForm;
