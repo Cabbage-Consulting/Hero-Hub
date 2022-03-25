@@ -3,18 +3,26 @@ import Modal from './Modal';
 import Chatroom from './Chat/Chatroom';
 import QuizPhase1 from './QuizComponents/QuizPhase1';
 import Navbar from './QuizComponents/Navbar';
-
+import RecentActivity from './QuizComponents/RecentActivity';
+import {MainContentContainer, Quiz, Chat, Recent, GeneralDiv} from '../GlobalStyles';
 function App() {
   const [openModal, setOpenModal] = useState(false);
 
   return (
-    <div>
+    <GeneralDiv>
       <Navbar />
-      <Chatroom />
-      <QuizPhase1 />
-      <button type="button" className="openModalBtn" onClick={() => { setOpenModal(true); }}>Open Modal</button>
-      {openModal && <Modal toggleModal={setOpenModal} update="true" />}
-    </div>
+      <MainContentContainer>
+        <Chat>
+          <Chatroom />
+        </Chat>
+        <Quiz>
+          <QuizPhase1 />
+        </Quiz>
+        <Recent>
+          <RecentActivity />
+        </Recent>
+      </MainContentContainer>
+    </GeneralDiv>
   );
 }
 
