@@ -349,9 +349,7 @@ function Modal({
             <ExitButton type="button" onClick={() => toggleModal(false)}>X</ExitButton>
           </div>
           <div>
-            <div>
-              <QuizCreator />
-            </div>
+            <QuizCreator />
             <div className="footer">
               <Button type="button" onClick={() => toggleModal(false)}>Cancel</Button>
             </div>

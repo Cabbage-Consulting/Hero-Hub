@@ -364,3 +364,7 @@ export const ExitButton = styled.button`
 export const ExitDivSignInModal = styled.div`
   transform: translate(0%, 2%);
 `;
+
+export const QuizCreatorDiv = styled.div`
+  transform: translate(0%, 10%);
+`;
