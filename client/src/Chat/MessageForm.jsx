@@ -3,13 +3,7 @@ import { PfpButtons, Form } from '../../GlobalStyles';
 import axios from 'axios';
 
 function MessageForm({ setMessages, chatMessages, getChat }) {
-  const [inputUser, setInputUser] = useState('');
   const [inputMsg, setInputMsg] = useState('');
-
-  const handleInputUser = (e) => {
-    e.preventDefault();
-    setInputUser(e.target.value);
-  };
 
   const handleInputMsg = (e) => {
     e.preventDefault();
@@ -41,12 +35,6 @@ function MessageForm({ setMessages, chatMessages, getChat }) {
     <div>
       <Form
         type="text"
-        value={inputUser}
-        placeholder="username"
-        onChange={handleInputUser}
-      />
-      <Form
-        type="text"
         value={inputMsg}
         placeholder="message"
         onChange={handleInputMsg}
@@ -59,10 +47,3 @@ function MessageForm({ setMessages, chatMessages, getChat }) {
 }
 
 export default MessageForm;
-
-{ /* <textarea
-value={input}
-placeholder="Write message..."
-className="new-message-input-field"
-onChange={handleInput}
-/> */ }
