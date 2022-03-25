@@ -22,6 +22,8 @@ function App() {
           <RecentActivity />
         </Recent>
       </MainContentContainer>
+      <button type="button" className="openModalBtn" onClick={() => { setOpenModal(true); }}>Open Modal</button>
+      {openModal && <Modal toggleModal={setOpenModal} login="true" />}
     </GeneralDiv>
   );
 }
@@ -30,3 +32,6 @@ export default App;
 
 // Have a random btn to access modal which is just a placeholder. The btn will be replaced
 //  with whatever we want to open the modal and pass in type of modal we want
+
+{/* <button type="button" className="openModalBtn" onClick={() => { setOpenModal(true); }}>Open Modal</button>
+{openModal && <Modal toggleModal={setOpenModal} login="true" />} */}
