@@ -322,7 +322,7 @@ export const PfpButtons = styled.button`
 export const LoginButton = styled.button`
   background-color: #71798E;
   border-radius: 50%;
-  color: #f1f1f1;
+  color: #E7BA53;
   font-weight: 600;
   font-size: 1em;
   font-family: 'Play';
@@ -373,13 +373,11 @@ export const QuizQuestionContainter = styled.div`
   z-index: 4;
   font-family: 'Play';
   background: #f1f1f1;
-  border-radius: 10px;
-  border: thick solid #1d2066;
   display: flex;
   justify-content: center;
   flex-direction: row;
-  width: 60%;
+  width: 90%;
   height: 70%;
   overflow: scroll;
-
+  align-content: center;
 `;
