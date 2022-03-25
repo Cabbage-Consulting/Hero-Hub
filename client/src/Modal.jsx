@@ -4,7 +4,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import QuizCreator from './QuizCreator/CreateQuiz';
-import { Button, ExitButton, ExitDivSignInModal } from '../GlobalStyles';
+import { Button, ExitButton, ExitDivSignInModal, QuizCreatorDiv } from '../GlobalStyles';
 
 const BackdropStyle = styled.div`
   width: 100vw;
@@ -70,12 +70,19 @@ const BackdropStyle = styled.div`
   }
 
   #register {
+    background-color: #E7BA53;
+    border-radius: 5px;
+    border: none;
+    color: black;
+    font-family: 'Play';
     width: 100%;
     font-size: 1.5em;
     padding: 0.5em;
 
     &:hover {
+      cursor: pointer;
       color: #E7BA53;
+      background: #71798E;
     }
   }
 
@@ -232,9 +239,9 @@ function Modal({
     return (
       <BackdropStyle>
         <div className="container">
-          <div className="xBtn">
-            <button type="button" onClick={() => toggleModal(false)}>X</button>
-          </div>
+          <ExitDivSignInModal className="xBtn">
+            <ExitButton type="Button" chatsend="true" onClick={() => toggleModal(false)}>X</ExitButton>
+          </ExitDivSignInModal>
           <div className="title">
             <h1>Create New Account</h1>
             <form onSubmit={handleSubmit}>
@@ -348,12 +355,12 @@ function Modal({
           <div className="xBtn">
             <ExitButton type="button" onClick={() => toggleModal(false)}>X</ExitButton>
           </div>
-          <div>
+          <QuizCreatorDiv>
             <QuizCreator />
             <div className="footer">
               <Button type="button" onClick={() => toggleModal(false)}>Cancel</Button>
             </div>
-          </div>
+          </QuizCreatorDiv>
 
         </div>
       </BackdropStyle>

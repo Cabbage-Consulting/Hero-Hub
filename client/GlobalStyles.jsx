@@ -366,5 +366,20 @@ export const ExitDivSignInModal = styled.div`
 `;
 
 export const QuizCreatorDiv = styled.div`
-  transform: translate(0%, 10%);
+  transform: translate(0%, 20%);
+`;
+
+export const QuizQuestionContainter = styled.div`
+  z-index: 4;
+  font-family: 'Play';
+  background: #f1f1f1;
+  border-radius: 10px;
+  border: thick solid #1d2066;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  width: 60%;
+  height: 70%;
+  overflow: scroll;
+
 `;
