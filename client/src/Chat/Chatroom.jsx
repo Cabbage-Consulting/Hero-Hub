@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import MessageList from './MessageList';
@@ -34,28 +34,6 @@ const ChatStyle = styled.div`
 
 function Chatroom() {
   const [messages, setMessages] = useState([]);
-  const chatMessages = [
-    {
-      user: 'man',
-      message: 'what up',
-    },
-    {
-      user: 'bigman',
-      message: 'what up',
-    },
-    {
-      user: 'lilman',
-      message: 'what up',
-    },
-    {
-      user: 'badman',
-      message: 'man',
-    },
-    {
-      user: 'roadman',
-      message: 'wah gwaan',
-    },
-  ];
 
   const getChat = () => {
     axios({
@@ -69,23 +47,38 @@ function Chatroom() {
       .catch((err) => (console.log('error message', err)));
   };
 
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
+
   useEffect(() => {
-    setMessages(chatMessages);
+    setMessages(messages);
     getChat();
-  }, []);
+    scrollToBottom();
+  }, [messages]);
+  let checkForUserId = null;
+  if (localStorage.getItem('currentUser')) {
+    checkForUserId = JSON.parse(localStorage.getItem('currentUser'));
+  }
 
   return (
     <ChatStyle>
       <div id="chat-list">
         <MessageList messages={messages} />
+        <div ref={messagesEndRef} />
       </div>
+      {checkForUserId !== null
+      && (
       <div id="chat-inputs">
         <MessageForm
           setMessages={setMessages}
-          chatMessages={chatMessages}
+          chatMessages={messages}
           getChat={getChat}
         />
       </div>
+      )}
     </ChatStyle>
   );
 }
