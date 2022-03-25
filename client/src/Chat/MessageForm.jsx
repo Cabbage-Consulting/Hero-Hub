@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { PfpButtons, Form } from '../../GlobalStyles';
 import axios from 'axios';
 
-function MessageForm({ setMessages, chatMessages, getChat }) {
+function MessageForm({ getChat }) {
   const [inputUser, setInputUser] = useState('');
   const [inputMsg, setInputMsg] = useState('');
 
@@ -41,17 +41,15 @@ function MessageForm({ setMessages, chatMessages, getChat }) {
     <div>
       <Form
         type="text"
-        value={inputUser}
-        placeholder="username"
-        onChange={handleInputUser}
-      />
-      <Form
-        type="text"
         value={inputMsg}
         placeholder="message"
         onChange={handleInputMsg}
+        chatinput="true"
       />
-      <PfpButtons onClick={handleSubmit}>
+      <PfpButtons
+        onClick={handleSubmit}
+        chatsend="true"
+      >
         Send
       </PfpButtons>
     </div>
@@ -59,10 +57,3 @@ function MessageForm({ setMessages, chatMessages, getChat }) {
 }
 
 export default MessageForm;
-
-{ /* <textarea
-value={input}
-placeholder="Write message..."
-className="new-message-input-field"
-onChange={handleInput}
-/> */ }

@@ -65,6 +65,7 @@ function Modal({
           calls('get', 'herohub/user', { username: userName }, null, (response) => {
             console.log('in sign in second call; res: ', response.data);
             localStorage.setItem('currentUser', JSON.stringify(response.data[0]));
+            window.location.reload(false);
           }, (err) => { console.log('error in second login call; err: ', err); });
         } else {
           console.log('wrong password homie');

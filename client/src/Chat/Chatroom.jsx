@@ -18,6 +18,8 @@ const ChatStyle = styled.div`
 
   #chat-inputs {
     height: 5vh;
+    background-color: #71798e94;
+    border-radius: 0 0 5px 5px;
   }
 
   .chat-username {
@@ -34,28 +36,6 @@ const ChatStyle = styled.div`
 
 function Chatroom() {
   const [messages, setMessages] = useState([]);
-  const chatMessages = [
-    {
-      user: 'man',
-      message: 'what up',
-    },
-    {
-      user: 'bigman',
-      message: 'what up',
-    },
-    {
-      user: 'lilman',
-      message: 'what up',
-    },
-    {
-      user: 'badman',
-      message: 'man',
-    },
-    {
-      user: 'roadman',
-      message: 'wah gwaan',
-    },
-  ];
 
   const getChat = () => {
     axios({
@@ -70,7 +50,6 @@ function Chatroom() {
   };
 
   useEffect(() => {
-    setMessages(chatMessages);
     getChat();
   }, []);
 
@@ -82,7 +61,6 @@ function Chatroom() {
       <div id="chat-inputs">
         <MessageForm
           setMessages={setMessages}
-          chatMessages={chatMessages}
           getChat={getChat}
         />
       </div>

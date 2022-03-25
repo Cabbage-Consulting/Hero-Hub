@@ -30,6 +30,7 @@ export const Button = styled.button`
   }
   &:active{
       transform: translateY(.5rem);
+      background-color: #3f4553;
   }
 `;
 
@@ -53,6 +54,7 @@ export const MainButtons = styled.button`
   }
   &:active{
       transform: translateY(.5rem);
+      background-color: #3f4553;
   }
 `;
 
@@ -82,7 +84,21 @@ export const Form = styled.input`
   color: #1d2066;
   background: #f1f1f1;
   border: none;
-  border-bottom: thin solid #1d2066;
+  border-bottom: thin solid #3f4553;
+  ${(props) => (props.chatinput
+    ? `
+      background-color: transparent;
+      border-radius: 0;
+      padding: 0.4vh 0.3vw;
+      width: 18vw;
+      ::placeholder {
+        color: #f1f1f1c5;
+      }
+
+      &:focus {
+        outline: none;
+      }
+    ` : null)}
 `;
 
 // GRID BELOW
@@ -164,8 +180,8 @@ export const UserInfo = styled.div`
 `;
 
 export const HeroHub = styled.img`
-transform: translate(0%, -20%);
-`
+  transform: translate(0%, -20%);
+`;
 
 export const Pfp = styled.img`
 
@@ -218,16 +234,60 @@ export const PfpButtons = styled.button`
   transition: all .5s ease;
   margin: 8px;
   width: 85px;
-  height 22px;
+  height: 2vh;
   display: block;
   margin-left: auto;
   margin-right: auto;
+
   &:hover{
       background-color: #71798E;
-      transform: translateY(-.5rem) scale(1.02);
       color: #f1f1f1;
   }
-  &:active{
-      transform: translateY(.5rem);
+  &:active {
+    background-color: #3f4553;
+  }
+
+  ${(props) => (props.chatsend
+    ? `{
+      font-weight: 600;
+      font-size: 0.75em;
+      background-color: transparent;
+      width: 40%;
+      position: relative;
+      top: -1vh;
+      padding: 0;
+      transition: all .2s ease;
+
+      &:hover{
+        background-color: #C12835;
+        color: #f1f1f1;
+      }
+      &:active {
+        color: #f1f1f1;
+        background-color: #71798E;
+        box-shadow: inset 0 0 10px #e7bb5358;
+        transform: translateY(1px);
+      }
+    }` : null)}
+`;
+
+export const LoginButton = styled.button`
+  background-color: #71798E;
+  border-radius: 50%;
+  color: #f1f1f1;
+  font-weight: 600;
+  font-size: 1em;
+  font-family: 'Play';
+  height: 70px;
+  transition: all .2s ease;
+  width: 70px;
+
+  &:hover {
+    background-color: #E7BA53;
+    color: #C12835;
+    cursor: pointer;
+  }
+  &:active {
+    box-shadow: inset 0 0 10px #362e19;
   }
 `;
