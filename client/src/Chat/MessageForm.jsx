@@ -1,21 +1,14 @@
 import React, { useState } from 'react';
-import { PfpButtons, Form } from '../../GlobalStyles';
 import axios from 'axios';
+import { PfpButtons, Form } from '../../GlobalStyles';
 
 function MessageForm({ getChat }) {
-  const [inputUser, setInputUser] = useState('');
   const [inputMsg, setInputMsg] = useState('');
-
-  const handleInputUser = (e) => {
-    e.preventDefault();
-    setInputUser(e.target.value);
-  };
 
   const handleInputMsg = (e) => {
     e.preventDefault();
     setInputMsg(e.target.value);
   };
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,7 +27,6 @@ function MessageForm({ getChat }) {
       .catch((err) => console.log('error message', err));
 
     setInputMsg('');
-    setInputUser('');
   };
 
   return (

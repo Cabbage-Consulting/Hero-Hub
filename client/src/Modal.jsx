@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
@@ -57,14 +58,14 @@ function Modal({
     if (login) {
       console.log('in submit, event; user: ', userName, 'pass: ', password);
       calls('get', 'herohub/user/password', { username: userName }, null, (res) => {
-        console.log(res.data[0].password);
+        console.log(res.data);
         // check actual password matches (for now check array length)
-        if (res.data[0].password === password) {
+        if (res.data.password === password) {
           setLoggedIn(true);
           console.log('loggedIn: ', loggedIn);
           calls('get', 'herohub/user', { username: userName }, null, (response) => {
-            console.log('in sign in second call; res: ', response.data);
-            localStorage.setItem('currentUser', JSON.stringify(response.data[0]));
+            console.log('in sign in second call; res: ', response);
+            localStorage.setItem('currentUser', JSON.stringify(response.data));
             window.location.reload(false);
           }, (err) => { console.log('error in second login call; err: ', err); });
         } else {

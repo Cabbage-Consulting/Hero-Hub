@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import MessageList from './MessageList';
@@ -49,21 +49,38 @@ function Chatroom() {
       .catch((err) => (console.log('error message', err)));
   };
 
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
+
   useEffect(() => {
+    setMessages(messages);
     getChat();
-  }, []);
+    scrollToBottom();
+  }, [messages]);
+  let checkForUserId = null;
+  if (localStorage.getItem('currentUser')) {
+    checkForUserId = JSON.parse(localStorage.getItem('currentUser'));
+  }
 
   return (
     <ChatStyle>
       <div id="chat-list">
         <MessageList messages={messages} />
+        <div ref={messagesEndRef} />
       </div>
+      {checkForUserId !== null
+      && (
       <div id="chat-inputs">
         <MessageForm
           setMessages={setMessages}
+          chatMessages={messages}
           getChat={getChat}
         />
       </div>
+      )}
     </ChatStyle>
   );
 }
