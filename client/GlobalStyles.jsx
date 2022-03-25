@@ -39,21 +39,26 @@ export const MainButtons = styled.button`
   background-color: #E7BA53;
   color: #000;
   padding: ${({ big }) => (big ? '18px 30px' : '10px 28px')};
-  font-size: ${({ bigFont }) => (bigFont ? '20px' : '15px')};
+  font-size: ${({ bigFont }) => (bigFont ? '20px' : '17px')};
   outline: none;
   cursor: pointer;
   font-family: Play;
   font-weight: 400;
   border: none;
   transition: all .5s ease;
+  // display: block;
   margin: 8px;
+  width: 70%;
+  height: auto;
+  align-content: center;
+  transform: translate(17%, 00%);
   &:hover{
       background-color: #71798E;
-      transform: translateY(-.5rem) scale(1.02);
+      // transform: translateY(.05rem) scale(.02);
       color: #f1f1f1;
   }
   &:active{
-      transform: translateY(.5rem);
+      // transform: translateY(.05rem);
       background-color: #3f4553;
   }
 `;
@@ -63,15 +68,19 @@ export const Select = styled.select`
   background-color: #E7BA53;
   color: #000;
   padding: ${({ big }) => (big ? '18px 30px' : '10px 28px')};
-  font-size: ${({ bigFont }) => (bigFont ? '20px' : '15px')};
+  font-size: ${({ bigFont }) => (bigFont ? '20px' : '17px')};
   outline: none;
   cursor: pointer;
   font-family: Play;
   font-weight: 400;
   border: none;
   transition: all .5s ease;
+  // display: block;
   margin: 8px;
-
+  width: 70%;
+  height: auto;
+  text-align: center;
+  transform: translate(17%, 00%);
   .Select__control:hover {
     border-color: #f1f1f1;
   }
@@ -148,6 +157,11 @@ export const Recent = styled.div`
   border-color: #1d2066;
   border-width: 0.5em 8px 0.5em 4px;
   border-radius: 0 0 ${AVG_ROUNDING} 0;
+`;
+
+export const QuizDiv = styled.div`
+  transform: translate(0%, 20%);
+  text-align: center
 `;
 // Navbar stuff
 
