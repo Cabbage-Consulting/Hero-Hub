@@ -4,6 +4,8 @@ import {
   Nav, NavLogo, Pfp, NavUsername, UserInfo, PfpButtons, HeroHub, LoginButton,
 } from '../../GlobalStyles';
 
+const defaultPfp = 'https://steamuserimages-a.akamaihd.net/ugc/786371856221183225/2F04B32CA10AD1ADBC01CE5D4DC6F7AF0E96AE6C/?imw=512&imh=512&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true';
+
 function Navbar() {
   const [isActive, setIsActive] = useState(false);
   const [signIn, setSignIn] = useState(false);
@@ -42,12 +44,8 @@ function Navbar() {
       {window.localStorage.currentUser
         ? (
           <UserInfo>
-            {/* <Pfp
-              src="https://steamuserimages-a.akamaihd.net/ugc/786371856221183225/2F04B32CA10AD1ADBC01CE5D4DC6F7AF0E96AE6C/?imw=512&imh=512&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true"
-              onClick={() => { setIsActive(true); }}
-            /> */}
             <Pfp
-              src={userInformation.pfp_url}
+              src={userInformation.pfp_url ? userInformation.pfp_url : defaultPfp}
               onClick={() => { setIsActive(true); }}
             />
             <NavUsername>
