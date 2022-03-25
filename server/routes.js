@@ -4,6 +4,12 @@ const { formatQuestions, formatQuizzesObject } = require('./utils');
 
 const router = express.Router();
 
+async function query(res, func, arg) {
+  func.call(null, arg)
+    .then((d) => res.status(200).send(d))
+    .catch((e) => res.status(500).send(e));
+}
+
 router.get('/quiz', async (req, res) => {
   db.getQuizzes()
     .then((d) => res.status(200).send(formatQuizzesObject(d)))
@@ -11,41 +17,31 @@ router.get('/quiz', async (req, res) => {
 });
 
 router.get('/quiz/scores', async (req, res) => {
-  db.getRecentQuizzes()
-    .then((d) => res.status(200).send(d))
-    .catch((e) => res.status(500).send(e));
+  query(res, db.getRecentQuizzes);
 });
 
 router.get('/questions', async (req, res) => {
   const { quizID } = req.query;
-  db.getQuestions({ quizID })
-    .then((d) => res.status(200).send(d))
-    .catch((e) => res.status(500).send(e));
+  query(res, db.getQuestions, { quizID });
 });
 
 router.get('/user/password', async (req, res) => {
   const { username } = req.query;
-  db.getUserPassword({ username })
-    .then((d) => res.status(200).send(d))
-    .catch((e) => res.status(500).send(e));
+  query(res, db.getUserPassword, { username });
 });
 
 router.get('/user', async (req, res) => {
   const { userID } = req.query;
-  db.getUserByUserID({ userID })
-    .then((d) => res.status(200).send(d))
-    .catch((e) => res.status(500).send(e));
+  query(res, db.getUserByUserID, { userID });
 });
 
 router.post('/user', async (req, res) => {
   const {
     username, pfpUrl, location, password,
   } = req.body;
-  db.addUser({
+  query(res, db.addUser, {
     username, pfpUrl, location, password,
-  })
-    .then((d) => res.status(200).send(d))
-    .catch((e) => res.status(500).send(e));
+  });
 });
 
 router.put('/user', async (req, res) => {
@@ -59,23 +55,19 @@ router.put('/user', async (req, res) => {
     location ? db.updateUserLocation({ userID, newValue: location }) : null,
     password ? db.updateUserPassword({ userID, newValue: password }) : null,
   ])
-    .then(() => db.getUserByUserID({ userID })
-      .then((user) => res.status(200).send(user)))
-    .catch((e) => res.status(500).send(e));
+    .then(() => query(res, db.getUserByUserID, { userID }));
 });
 
 router.get('/user/quiz', async (req, res) => {
   const { userID } = req.query;
-  db.getUserQuizzes({ userID })
-    .then((d) => res.status(200).send(d))
-    .catch((e) => res.status(500).send(e));
+  query(res, db.getUserQuizzes, { userID });
 });
 
 router.post('/user/quiz', (req, res) => {
   const {
     userID, quizID, score, difficulty,
   } = req.body;
-  db.addCompletedQuiz((e, r) => respond(e, r, res), {
+  query(res, db.addCompletedQuiz, {
     userID, quizID, score, difficulty,
   });
 });
@@ -83,9 +75,9 @@ router.post('/user/quiz', (req, res) => {
 router.get('/chat', (req, res) => {
   const { dateJoined } = req.query;
   if (dateJoined) {
-    db.getChatAfterTime((e, r) => respond(e, r, res), { dateJoined });
+    query(res, db.getChatAfterTime({ dateJoined }));
   } else {
-    db.getChat((e, r) => respond(e, r, res));
+    query(res, db.getChat, {});
   }
 });
 
@@ -109,18 +101,18 @@ router.post('/quiz', async (req, res) => {
       correctAnswer: q.correctAnswer,
       incorrectAnswers: q.incorrectAnswers,
     }),
-  )).then((r) => res.send(r))
-    .catch((err) => res.send(err));
+  )).then((r) => res.status(200).send(r))
+    .catch((err) => res.status(500).send(err));
 });
 
 router.get('/leaders', (req, res) => {
   const { quizID } = req.query;
-  db.getLeaders((e, r) => respond(e, r, res), { quizID });
+  query(res, db.getLeaders, { quizID });
 });
 
 router.post('/chat', (req, res) => {
   const { userID, body } = req.body;
-  db.addToChat((e, r) => respond(e, r, res), { userID, body });
+  query(res, db.addToChat, { userID, body });
 });
 
 module.exports = router;
