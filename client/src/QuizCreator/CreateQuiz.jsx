@@ -81,11 +81,11 @@ function CreateQuiz() {
   return (
     <form>
       <div>
-          <label>
-            Quiz Name:
-            <input id="quiz-name" onChange={handleQuizNameInput} />
-          </label>
-          <br />
+        <label>
+          Quiz Name:
+        </label>
+        <input id="quiz-name" onChange={handleQuizNameInput} />
+        <br />
         <label htmlFor="quiz-category">
           Category:
         </label>
