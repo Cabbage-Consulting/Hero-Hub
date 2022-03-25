@@ -130,7 +130,7 @@ function Modal({
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (login) {
+    if (displaySignIn) {
       calls('get', 'herohub/user/password', { username: userName }, null, (res) => {
         if (res.data.password === password) {
           calls('get', 'herohub/user', { username: userName }, null, (response) => {
@@ -143,7 +143,7 @@ function Modal({
         // need to handle case where password isnt right (like try again messege)
       }, (err) => { console.log(err); });
     }
-    if (register) {
+    if (displayRegister) {
       calls('post', 'herohub/user', null, {
         username: userName, pfpUrl, location: userLocation, password,
       }, (res) => {

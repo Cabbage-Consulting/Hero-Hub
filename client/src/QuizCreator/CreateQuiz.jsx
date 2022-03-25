@@ -87,16 +87,18 @@ function CreateQuiz() {
       <label htmlFor="quiz-category">
         Category:
       </label>
+      <div>
+
       <input list="quiz-categories" id="quiz-category" name="quiz-category" onChange={selectCategory} />
       <datalist id="quiz-categories">
         {quizCategories.map((category) => <option value={category} />)}
       </datalist>
+      </div>
       Questions:
       <div>
         {createdQuizQuestions.map((questions) => questions)}
         <div>
-
-        <Button type="button" onClick={addQuestionInputs}>Add a Question</Button>
+          <Button type="button" onClick={addQuestionInputs}>Add a Question</Button>
         </div>
         <Button type="submit" onClick={createQuiz}>Submit Quiz</Button>
       </div>
