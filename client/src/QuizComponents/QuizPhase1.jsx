@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import QuizPhase2 from './QuizPhase2';
 import Modal from '../Modal';
-import { Button, Select, MainButtons } from '../../GlobalStyles';
+import { Button, Select, MainButtons,  } from '../../GlobalStyles';
 
 function QuizPhase1() {
   const [category, setCategory] = useState(null);

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Countdown from 'react-countdown';
 import axios from 'axios';
 import Modal from '../Modal';
-import { Button } from '../../GlobalStyles';
+import { Button, QuizDiv } from '../../GlobalStyles';
 
 function QuizPhase2({ quiz, difficulty }) {
   const [questionNumber, setQuestionNumber] = useState(0);
@@ -133,7 +133,7 @@ function QuizPhase2({ quiz, difficulty }) {
   if (questions[questionNumber] === undefined && currentScore > 0) return <Modal quizComplete="true" currentScore={currentScore} />;
 
   return questions.length !== 0 && questions[questionNumber] !== undefined && (
-    <div>
+    <QuizDiv>
       <h1>{questions[questionNumber].body}</h1>
       <Button onClick={handleClick1}>{answer1}</Button>
       <Button onClick={handleClick2}>{answer2}</Button>
@@ -154,7 +154,7 @@ function QuizPhase2({ quiz, difficulty }) {
           </div>
         )}
       />
-    </div>
+    </QuizDiv>
   );
 }
 

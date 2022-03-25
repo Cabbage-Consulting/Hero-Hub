@@ -13,6 +13,21 @@ function formatQuestions(questions) {
   });
 }
 
+function formatQuizzesObject(quizzesResponse) {
+  const response = {};
+  quizzesResponse.forEach(
+    (quiz) => {
+      if (response[quiz.category]) {
+        response[quiz.category].push(quiz);
+      } else {
+        response[quiz.category] = [quiz];
+      }
+    },
+  );
+  return response;
+}
+
 module.exports = {
   formatQuestions,
+  formatQuizzesObject,
 };

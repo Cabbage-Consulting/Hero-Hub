@@ -1,98 +1,91 @@
 const express = require('express');
 const db = require('../database/queries');
-const utils = require('./utils');
+const { formatQuestions, formatQuizzesObject } = require('./utils');
 
 const router = express.Router();
 
-function respond(err, rows, res) {
-  if (err) {
-    res.status(500).send(err);
-  } else {
-    res.status(200).send(rows);
-  }
+async function query(res, func, arg) {
+  func.call(null, arg)
+    .then((d) => res.status(200).send(d))
+    .catch((e) => res.status(500).send(e));
 }
 
-router.get('/quiz', (req, res) => {
-  db.getQuizzes((e, r) => {
-    if (e) {
-      respond(e, null, res);
-    } else {
-      const q = {};
-      r.forEach((i) => {
-        if (q[i.category]) {
-          q[i.category].push(i);
-        } else {
-          q[i.category] = [i];
-        }
-      });
-      respond(null, q, res);
-    }
-  });
+router.get('/quiz', async (req, res) => {
+  db.getQuizzes()
+    .then((d) => res.status(200).send(formatQuizzesObject(d)))
+    .catch((e) => res.status(500).send(e));
 });
 
-router.get('/quiz/scores', (req, res) => {
-  db.getRecentQuizzes((e, r) => respond(e, r, res));
+router.get('/quiz/scores', async (req, res) => {
+  query(res, db.getRecentQuizzes);
 });
 
-router.get('/questions', (req, res) => {
+router.get('/questions', async (req, res) => {
   const { quizID } = req.query;
-  db.getQuestions((e, r) => respond(e, r, res), { quizID });
+  query(res, db.getQuestions, { quizID });
 });
 
-router.get('/user/password', (req, res) => {
+// response for this will be { password: password }
+router.get('/user/password', async (req, res) => {
   const { username } = req.query;
-  db.getUserPassword((e, r) => respond(e, r, res), { username });
+  query(res, db.getUserPassword, { username });
 });
 
 router.get('/user', async (req, res) => {
-  const { username } = req.query;
-  db.getUserIdByUserName((e, r) => respond(e, r, res), { username });
+  const { userID, username } = req.query;
+  if (userID) {
+    query(res, db.getUserByUserID, { userID });
+  } else {
+    query(res, db.getUserByUsername, { username });
+  }
 });
 
-router.post('/user', (req, res) => {
+// this route will return with new user info
+router.post('/user', async (req, res) => {
   const {
     username, pfpUrl, location, password,
   } = req.body;
-  db.addUser((e, r) => respond(e, r, res), {
+  query(res, db.addUser, {
     username, pfpUrl, location, password,
   });
 });
 
+// this route will respond with all user info, including updates
 router.put('/user', async (req, res) => {
   const {
     userID, username, pfpUrl, location, password,
   } = req.body;
 
   Promise.all([
-    username ? db.updateUsername({ userID, parameter: 'username', newValue: username }) : null,
-    pfpUrl ? db.updateUserProfilePicture({ userID, parameter: 'pfp_url', newValue: pfpUrl }) : null,
-    location ? db.updateUserLocation({ userID, parameter: 'location', newValue: location }) : null,
-    password ? db.updateUserPassword({ userID, parameter: 'password', newValue: password }) : null,
+    username ? db.updateUsername({ userID, newValue: username }) : null,
+    pfpUrl ? db.updateUserProfilePicture({ userID, newValue: pfpUrl }) : null,
+    location ? db.updateUserLocation({ userID, newValue: location }) : null,
+    password ? db.updateUserPassword({ userID, newValue: password }) : null,
   ])
-    .then((r) => res.status(200).send(r))
-    .catch((e) => res.status(500).send(e));
+    .then(() => query(res, db.getUserByUserID, { userID }));
 });
 
-router.get('/user/quiz', (req, res) => {
+router.get('/user/quiz', async (req, res) => {
   const { userID } = req.query;
-  db.getUserQuizzes((e, r) => respond(e, r, res), { userID });
+  query(res, db.getUserQuizzes, { userID });
 });
 
 router.post('/user/quiz', (req, res) => {
   const {
     userID, quizID, score, difficulty,
   } = req.body;
-  db.addCompletedQuiz((e, r) => respond(e, r, res), {
+  query(res, db.addCompletedQuiz, {
     userID, quizID, score, difficulty,
   });
 });
 
+// getChatAfterTime may not work depending on dateJoined as string or Date
 router.get('/chat', (req, res) => {
   const { dateJoined } = req.query;
   if (dateJoined) {
-    db.getChatAfterTime((e, r) => respond(e, r, res), { dateJoined });
+    query(res, db.getChatAfterTime({ dateJoined }));
   } else {
-    db.getChat((e, r) => respond(e, r, res));
+    query(res, db.getChat, {});
   }
 });
 
@@ -107,7 +100,7 @@ router.post('/quiz', async (req, res) => {
   if (typeof quizID === 'object') {
     res.status(500).send('something went wrong creating the quiz');
   }
-  const formattedQuestions = utils.formatQuestions(questions);
+  const formattedQuestions = formatQuestions(questions);
 
   Promise.all(formattedQuestions.map(
     (q) => db.addQuestion({
@@ -116,18 +109,18 @@ router.post('/quiz', async (req, res) => {
       correctAnswer: q.correctAnswer,
       incorrectAnswers: q.incorrectAnswers,
     }),
-  )).then((r) => res.send(r))
-    .catch((err) => res.send(err));
+  )).then((r) => res.status(200).send(r))
+    .catch((err) => res.status(500).send(err));
 });
 
 router.get('/leaders', (req, res) => {
   const { quizID } = req.query;
-  db.getLeaders((e, r) => respond(e, r, res), { quizID });
+  query(res, db.getLeaders, { quizID });
 });
 
 router.post('/chat', (req, res) => {
   const { userID, body } = req.body;
-  db.addToChat((e, r) => respond(e, r, res), { userID, body });
+  query(res, db.addToChat, { userID, body });
 });
 
 module.exports = router;
