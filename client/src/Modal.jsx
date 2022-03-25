@@ -31,7 +31,7 @@ const BackdropStyle = styled.div`
 `;
 
 function Modal({
-  toggleModal, login, leaderboard, createQuiz, register, quizComplete, update, currentScore,
+  toggleModal, login, leaderboard, createQuiz, register, quizComplete, update, score, userID, quizID, difficulty,
 }) {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
@@ -260,6 +260,14 @@ function Modal({
   }
 
   if (quizComplete) {
+    axios({
+      method: 'POST',
+      url: '/user/quiz',
+      data: {
+        userID, quizID, score, difficulty,
+      },
+    });
+
     return (
       <BackdropStyle onClick={() => toggleModal(false)}>
         <div className="container">
@@ -270,7 +278,7 @@ function Modal({
             <h1>Quiz Complete!</h1>
             <h3>
               Score:
-              {currentScore}
+              {score}
             </h3>
             <h2>LeaderBoard: </h2>
             <br />
