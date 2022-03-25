@@ -7,7 +7,7 @@ import {
 function Navbar() {
   const [isActive, setIsActive] = useState(false);
   const [signIn, setSignIn] = useState(false);
-
+  const [userInformation, setUserInformation] = useState(false);
   const handleSignOut = (e) => {
     e.preventDefault();
     delete window.localStorage.currentUser;
@@ -27,6 +27,12 @@ function Navbar() {
     };
   }, [isActive]);
 
+  useEffect(() => {
+    if (window.localStorage.currentUser) {
+      setUserInformation(JSON.parse(window.localStorage.currentUser));
+    }
+  }, [signIn]);
+
   return (
     <Nav>
       <NavLogo to="/">
@@ -36,12 +42,16 @@ function Navbar() {
       {window.localStorage.currentUser
         ? (
           <UserInfo>
-            <Pfp
+            {/* <Pfp
               src="https://steamuserimages-a.akamaihd.net/ugc/786371856221183225/2F04B32CA10AD1ADBC01CE5D4DC6F7AF0E96AE6C/?imw=512&imh=512&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true"
+              onClick={() => { setIsActive(true); }}
+            /> */}
+            <Pfp
+              src={userInformation.pfp_url}
               onClick={() => { setIsActive(true); }}
             />
             <NavUsername>
-              username
+              {userInformation.username}
             </NavUsername>
             {isActive
               && (

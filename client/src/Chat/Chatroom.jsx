@@ -28,6 +28,7 @@ function Chatroom() {
   useEffect(() => {
     getChat();
   }, []);
+
   let checkForUserId = null;
   if (localStorage.getItem('currentUser')) {
     checkForUserId = JSON.parse(localStorage.getItem('currentUser'));

@@ -65,7 +65,7 @@ function QuizPhase2({ quiz, difficulty }) {
     setQuestionNumber(questionNumber + 1);
     if (questions[questionNumber + 1] !== undefined) {
       setCorrectAnswer(questions[questionNumber + 1].correctanswer);
-    } else { <Modal quizComplete="true" currentScore={currentScore} />; }
+    } else { <Modal quizComplete="true" userID={JSON.parse(localStorage.getItem('currentUser')).user_id} quizID={quiz} difficulty={difficulty} score={currentScore} />; }
     randomizeAnswers();
   };
 
@@ -130,7 +130,7 @@ function QuizPhase2({ quiz, difficulty }) {
     alert(`Time's up!`);
   };
 
-  if (questions[questionNumber] === undefined && currentScore > 0) return <Modal quizComplete="true" currentScore={currentScore} />;
+  if (questions[questionNumber] === undefined && currentScore > 0) return <Modal quizComplete="true" userID={JSON.parse(localStorage.getItem('currentUser')).user_id} quizID={quiz} difficulty={difficulty} score={currentScore} />;
 
   return questions.length !== 0 && questions[questionNumber] !== undefined && (
     <QuizDiv>
