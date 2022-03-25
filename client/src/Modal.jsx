@@ -113,8 +113,6 @@ function Modal({
   const [password, setPassword] = useState('');
   const [userLocation, setUserLocation] = useState('');
   const [pfpUrl, setPfpUrl] = useState('');
-  // dont know if i need this but want to start moving forward (change to context)
-  const [loggedIn, setLoggedIn] = useState(false);
   const [leaderInfo, setLeaderInfo] = useState([]);
   const [displaySignIn, setDisplaySignIn] = useState(login);
   const [displayRegister, setDisplayRegister] = useState(register);
@@ -130,19 +128,12 @@ function Modal({
       .catch(errCB);
   };
 
-  // Need to implement login logic
   const handleSubmit = (event) => {
     event.preventDefault();
     if (login) {
-      console.log('in submit, event; user: ', userName, 'pass: ', password);
-      calls('get', 'herohub/user/password', { usernames: userName }, null, (res) => {
-        console.log(res.data);
-        // check actual password matches (for now check array length)
+      calls('get', 'herohub/user/password', { username: userName }, null, (res) => {
         if (res.data.password === password) {
-          setLoggedIn(true);
-          console.log('loggedIn: ', loggedIn);
           calls('get', 'herohub/user', { username: userName }, null, (response) => {
-            console.log('in sign in second call; res: ', response);
             localStorage.setItem('currentUser', JSON.stringify(response.data));
             window.location.reload(false);
           }, (err) => { console.log('error in second login call; err: ', err); });
@@ -153,23 +144,30 @@ function Modal({
       }, (err) => { console.log(err); });
     }
     if (register) {
-      console.log('in submit register; userName: ', userName, 'location: ', userLocation, 'p: ', password);
       calls('post', 'herohub/user', null, {
         username: userName, pfpUrl, location: userLocation, password,
       }, (res) => {
-        console.log('posted new user; res: ', res);
+        localStorage.setItem('currentUser', JSON.stringify(res.data));
       }, (err) => { console.log('error in post new user; err: ', err); });
     }
-    // need to finish update user profile
     if (update) {
-      console.log('in update');
-      // calls('put', 'herohub/user', null, { })
+      let checkID = null;
+      if (localStorage.getItem('currentUser')) {
+        checkID = JSON.parse(localStorage.getItem('currentUser'));
+      }
+      calls('put', 'herohub/user', null, {
+        userID: checkID.user_id, username: userName, pfpUrl, location: userLocation, password,
+      }, (res) => {
+        localStorage.setItem('currentUser', JSON.stringify(res.data));
+      }, (err) => { console.log('error in update; err: ', err); });
     }
     if (createQuiz) {
       console.log('in submit, event; question: ', userName, 'answer: ', password);
     }
     setUserName('');
     setPassword('');
+    setUserLocation('');
+    setPfpUrl('');
   };
 
   // Need to implenet register new user logic (change logic to open register modal)
