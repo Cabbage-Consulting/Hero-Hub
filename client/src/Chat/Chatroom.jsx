@@ -14,6 +14,7 @@ const ChatStyle = styled.div`
   #chat-list {
     height: 60vh;
     overflow: scroll;
+
   }
 
   #chat-inputs {
@@ -37,6 +38,11 @@ const ChatStyle = styled.div`
 function Chatroom() {
   const [messages, setMessages] = useState([]);
 
+  const messagesEndRef = useRef(null);
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({});
+  };
+
   const getChat = () => {
     axios({
       method: 'get',
@@ -45,21 +51,15 @@ function Chatroom() {
     })
       .then((res) => {
         setMessages(res.data);
+        scrollToBottom();
       })
       .catch((err) => (console.log('error message', err)));
   };
 
-  const messagesEndRef = useRef(null);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
-  };
-
   useEffect(() => {
-    setMessages(messages);
     getChat();
-    scrollToBottom();
-  }, [messages]);
+  }, []);
+  
   let checkForUserId = null;
   if (localStorage.getItem('currentUser')) {
     checkForUserId = JSON.parse(localStorage.getItem('currentUser'));
