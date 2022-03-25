@@ -19,6 +19,8 @@ const ChatStyle = styled.div`
 
   #chat-inputs {
     height: 5vh;
+    background-color: #71798e94;
+    border-radius: 0 0 5px 5px;
   }
 
   .chat-username {
@@ -54,11 +56,14 @@ function Chatroom() {
       .catch((err) => (console.log('error message', err)));
   };
 
-
-
   useEffect(() => {
     getChat();
   }, []);
+  
+  let checkForUserId = null;
+  if (localStorage.getItem('currentUser')) {
+    checkForUserId = JSON.parse(localStorage.getItem('currentUser'));
+  }
 
   return (
     <ChatStyle>
@@ -66,6 +71,8 @@ function Chatroom() {
         <MessageList messages={messages} />
         <div ref={messagesEndRef} />
       </div>
+      {checkForUserId !== null
+      && (
       <div id="chat-inputs">
         <MessageForm
           setMessages={setMessages}
@@ -73,6 +80,7 @@ function Chatroom() {
           getChat={getChat}
         />
       </div>
+      )}
     </ChatStyle>
   );
 }

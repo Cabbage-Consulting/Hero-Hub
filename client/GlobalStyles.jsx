@@ -30,6 +30,7 @@ export const Button = styled.button`
   }
   &:active{
       transform: translateY(.5rem);
+      background-color: #3f4553;
   }
 `;
 
@@ -38,21 +39,27 @@ export const MainButtons = styled.button`
   background-color: #E7BA53;
   color: #000;
   padding: ${({ big }) => (big ? '18px 30px' : '10px 28px')};
-  font-size: ${({ bigFont }) => (bigFont ? '20px' : '15px')};
+  font-size: ${({ bigFont }) => (bigFont ? '20px' : '17px')};
   outline: none;
   cursor: pointer;
   font-family: Play;
   font-weight: 400;
   border: none;
   transition: all .5s ease;
+  // display: block;
   margin: 8px;
+  width: 70%;
+  height: auto;
+  align-content: center;
+  transform: translate(17%, 00%);
   &:hover{
       background-color: #71798E;
-      transform: translateY(-.5rem) scale(1.02);
+      // transform: translateY(.05rem) scale(.02);
       color: #f1f1f1;
   }
   &:active{
-      transform: translateY(.5rem);
+      // transform: translateY(.05rem);
+      background-color: #3f4553;
   }
 `;
 
@@ -61,15 +68,19 @@ export const Select = styled.select`
   background-color: #E7BA53;
   color: #000;
   padding: ${({ big }) => (big ? '18px 30px' : '10px 28px')};
-  font-size: ${({ bigFont }) => (bigFont ? '20px' : '15px')};
+  font-size: ${({ bigFont }) => (bigFont ? '20px' : '17px')};
   outline: none;
   cursor: pointer;
   font-family: Play;
   font-weight: 400;
   border: none;
   transition: all .5s ease;
+  // display: block;
   margin: 8px;
-
+  width: 70%;
+  height: auto;
+  text-align: center;
+  transform: translate(17%, 00%);
   .Select__control:hover {
     border-color: #f1f1f1;
   }
@@ -82,7 +93,21 @@ export const Form = styled.input`
   color: #1d2066;
   background: #f1f1f1;
   border: none;
-  border-bottom: thin solid #1d2066;
+  border-bottom: thin solid #3f4553;
+  ${(props) => (props.chatinput
+    ? `
+      background-color: transparent;
+      border-radius: 0;
+      padding: 0.4vh 0.3vw;
+      width: 18vw;
+      ::placeholder {
+        color: #f1f1f1c5;
+      }
+
+      &:focus {
+        outline: none;
+      }
+    ` : null)}
 `;
 
 // GRID BELOW
@@ -133,6 +158,11 @@ export const Recent = styled.div`
   border-width: 0.5em 8px 0.5em 4px;
   border-radius: 0 0 ${AVG_ROUNDING} 0;
 `;
+
+export const QuizDiv = styled.div`
+  transform: translate(0%, 20%);
+  text-align: center
+`;
 // Navbar stuff
 
 export const Nav = styled.nav`
@@ -164,8 +194,8 @@ export const UserInfo = styled.div`
 `;
 
 export const HeroHub = styled.img`
-transform: translate(0%, -20%);
-`
+  transform: translate(0%, -20%);
+`;
 
 export const Pfp = styled.img`
 
@@ -218,16 +248,60 @@ export const PfpButtons = styled.button`
   transition: all .5s ease;
   margin: 8px;
   width: 85px;
-  height 22px;
+  height: 2vh;
   display: block;
   margin-left: auto;
   margin-right: auto;
+
   &:hover{
       background-color: #71798E;
-      transform: translateY(-.5rem) scale(1.02);
       color: #f1f1f1;
   }
-  &:active{
-      transform: translateY(.5rem);
+  &:active {
+    background-color: #3f4553;
+  }
+
+  ${(props) => (props.chatsend
+    ? `{
+      font-weight: 600;
+      font-size: 0.75em;
+      background-color: transparent;
+      width: 40%;
+      position: relative;
+      top: -1vh;
+      padding: 0;
+      transition: all .2s ease;
+
+      &:hover{
+        background-color: #C12835;
+        color: #f1f1f1;
+      }
+      &:active {
+        color: #f1f1f1;
+        background-color: #71798E;
+        box-shadow: inset 0 0 10px #e7bb5358;
+        transform: translateY(1px);
+      }
+    }` : null)}
+`;
+
+export const LoginButton = styled.button`
+  background-color: #71798E;
+  border-radius: 50%;
+  color: #f1f1f1;
+  font-weight: 600;
+  font-size: 1em;
+  font-family: 'Play';
+  height: 70px;
+  transition: all .2s ease;
+  width: 70px;
+
+  &:hover {
+    background-color: #E7BA53;
+    color: #C12835;
+    cursor: pointer;
+  }
+  &:active {
+    box-shadow: inset 0 0 10px #362e19;
   }
 `;
