@@ -348,11 +348,15 @@ function Modal({
           <div className="xBtn">
             <ExitButton type="button" onClick={() => toggleModal(false)}>X</ExitButton>
           </div>
-
-          <QuizCreator />
-          <div className="footer">
-            <Button type="button" onClick={() => toggleModal(false)}>Cancel</Button>
+          <div>
+            <div>
+              <QuizCreator />
+            </div>
+            <div className="footer">
+              <Button type="button" onClick={() => toggleModal(false)}>Cancel</Button>
+            </div>
           </div>
+
         </div>
       </BackdropStyle>
     );

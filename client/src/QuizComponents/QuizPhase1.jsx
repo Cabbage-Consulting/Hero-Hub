@@ -54,12 +54,21 @@ function QuizPhase1() {
   //   <option value={category}>{category}</option>
   // );
 
+  const handleCreateQuizToggle = (event) => {
+    event.preventDefault();
+    if (window.localStorage.currentUser) {
+      setOpenQuizCreator(true);
+    } else {
+      alert('Please log in or create an account to create a quiz!');
+    }
+  };
+
   return (
     <>
       {renderPhase2 === false
         && (
         <div>
-          <MainButtons type="Button" className="openModalBtn" onClick={() => { setOpenQuizCreator(true); }}>Create a Quiz</MainButtons>
+          <MainButtons type="Button" className="openModalBtn" onClick={handleCreateQuizToggle}>Create a Quiz</MainButtons>
           {openQuizCreator && <Modal createQuiz="true" toggleModal={setOpenQuizCreator} />}
           <form>
             <label>
