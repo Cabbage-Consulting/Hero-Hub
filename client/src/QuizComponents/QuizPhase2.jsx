@@ -1,4 +1,6 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Countdown from 'react-countdown';
 import axios from 'axios';
 import Modal from '../Modal';
@@ -22,7 +24,9 @@ function QuizPhase2({ quiz, difficulty }) {
       params: { quizID: quiz },
     })
       .then((res) => {
-        setQuestions(res.data);
+        const questionArray = res.data;
+        const shuffledQuestions = questionArray.sort(() => 0.5 - Math.random());
+        setQuestions(shuffledQuestions);
         const array = [
           res.data[questionNumber].correctanswer,
           res.data[questionNumber].incorrectanswers[0],
@@ -30,7 +34,7 @@ function QuizPhase2({ quiz, difficulty }) {
           res.data[questionNumber].incorrectanswers[2],
         ];
 
-        const shuffledArray = array.sort((a, b) => 0.5 - Math.random());
+        const shuffledArray = array.sort(() => 0.5 - Math.random());
         setCorrectAnswer(res.data[questionNumber].correctanswer);
         setAnswer1(shuffledArray[0]);
         setAnswer2(shuffledArray[1]);
@@ -47,7 +51,7 @@ function QuizPhase2({ quiz, difficulty }) {
         questions[questionNumber + 1].incorrectanswers[1],
         questions[questionNumber + 1].incorrectanswers[2],
       ];
-      const shuffledArray = array.sort((a, b) => 0.5 - Math.random());
+      const shuffledArray = array.sort(() => 0.5 - Math.random());
       setAnswer1(shuffledArray[0]);
       setAnswer2(shuffledArray[1]);
       setAnswer3(shuffledArray[2]);
@@ -127,7 +131,7 @@ function QuizPhase2({ quiz, difficulty }) {
 
   const timeout = () => {
     updateGame();
-    alert(`Time's up!`);
+    alert("Time's up!");
   };
 
   if (questions[questionNumber] === undefined && currentScore > 0) return <Modal quizComplete="true" userID={JSON.parse(localStorage.getItem('currentUser')).user_id} quizID={quiz} difficulty={difficulty} score={currentScore} />;
@@ -146,7 +150,7 @@ function QuizPhase2({ quiz, difficulty }) {
         renderer={(props) => (
           <div>
             {props.minutes
-              ? props.minutes + ':'
+              ? `${props.minutes}:`
               : null}
             {props.seconds
               ? props.seconds
@@ -157,5 +161,10 @@ function QuizPhase2({ quiz, difficulty }) {
     </QuizDiv>
   );
 }
+
+QuizPhase2.propTypes = {
+  quiz: PropTypes.isRequired,
+  difficulty: PropTypes.isRequired,
+};
 
 export default QuizPhase2;

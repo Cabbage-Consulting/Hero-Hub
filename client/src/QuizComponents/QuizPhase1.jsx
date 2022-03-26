@@ -1,8 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import QuizPhase2 from './QuizPhase2';
 import Modal from '../Modal';
-import { Button, Select, MainButtons,  } from '../../GlobalStyles';
+import { Select, MainButtons } from '../../GlobalStyles';
 
 function QuizPhase1() {
   const [category, setCategory] = useState(null);
@@ -10,7 +12,6 @@ function QuizPhase1() {
   const [difficulty, setDifficulty] = useState(null);
   const [renderPhase2, setRenderPhase2] = useState(false);
   const [quizzes, setQuizzes] = useState([]);
-  const [questions, setQuestions] = useState();
   const [openQuizCreator, setOpenQuizCreator] = useState(false);
   // let categoryOptions = [];
 
@@ -44,8 +45,7 @@ function QuizPhase1() {
   };
 
   const handleSubmit = (event) => {
-    // send get request with category and difficulty as params
-    // .then iterate
+    event.preventDefault();
     setRenderPhase2(true);
   };
 

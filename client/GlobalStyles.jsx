@@ -226,9 +226,13 @@ export const NavLogo = styled.div`
 `;
 
 export const UserInfo = styled.div`
+  right: 10vw;
   transform: translate(-10%, 30%);
   text-align: center;
+  align-content: center;
   box-sizing: border-box;
+  margin-bottom: 6vh;
+  width: 5em;
 `;
 
 export const HeroHub = styled.img`
@@ -236,23 +240,15 @@ export const HeroHub = styled.img`
 `;
 
 export const Pfp = styled.img`
-
-  width: 70px;
-  height: 70px;
+  width: 100%;
+  height: 5em;
   border-style:solid;
   border-color: #E7BA53;
   border-radius: 50%;
   box-sizing: border-box;
-  display: flex;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
 
-
-  position: relative;
   &:hover {
       cursor: pointer;
-      // border: 3px outset transparent;
       box-sizing: border-box;
       border-style:solid;
       border-color: #71798E;
@@ -261,39 +257,32 @@ export const Pfp = styled.img`
 
 export const NavUsername = styled.div`
   color: #f1f1f1;
-  cursor: pointer;
   font-family: Play;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  align-items: center;
-  text-decoration: none;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
 `;
 
 export const PfpButtons = styled.button`
   border-radius: ${AVG_ROUNDING};
   background-color: #E7BA53;
-  font-family: Play;
+  font-family: 'Play';
   color: #000;
-  padding: 5px 14px;
-  font-size: 10px;
+  font-size: 0.75em;
   outline: none;
   cursor: pointer;
-  font-weight: 400;
+  font-weight: 600;
   border: none;
   transition: all .5s ease;
-  margin: 8px;
-  width: 85px;
-  height: 2vh;
-  display: block;
+  margin-top: 10px;
+  width: 100%;
+  height: 3vh;
   margin-left: auto;
   margin-right: auto;
 
   &:hover{
-      background-color: #71798E;
+      background-color: #8590ac;
       color: #f1f1f1;
+      box-shadow: 0 0 1px #e7bb53c1;
   }
   &:active {
     background-color: #3f4553;
@@ -308,6 +297,9 @@ export const PfpButtons = styled.button`
       position: relative;
       top: -1vh;
       padding: 0;
+      height: 2vh;
+      margin-left: 50%;
+      transform: translatex(-50%);
       transition: all .2s ease;
 
       &:hover{
@@ -318,7 +310,7 @@ export const PfpButtons = styled.button`
         color: #f1f1f1;
         background-color: #71798E;
         box-shadow: inset 0 0 10px #e7bb5358;
-        transform: translateY(1px);
+        transform: translateY(1px) translatex(-50%);
       }
     }` : null)}
 `;
