@@ -1,10 +1,13 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import QuizCreator from './QuizCreator/CreateQuiz';
-import { Button, ExitButton, ExitDivSignInModal, QuizCreatorDiv, ModalButton } from '../GlobalStyles';
+import LeaderBoard from './QuizComponents/LeaderBoard';
+import {
+  Button, ExitButton, ExitDivSignInModal, QuizCreatorDiv, ModalButton
+} from '../GlobalStyles';
 
 const BackdropStyle = styled.div`
   width: 100vw;
@@ -56,6 +59,10 @@ const BackdropStyle = styled.div`
     padding: 1em;
     border-radius: 5px;
     text-align: center;
+  }
+
+  h3 {
+    font-size: 2em;
   }
 
   #signin {
@@ -146,6 +153,7 @@ function Modal({
           }, (err) => { console.log('error in second login call; err: ', err); });
         } else {
           console.log('wrong password homie');
+          alert('wrong password');
         }
         // need to handle case where password isnt right (like try again messege)
       }, (err) => { console.log(err); });
@@ -285,9 +293,9 @@ function Modal({
     return (
       <BackdropStyle>
         <div className="container">
-          <div className="xBtn">
-            <button type="button" onClick={() => toggleModal(false)}>X</button>
-          </div>
+          <ExitDivSignInModal className="xBtn">
+            <ExitButton type="Button" chatsend="true" onClick={() => toggleModal(false)}>X</ExitButton>
+          </ExitDivSignInModal>
           <div className="title">
             <h1>Update Account Settings</h1>
             <form onSubmit={handleSubmit}>
@@ -295,24 +303,24 @@ function Modal({
                 Username:
                 <input type="text" value={userName} onChange={(e) => { setUserName(e.target.value); }} />
               </label>
+              <br />
               <label>
                 Password:
                 <input type="text" value={password} onChange={(e) => { setPassword(e.target.value); }} />
               </label>
+              <br />
               <label>
                 Location:
                 <input type="text" value={userLocation} onChange={(e) => { setUserLocation(e.target.value); }} />
               </label>
+              <br />
               <label>
                 Profile Picture URL:
-                <input type="text" value={pfpUrl} onChange={(e) => { setPfpUrl(e.target.value); }} />
+                <input id="pfpUrl" type="text" value={pfpUrl} onChange={(e) => { setPfpUrl(e.target.value); }} />
               </label>
-              <button type="submit" value="Submit">Update</button>
+              <br />
+              <button id="register" type="submit" value="Submit">Update</button>
             </form>
-          </div>
-          <div className="footer">
-            <button type="button" onClick={() => toggleModal(false)}>Cancel</button>
-            <button type="button" onClick={() => handleRegister(userName, password)}>PlaceHolder</button>
           </div>
         </div>
       </BackdropStyle>
@@ -325,23 +333,10 @@ function Modal({
       <BackdropStyle>
         <div className="container">
           <div className="xBtn">
-            <button type="button" onClick={() => toggleModal(false)}>X</button>
+            <ExitButton type="button" onClick={() => toggleModal(false)}>X</ExitButton>
           </div>
           <div className="title">
-            <h1>leaderboard</h1>
-          </div>
-          <div className="chart">
-            {leaderInfo.length > 0 ? leaderInfo.map((person, index) => (
-              <>
-                <div>{index}</div>
-                <div>{person.username}</div>
-                <div>{person.score}</div>
-              </>
-            )) : <div>No Scores Available</div>}
-          </div>
-          <div className="footer">
-            <button type="button" onClick={() => toggleModal(false)}>Back</button>
-            <button type="button" onClick={() => handleLeaders(leaderboard)}>Get Scores</button>
+          <LeaderBoard quizID={quizID} />
           </div>
         </div>
       </BackdropStyle>
@@ -374,16 +369,6 @@ function Modal({
         userID, quizID, score, difficulty,
       },
     });
-      // .then(() => {
-      //   axios({
-      //     method: 'GET',
-      //     url: '/herohub/leaders',
-      //     params: { quizID },
-      //   })
-      //     .then((res) => {
-      //       setLeaderInfo(res.data);
-      //     });
-      // });
 
     return (
       <BackdropStyle onClick={() => toggleModal(false)}>
@@ -391,22 +376,10 @@ function Modal({
           <div className="quiz-complete">
             <h1>Quiz Complete!</h1>
             <h3>
-              Score:
-              {score}
+              Your Score:
+              {` ${score}`}
             </h3>
-            <h2>LeaderBoard: </h2>
-            <br />
-            <div className="chart">
-              {leaderInfo.length > 0 ? leaderInfo.map((person, index) => (
-                <>
-                  <div>{index}</div>
-                  <div>{person.username}</div>
-                  <div>{person.score}</div>
-                  <br />
-                  <br />
-                </>
-              )) : <div>No Scores Available</div>}
-            </div>
+            <LeaderBoard quizID={quizID} />
             <ModalButton type="button" onClick={returnToPhase1}>Return Home</ModalButton>
           </div>
         </div>
@@ -440,7 +413,7 @@ Modal.propTypes = {
   register: PropTypes.bool,
   quizComplete: PropTypes.bool,
   update: PropTypes.bool,
-  currentScore: PropTypes.number,
+  currentScore: PropTypes.bool,
 };
 
 Modal.defaultProps = {
@@ -450,7 +423,6 @@ Modal.defaultProps = {
   register: false,
   quizComplete: false,
   update: false,
-  currentScore: false,
 };
 
 export default Modal;

@@ -1,6 +1,7 @@
+/* eslint-disable react/forbid-prop-types */
 import React, { useState, useEffect } from 'react';
-import { QuizQuestionContainter } from '../../GlobalStyles';
 import PropTypes from 'prop-types';
+import { QuizQuestionContainter } from '../../GlobalStyles';
 
 function AddQuizQuestion({ index, questions, setQuestions }) {
   const [questionDetails, setQuestionDetails] = useState({
@@ -48,23 +49,23 @@ function AddQuizQuestion({ index, questions, setQuestions }) {
 
   return (
     <QuizQuestionContainter>
-      <label>
+      <label htmlFor="Question">
         Question:
         <input type="text" onChange={handleQuestionInput} />
       </label>
-      <label>
+      <label htmlFor="Correct Answer:">
         Correct Answer:
         <input type="text" onChange={handleCorrectAnswer} />
       </label>
-      <label>
+      <label htmlFor="Incorrect Answer #1">
         Incorrect Answer #1:
         <input type="text" onChange={handleIncorrectAnswer1} />
       </label>
-      <label>
+      <label htmlFor="Incorrect Answer #2">
         Incorrect Answer #2:
         <input type="text" onChange={handleIncorrectAnswer2} />
       </label>
-      <label>
+      <label htmlFor="Incorrect Answer #3">
         Incorrect Answer #3:
         <input type="text" onChange={handleIncorrectAnswer3} />
       </label>

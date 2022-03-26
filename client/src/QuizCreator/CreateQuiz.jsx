@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import AddQuizQuestion from './AddQuizQuestion';
@@ -81,7 +83,7 @@ function CreateQuiz() {
   return (
     <form>
       <div>
-        <label>
+        <label htmlFor="Quiz Name:">
           Quiz Name:
         </label>
         <input id="quiz-name" onChange={handleQuizNameInput} />
@@ -96,7 +98,7 @@ function CreateQuiz() {
       </div>
       {/* Questions: */}
       <div>
-        {createdQuizQuestions.map((questions) => questions)}
+        {createdQuizQuestions.map((question) => question)}
         <div>
           <ModalButton type="button" onClick={addQuestionInputs}>Add a Question</ModalButton>
         </div>
