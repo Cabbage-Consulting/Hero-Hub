@@ -1,6 +1,8 @@
 # hero-quiz
 # Hero Hub
 
+![](https://media.giphy.com/media/NTPyg2bC17NiNPKK8d/giphy.gif)
+
 ## Description
 Welcome to Hero Hub! 
 
